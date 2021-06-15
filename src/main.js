@@ -1,7 +1,18 @@
 import Vue from 'vue'
 import App from './App.vue'
-import store from './store'
-import router from './router'
+import store from './vuex-store'
+import router from './routes'
+
+import './forms'
+
+import {BootstrapVue , IconsPlugin} from 'bootstrap-vue'
+Vue.use(BootstrapVue)
+Vue.use(IconsPlugin)
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
+import '@popperjs/core'
+import './http'
+
 
 Vue.config.productionTip = false
 
