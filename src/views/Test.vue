@@ -17,7 +17,7 @@ export default {
   methods:{
     getUsuarios(){
       this.axios.get('https://stormy-mountain-51560.herokuapp.com/usuarios').then((response) => {
-        console.log(response.data)
+        return response.data
       })
     }
   }
