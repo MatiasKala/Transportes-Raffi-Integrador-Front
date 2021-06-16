@@ -1,9 +1,10 @@
 <template>
   <div class="tabla container">
     <h1>TABLA</h1>
-    <div  v-if="datos.length" class="table-container ">
-      <b-table table-variant='info' responsive head-variant="dark" bordered outlined hover :items="datos"></b-table>
+    <div  v-if="datos" class="table-container ">
+      <b-table table-variant='info' head-variant="dark" bordered outlined hover responsive :items="datos"></b-table>
     </div>
+    <div v-else>TABLA SIN DATOS</div>
   </div>
 </template>
 
@@ -25,9 +26,7 @@ export default {
 
   },
   computed:{
-    getEncabezado(){
-      return Object.keys(this.datos[0])
-    },
+    getDatos:() => {return console.log(this.datos)}
   }
 }
 </script>

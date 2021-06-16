@@ -1,7 +1,6 @@
 <template>
   <div class="Test">
-    <Tabla :datos="getUsuarios"/>
-    <button @click="getUsuarios">AAAAAA</button>
+    <Tabla :datos="usuarios"/>
   </div>
 </template>
 
@@ -14,12 +13,17 @@ export default {
   components: {
     Tabla
   },
+  data(){
+    return{
+      usuarios:this.getUsuarios(),
+    }
+  },
   methods:{
     getUsuarios(){
-      this.axios.get('https://stormy-mountain-51560.herokuapp.com/usuarios').then((response) => {
-        return response.data
+      this.axios.get('https://stormy-mountain-51560.herokuapp.com/usuarios').then(response => {
+        this.usuarios = response.data
       })
     }
-  }
+  },
 }
 </script>
