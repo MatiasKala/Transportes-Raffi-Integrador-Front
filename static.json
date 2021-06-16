@@ -1,4 +1,5 @@
 {
+    "_comment":  "// Archivo necesario para el deploy con Heroku",
     "root": "dist",
     "clean_urls": true,
     "routes": {
