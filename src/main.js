@@ -2,10 +2,10 @@ import Vue from 'vue'
 import App from './App.vue'
 
 // import desde src/imports
-import store from './imports/vuex-store'
+import store from './imports/store'
 import router from './imports/routes'
 import './imports/forms'
-import './imports/http'
+import './imports/client'
 
 import {BootstrapVue , IconsPlugin} from 'bootstrap-vue'
 Vue.use(BootstrapVue)

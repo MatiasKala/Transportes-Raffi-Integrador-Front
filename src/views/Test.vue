@@ -21,8 +21,15 @@ export default {
   methods:{
     getUsuarios(){
       this.axios.get('https://stormy-mountain-51560.herokuapp.com/usuarios').then(response => {
+        this.eliminarCamposPrivados(response.data)
         this.usuarios = response.data
       })
+    },
+    eliminarCamposPrivados(data){
+      return data.forEach(d => {
+        delete d.password
+        delete d._id
+      });
     }
   },
 }
