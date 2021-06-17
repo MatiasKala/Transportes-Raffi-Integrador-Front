@@ -1,16 +1,16 @@
 <template>
-  <div class="headerComponent container-fluid">
-    <div class="row">
-        <div class="col-5 col-sm-4 col-md-3 col-lg-2">
+  <b-container fluid class="headerComponent">
+    <b-row>
+        <b-col cols="5" sm="4" md="3" lg="2">
             <router-link to="/">
               <img src="@/assets/logo.png" class="img-thumbnail mx-auto d-block" alt="Logo" id="logo">
             </router-link>
-        </div>
-        <div class="col-7 col-sm-8 col-md-9 col-lg-10">
+        </b-col>
+        <b-col cols="7" sm="8" md="9" lg="2">
             <h2 id="tituloheader"><b>Transportes Raffi</b></h2>
-        </div>
-    </div>
-  </div>
+        </b-col>
+    </b-row>
+  </b-container>
 </template>
 
 <script>
@@ -24,13 +24,9 @@ export default {
 <style scoped>
 .headerComponent {
   background-color:rgb(64, 64, 64);
-  /* background-image: url("../fotos/headerback.jpg"); */
-  /*background-size: 50%;
-  background-repeat: no-repeat;*/
-  width: 100%;
   height: 100px;
   text-align: center;
-  margin: 0px 0px 10px 0px;
+  margin-bottom:10px;
   font-family: 'Lucida Sans';
   border-bottom: 10px double rgb(100, 100, 100);
 }
