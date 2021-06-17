@@ -6,7 +6,7 @@
               <img src="@/assets/logo.png" class="img-thumbnail mx-auto d-block" alt="Logo" id="logo">
             </router-link>
         </b-col>
-        <b-col cols="7" sm="8" md="9" lg="2">
+        <b-col cols="7" sm="8" md="9" lg="10">
             <h2 id="tituloheader"><b>Transportes Raffi</b></h2>
         </b-col>
     </b-row>
