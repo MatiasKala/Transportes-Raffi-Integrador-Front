@@ -12,8 +12,10 @@
                   <b-link href="https://github.com/MatiasKala/Transportes-Raffi-Integrador-Front">click aca</b-link>
                 </b-card-text>
               </b-card-body>
+              <hr style="background-color : lightblue;">
             </b-col>
             <b-col md="6">
+              <hr style="background-color : lightblue;">
               <b-card-body  title="Seguimiento">
                 <b-card-text >
                   Ahora vas a poder monitorear pedido en <b>tiempo real</b>
@@ -64,10 +66,10 @@
             <div>
               <ul id="lista">
                 <li>
-                    <a href="#"><b-icon icon="twitter" style="color: #009eff;"></b-icon></a> &nbsp;&nbsp;Twitter
+                    <b-link href="#"><b-icon icon="twitter" style="color: #009eff;"></b-icon></b-link> &nbsp;&nbsp;Twitter
                 </li>
                 <li>
-                    <a href="#"><b-icon icon="facebook" style="color:	#3b5998"></b-icon></a> &nbsp;&nbsp;Facebook
+                    <b-link href="#"><b-icon icon="facebook" style="color:	#3b5998"></b-icon></b-link> &nbsp;&nbsp;Facebook
                 </li>
               </ul>
             </div>
@@ -76,10 +78,10 @@
             <div>
               <ul id="lista">
                 <li>
-                    <a href="https://github.com/MatiasKala/Transportes-Raffi-Integrador-Front"><b-icon icon="github" style="color:	white"></b-icon></a> &nbsp;&nbsp;GitHub
+                    <b-link href="https://github.com/MatiasKala/Transportes-Raffi-Integrador-Front"><b-icon icon="github" style="color:	white"></b-icon></b-link> &nbsp;&nbsp;GitHub
                 </li>
                 <li>
-                    <a href="#"><b-icon icon="instagram" style="color:#ec0075	"></b-icon></a> &nbsp;&nbsp;Instagram
+                    <b-link href="#"><b-icon icon="instagram" style="color:#ec0075	"></b-icon></b-link> &nbsp;&nbsp;Instagram
                 </li>
               </ul>
             </div>
@@ -136,15 +138,6 @@ export default {
 #titulofooter:hover:after { 
     width: 95%; 
     left: 0; 
-}
-
-#seccion {
-    align-items: center;
-}
-
-#seccion2 {
-    align-items: center;
-    padding-left:0;
 }
 
 #lista {
