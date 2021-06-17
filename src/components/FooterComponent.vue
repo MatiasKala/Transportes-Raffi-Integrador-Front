@@ -1,8 +1,33 @@
 <template>
   <b-container fluid class="footerComponent">
     <b-row>
-
-      <b-col id="seccion">
+      <b-col cols="12">
+        <b-card header="Gracias por confiar en nosotros" header-border-variant="dark" header-bg-variant="secondary" header-text-variant="light" text-variant="info" no-body class="overflow-hidden m-3"  style="max-width: 15000px;">
+          <b-row no-gutters>
+            <b-col md="6">
+              <b-img :src="require('@/assets/safeDelivery.png')" alt="SafeDelivery" style="max-width: 400px;"></b-img>
+              <b-card-body  title="Mas sobre nuestro trabajo">
+                <b-card-text >
+                  Para conocer en detalle nuestro proyecto hace 
+                  <b-link href="https://github.com/MatiasKala/Transportes-Raffi-Integrador-Front">click aca</b-link>
+                </b-card-text>
+              </b-card-body>
+            </b-col>
+            <b-col md="6">
+              <b-card-body  title="Seguimiento">
+                <b-card-text >
+                  Ahora vas a poder monitorear pedido en <b>tiempo real</b>
+                </b-card-text>
+              </b-card-body>
+              <b-img :src="require('@/assets/envio.jpg')" rounded="circle" style="max-width: 180px;" class="mt-3 m-2" alt="Envio"></b-img>
+            </b-col>
+          </b-row>
+        </b-card>
+      </b-col>
+    </b-row>
+    <hr>
+    <b-row>
+      <b-col id="seccion" sm="6">
         <b-row>
             <b-col cols="12">
                 <h2 id="titulofooter"><b>Contactanos</b></h2>
@@ -30,12 +55,12 @@
             </b-col>
         </b-row>
       </b-col>
-      <b-col id="seccion2">
+      <b-col id="seccion2" sm="6">
         <b-row>
           <b-col cols="12">
             <h2 id="titulofooter"><b>Seguinos</b></h2>
           </b-col>
-          <b-col cols="12" sm="6" class="">
+          <b-col cols="12" sm="6">
             <div>
               <ul id="lista">
                 <li>
@@ -51,7 +76,7 @@
             <div>
               <ul id="lista">
                 <li>
-                    <a href="#"><b-icon icon="github" style="color:	white"></b-icon></a> &nbsp;&nbsp;GitHub
+                    <a href="https://github.com/MatiasKala/Transportes-Raffi-Integrador-Front"><b-icon icon="github" style="color:	white"></b-icon></a> &nbsp;&nbsp;GitHub
                 </li>
                 <li>
                     <a href="#"><b-icon icon="instagram" style="color:#ec0075	"></b-icon></a> &nbsp;&nbsp;Instagram
@@ -83,7 +108,7 @@ export default {
     width: 100%;
     height: 100%;
     text-align: center;
-    border-top: 20px double silver;
+    border-top: 10px double rgb(100, 100, 100);
 }
 
 #titulofooter {
@@ -145,4 +170,7 @@ export default {
     color: silver;
 }
 
+hr{
+  background-color: rgb(139, 139, 139);
+}
 </style>

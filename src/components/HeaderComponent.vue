@@ -3,7 +3,7 @@
     <b-row>
         <b-col cols="5" sm="4" md="3" lg="2">
             <router-link to="/">
-              <img src="@/assets/logo.png" class="img-thumbnail mx-auto d-block" alt="Logo" id="logo">
+              <b-img :src="require('@/assets/logo.png')" class="img-thumbnail mx-auto d-block" alt="Logo" id="logo"></b-img>
             </router-link>
         </b-col>
         <b-col cols="7" sm="8" md="9" lg="10">
@@ -17,18 +17,18 @@
 export default {
   name: 'headerComponent',
   props: {
-  }
+  },
 }
 </script>
 
 <style scoped>
 .headerComponent {
   background-color:rgb(64, 64, 64);
-  height: 100px;
+  height: 120px;
   text-align: center;
   margin-bottom:10px;
   font-family: 'Lucida Sans';
-  border-bottom: 10px double rgb(100, 100, 100);
+  border-bottom: 15px double rgb(163, 163, 163);
 }
 
 #tituloheader {
