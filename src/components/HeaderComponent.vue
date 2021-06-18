@@ -12,14 +12,18 @@
             <b-col cols="3" sm="5" md="3" lg="2">
               <b-row> 
                 <b-col sm="6" lg="5" class="p-1 pt-2">
-                  <b-button size="sm" variant="primary">
-                    Login
-                  </b-button>
-                </b-col>
+                  <router-link to="/login">
+                    <b-button size="sm" variant="primary">
+                      Login
+                    </b-button>
+                  </router-link>
+                </b-col>    
                 <b-col sm="6" lg="7" class="px-2 pt-2">
-                  <b-button size="sm" variant="primary">
-                    Register
-                  </b-button>
+                  <router-link to="/">
+                    <b-button size="sm" variant="primary">
+                        Register
+                    </b-button>
+                  </router-link>
                 </b-col>
               </b-row>
             </b-col>

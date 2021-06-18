@@ -36,7 +36,7 @@
             </b-col>
             <br />
             <b-col cols="12">
-                <ul id="lista">
+                <ul id="lista" class="pt-4">
                     <li id="item">Wpp: 11-1111-1111    &nbsp;&nbsp;&nbsp;&nbsp;
                       <b-iconstack>
                         <b-icon stacked icon="chat-dots" style="color: 	white;"></b-icon>
@@ -62,25 +62,19 @@
           <b-col cols="12">
             <h2 id="titulofooter"><b>Seguinos</b></h2>
           </b-col>
-          <b-col cols="12" sm="6">
+          <b-col cols="12">
             <div>
               <ul id="lista">
-                <li>
+                <li id="item">
                     <b-link href="#"><b-icon icon="twitter" style="color: #009eff;"></b-icon></b-link> &nbsp;&nbsp;Twitter
                 </li>
-                <li>
+                <li id="item">
                     <b-link href="#"><b-icon icon="facebook" style="color:	#3b5998"></b-icon></b-link> &nbsp;&nbsp;Facebook
                 </li>
-              </ul>
-            </div>
-          </b-col>
-          <b-col cols="12" sm="6">
-            <div>
-              <ul id="lista">
-                <li>
+                <li id="item">
                     <b-link href="https://github.com/MatiasKala/Transportes-Raffi-Integrador-Front"><b-icon icon="github" style="color:	white"></b-icon></b-link> &nbsp;&nbsp;GitHub
                 </li>
-                <li>
+                <li id="item">
                     <b-link href="#"><b-icon icon="instagram" style="color:#ec0075	"></b-icon></b-link> &nbsp;&nbsp;Instagram
                 </li>
               </ul>
