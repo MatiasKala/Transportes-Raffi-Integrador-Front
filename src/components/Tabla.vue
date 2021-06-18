@@ -1,11 +1,11 @@
 <template>
-  <div class="tabla container">
+  <b-container class="tabla">
     <h1>Tabla de {{nombre | primeraMayuscula()}}</h1>
     <div  v-if="datos" class="table-container ">
       <b-table table-variant='info' head-variant="dark" bordered outlined hover responsive :items="datos"></b-table>
     </div>
     <div v-else>TABLA SIN DATOS</div>
-  </div>
+  </b-container>
 </template>
 
 <script>

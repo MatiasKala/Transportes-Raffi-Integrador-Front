@@ -1,13 +1,29 @@
 <template>
   <b-container fluid class="headerComponent">
     <b-row>
-        <b-col cols="5" sm="4" md="3" lg="2">
+        <b-col cols="4" sm="3" md="3" lg="3">
             <router-link to="/">
-              <b-img :src="require('@/assets/logo.png')" class="img-thumbnail mx-auto d-block" alt="Logo" id="logo"></b-img>
+              <b-img :src="require('@/assets/logo.png')" fluid rounded thumbnail class="m-1 d-block" style="max-width: 250px;" alt="Logo" id="logo"></b-img>
             </router-link>
         </b-col>
-        <b-col cols="7" sm="8" md="9" lg="10">
-            <h2 id="tituloheader"><b>Transportes Raffi</b></h2>
+        <b-col cols="7" sm="8" md="9" lg="9">
+          <b-row>
+            <b-col cols="9" sm="7" md="9" lg="10"><h2 id="tituloheader"><b>Transportes Raffi</b></h2></b-col>
+            <b-col cols="3" sm="5" md="3" lg="2">
+              <b-row> 
+                <b-col sm="6" lg="5" class="p-1 pt-2">
+                  <b-button size="sm" variant="primary">
+                    Login
+                  </b-button>
+                </b-col>
+                <b-col sm="6" lg="7" class="px-2 pt-2">
+                  <b-button size="sm" variant="primary">
+                    Register
+                  </b-button>
+                </b-col>
+              </b-row>
+            </b-col>
+          </b-row>
         </b-col>
     </b-row>
   </b-container>
