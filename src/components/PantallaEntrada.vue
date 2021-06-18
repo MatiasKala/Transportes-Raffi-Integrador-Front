@@ -74,7 +74,7 @@
       <!-- COMIENZO DEL FORMULARIO -->
       
       <b-col cols="4">
-        <b-card title="Ingresa">
+        <b-card title="Ingresá">
           <hr>
           <vue-form :state="formState" @submit.prevent="enviar()">
             <!-- EMAIL -->
@@ -123,7 +123,7 @@
             <hr>
 
             <!-- ENVIO FORMULARIO -->
-            <div v-if="!formState.$dirty" class="alert alert-secondary">Completa todos los campos</div>
+            <div v-if="!formData.email && !formData.password" class="alert alert-secondary">Completa todos los campos</div>
             <div v-else-if="formState.$dirty && formState.$invalid " class="alert alert-warning">Completa todos los campos</div>
             <button class="example_a" align="center" v-else @click="enviar()">Enviar</button>
             
@@ -171,7 +171,7 @@ export default {
 	text-transform: uppercase;
 	text-decoration: none;
 	background: #35c535;
-	padding: 50px;
+	padding: 15px;
   padding-top: 10px;
   padding-bottom: 10px;
 	border-radius: 5px;
@@ -181,7 +181,7 @@ export default {
 }
 .example_a:hover {
 	background: #008300;
-	letter-spacing: 5px;
+	letter-spacing: 1.5px;
 	-webkit-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
 	-moz-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
 	box-shadow: 5px 40px -10px rgba(0,0,0,0.57);
