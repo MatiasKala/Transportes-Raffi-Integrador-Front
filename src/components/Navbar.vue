@@ -13,7 +13,7 @@
       <b-collapse id="navbar-toggle-collapse" is-nav>
         <b-navbar-nav class="mr-auto ml-auto">
           <b-nav-item href="#">
-              <router-link to="/test">
+              <router-link to="/test/usuarios">
                 <a class="nav-link" href="#">TestView</a>
               </router-link>
           </b-nav-item>

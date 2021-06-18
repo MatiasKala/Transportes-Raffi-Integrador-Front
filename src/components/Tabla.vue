@@ -1,6 +1,6 @@
 <template>
   <div class="tabla container">
-    <h1>TABLA COMPONENTE</h1>
+    <h1>Tabla de {{nombre | primeraMayuscula()}}</h1>
     <div  v-if="datos" class="table-container ">
       <b-table table-variant='info' head-variant="dark" bordered outlined hover responsive :items="datos"></b-table>
     </div>
@@ -11,7 +11,7 @@
 <script>
 export default {
   name: 'tabla',
-  props: ['datos'],
+  props: ['datos','nombre'],
   data(){
     return{
         // datos:[
@@ -20,6 +20,11 @@ export default {
         //   {nombre:'Jose',apellido:'Krue',nota:10},
         //   {nombre:'Mati',apellido:'Parson',nota:7},
         // ]
+    }
+  },
+  filters:{
+    primeraMayuscula(value){
+      return value.charAt(0).toUpperCase() + value.slice(1);
     }
   },
   methods:{

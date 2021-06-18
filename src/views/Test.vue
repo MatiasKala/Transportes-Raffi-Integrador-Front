@@ -1,6 +1,6 @@
 <template>
   <div class="Test">
-    <Tabla :datos="usuarios"/>
+    <Tabla :datos="registros" :nombre="entidad"/>
   </div>
 </template>
 
@@ -13,16 +13,17 @@ export default {
   components: {
     Tabla
   },
+  props:['entidad'],
   data(){
     return{
-      usuarios:this.getUsuarios(),
+      registros:this.getRegistros(),
     }
   },
   methods:{
-    getUsuarios(){
-      this.axios.get('https://stormy-mountain-51560.herokuapp.com/usuarios').then(response => {
+    getRegistros(){
+      this.axios.get(`https://stormy-mountain-51560.herokuapp.com/${this.entidad}`).then(response => {
         this.eliminarCamposPrivados(response.data)
-        this.usuarios = response.data
+        this.registros = response.data
       })
     },
     eliminarCamposPrivados(data){
