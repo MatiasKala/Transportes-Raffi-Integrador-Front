@@ -79,7 +79,9 @@
           <vue-form :state="formState" @submit.prevent="enviar()">
             <!-- EMAIL -->
             <validate tag="div">
-              <label for="email">Email</label>
+              <label for="email"
+                v-if="formState.email" :style="labelColor(formState.email.$valid,formState.$dirty,formData.email)">Email
+              </label>
               <input 
                 type="email" 
                 name="email" 
@@ -99,7 +101,9 @@
             <br>
             <!-- CONTRASEÑA -->
             <validate tag="div">
-              <label for="password">Contraseña</label>
+              <label for="password"
+                v-if="formState.password" :style="labelColor(formState.password.$valid,formState.$dirty,formData.password)">Password
+              </label>
               <input 
                 type="password" 
                 name="password" 
@@ -119,13 +123,11 @@
             </validate>
 
             <br>
-            <br>
             <hr>
 
             <!-- ENVIO FORMULARIO -->
-            <div v-if="!formData.email && !formData.password" class="alert alert-secondary">Completa todos los campos</div>
-            <div v-else-if="formState.$dirty && formState.$invalid " class="alert alert-warning">Completa todos los campos</div>
-            <button class="example_a" align="center" v-else @click="enviar()">Enviar</button>
+            <button class="btn-secondary btn-disabled" align="center" disabled v-if="formState.$invalid" @click="enviar()">Enviar</button>
+            <button class="example_a" align="center" v-else-if="formState.$valid" @click="enviar()">Enviar</button>
             
           </vue-form>
         </b-card>
@@ -157,14 +159,36 @@ export default {
     },
     enviar(){
       console.log(this.formData);
+      this.formData=this.estadoInicial()
+      this.formState._reset()
     },
+    labelColor:(valid,dirty,value)=>{
+      console.log(valid,dirty,value);
+      return {
+          color:value? dirty? valid?'#22BB33':'red' :'black':'black',
+      }
+    }
   },
+  computed:{
+
+  }
 }
 </script>
 
 <style scoped>
 .estiloCarousel{
   max-height:364px
+}
+.btn-disabled{
+	text-transform: uppercase;
+	text-decoration: none;
+	padding: 15px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+	border-radius: 5px;
+	display: inline-block;
+	border: none;
+	transition: all 0.4s ease 0s;
 }
 .example_a {
 	color: #fff !important;
