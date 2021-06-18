@@ -5,6 +5,9 @@ var options = {
     validators:{
         'validar-email' : (valor)=>{
             valor
+        },
+        'no-espacios' : function(value) {
+            return !value.includes(' ')
         }
     }
     

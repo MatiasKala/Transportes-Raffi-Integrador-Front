@@ -14,38 +14,32 @@
             img-height="480"
             style="text-shadow: 1px 1px 2px #333;"
           >
-            <!-- Text slides with image -->
             <b-carousel-slide
-              caption="Envíos a cualquier extremo del país"
-              text="Región Noroeste de Salta"
+              caption="A cualquier rincón del pais"
+              text="Región Norte de Salta"
             >
               <template #img>
                 <b-img
                   :src="require('@/assets/desierto.webp')"
-                  class="d-block img-fluid w-100"
-                  style="max-height:400px"
+                  class="d-block img-fluid w-100 estiloCarousel"
                   alt="Desierto de Salta"
                 >
                 </b-img> 
               </template>
             </b-carousel-slide>
 
-            <!-- Slides with image only -->
             <b-carousel-slide
               text="Gracias por confiar en nosotros"
             >
               <template #img> 
                 <b-img
                   :src="require('@/assets/scania.jpg')"
-                  class="d-block img-fluid w-100"
-                  style="max-height:384px"
+                  class="d-block img-fluid w-100 estiloCarousel"
                   alt="Scania">
                 </b-img>
               </template> 
             </b-carousel-slide>
 
-            <!-- Slides with img slot -->
-            <!-- Note the classes .d-block and .img-fluid to prevent browser default image alignment -->
             <b-carousel-slide               
               text="Seguí tu pedido dondequiera que estés"
               
@@ -53,8 +47,7 @@
               <template #img>
                 <b-img
                   :src="require('@/assets/seguimiento.jpg')"
-                  class="d-block img-fluid w-100"
-                  style="max-height:384px"
+                  class="d-block img-fluid w-100 estiloCarousel"
                   alt="Seguimiento"
                 >
                 </b-img> 
@@ -62,14 +55,13 @@
             </b-carousel-slide>
 
             <b-carousel-slide               
-              caption="Envíos a cualquier extremo del país"
+              caption="A cualquier rincón del pais"
               text="Santa Cruz"
             >
               <template #img>
                 <b-img
                   :src="require('@/assets/rutaSantaCruz.jpg')"
-                  class="d-block img-fluid w-100"
-                  style="max-height:384px"
+                  class="d-block img-fluid w-100 estiloCarousel"
                   alt="Ruta 40, Santa Cruz"
                 >
                 </b-img> 
@@ -78,10 +70,14 @@
           </b-carousel>
         </b-card>
       </b-col>
+
+      <!-- COMIENZO DEL FORMULARIO -->
+      
       <b-col cols="4">
         <b-card title="Ingresa">
           <hr>
           <vue-form :state="formState" @submit.prevent="enviar()">
+            <!-- EMAIL -->
             <validate tag="div">
               <label for="email">Email</label>
               <input 
@@ -92,12 +88,45 @@
                 autocomplete="off"
                 v-model.trim="formData.email"
                 required
+                no-espacios
               >
               <field-messages name="email" show="$dirty">
-                <div slot="required" class="alert alert-danger mt-1">Campo requerido</div>            
-                <div slot="email" class="alert alert-danger mt-1">Email no válido</div>            
+                <div slot="required" class="alert alert-danger mt-2">Campo requerido</div>            
+                <div slot="email" class="alert alert-danger mt-2">Email no válido</div>            
+                <div slot="no-espacios" class="alert alert-danger mt-2">No se permiten espacios en este campo</div>            
               </field-messages>
             </validate>
+            <br>
+            <!-- CONTRASEÑA -->
+            <validate tag="div">
+              <label for="password">Contraseña</label>
+              <input 
+                type="password" 
+                name="password" 
+                id="password"
+                class="form-control"
+                autocomplete="off"
+                v-model.trim="formData.password"
+                :minlength="minContrasenia"
+                required
+                no-espacios
+              >
+              <field-messages name="password" show="$dirty">
+                <div slot="required" class="alert alert-danger mt-2">Campo requerido</div>            
+                <div slot="no-espacios" class="alert alert-danger mt-2">No se permiten espacios en este campo</div>            
+                <div slot="minlength" class="alert alert-danger mt-2">Ingrese como minimo {{minContrasenia}} caracteres</div>            
+              </field-messages>
+            </validate>
+
+            <br>
+            <br>
+            <hr>
+
+            <!-- ENVIO FORMULARIO -->
+            <div v-if="!formState.$dirty" class="alert alert-secondary">Completa todos los campos</div>
+            <div v-else-if="formState.$dirty && formState.$invalid " class="alert alert-warning">Completa todos los campos</div>
+            <button class="example_a" align="center" v-else @click="enviar()">Enviar</button>
+            
           </vue-form>
         </b-card>
       </b-col>
@@ -112,8 +141,8 @@ export default {
   data(){
     return{
       formData:this.estadoInicial(),
-      formState:{}
-      
+      formState:{},
+      minContrasenia:5,
     }
   },
   filters:{
@@ -125,13 +154,37 @@ export default {
         email:'',
         password:''
       }
-    }
+    },
+    enviar(){
+      console.log(this.formData);
+    },
   },
 }
 </script>
 
 <style scoped>
-info{
-  background-color: red;
+.estiloCarousel{
+  max-height:364px
+}
+.example_a {
+	color: #fff !important;
+	text-transform: uppercase;
+	text-decoration: none;
+	background: #35c535;
+	padding: 50px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+	border-radius: 5px;
+	display: inline-block;
+	border: none;
+	transition: all 0.4s ease 0s;
+}
+.example_a:hover {
+	background: #008300;
+	letter-spacing: 5px;
+	-webkit-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+	-moz-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+	box-shadow: 5px 40px -10px rgba(0,0,0,0.57);
+	transition: all 0.4s ease 0s;
 }
 </style>
