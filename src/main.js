@@ -6,6 +6,7 @@ import store from './imports/store'
 import router from './imports/routes'
 import './imports/forms'
 import './imports/client'
+import './imports/mixins/index'
 
 import {BootstrapVue , IconsPlugin} from 'bootstrap-vue'
 Vue.use(BootstrapVue)
@@ -13,7 +14,6 @@ Vue.use(IconsPlugin)
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import '@popperjs/core'
-
 
 Vue.config.productionTip = false
 
