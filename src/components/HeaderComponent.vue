@@ -19,7 +19,7 @@
                   </router-link>
                 </b-col>    
                 <b-col sm="6" lg="7" class="px-2 pt-2">
-                  <router-link to="/">
+                  <router-link to="/register">
                     <b-button size="sm" variant="primary">
                         Register
                     </b-button>

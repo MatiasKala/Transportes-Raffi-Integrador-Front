@@ -77,6 +77,30 @@
         <b-card title="Ingresá">
           <hr>
           <vue-form :state="formState" @submit.prevent="enviar()">
+            <!-- USERNAME -->
+            <validate v-if="!isLogin" tag="div">
+              <label for="username"
+                v-if="formState.username" :style="labelColor(formState.username.$valid,formState.$dirty,formData.username)">Nombre de Usuario
+              </label>
+              <input 
+                type="text" 
+                name="username" 
+                id="username"
+                class="form-control"
+                autocomplete="off"
+                v-model.trim="formData.username"
+                required
+                :minlength="minimoPermitido"
+                :maxlength="maximoPermitido"
+              >
+              <field-messages name="username" show="$dirty">
+                <div slot="required" class="alert alert-danger mt-2">Campo requerido</div>            
+                <div slot="username" class="alert alert-danger mt-2">Nombre de usuario no válido</div>            
+                <div slot="minlength" class="alert alert-danger mt-2">Ingrese como minimo {{minimoPermitido}} caracteres</div>            
+                <div v-if="formData.username.length == maximoPermitido" class="alert alert-danger mt-2">El maximo permitido es de {{maximoPermitido}} caracteres</div>            
+              </field-messages>
+            </validate>
+            <br>
             <!-- EMAIL -->
             <validate tag="div">
               <label for="email"
@@ -95,7 +119,8 @@
               <field-messages name="email" show="$dirty">
                 <div slot="required" class="alert alert-danger mt-2">Campo requerido</div>            
                 <div slot="email" class="alert alert-danger mt-2">Email no válido</div>            
-                <div slot="no-espacios" class="alert alert-danger mt-2">No se permiten espacios en este campo</div>            
+                <div slot="no-espacios" class="alert alert-danger mt-2">No se permiten espacios en este campo</div>         
+                <div slot="minlength" class="alert alert-danger mt-2">Ingrese como minimo {{minimoPermitido}} caracteres</div>            
               </field-messages>
             </validate>
             <br>
@@ -105,20 +130,25 @@
                 v-if="formState.password" :style="labelColor(formState.password.$valid,formState.$dirty,formData.password)">Password
               </label>
               <input 
-                type="password" 
+                size="1"
+                :type="getType" 
                 name="password" 
                 id="password"
                 class="form-control"
                 autocomplete="off"
                 v-model.trim="formData.password"
-                :minlength="minContrasenia"
+                :minlength="minimoPermitido"
+                :maxlength="maximoPermitido"
                 required
+                no-caracteres
                 no-espacios
               >
               <field-messages name="password" show="$dirty">
                 <div slot="required" class="alert alert-danger mt-2">Campo requerido</div>            
                 <div slot="no-espacios" class="alert alert-danger mt-2">No se permiten espacios en este campo</div>            
-                <div slot="minlength" class="alert alert-danger mt-2">Ingrese como minimo {{minContrasenia}} caracteres</div>            
+                <div slot="no-caracteres" class="alert alert-danger mt-2">Los caracteres {{getCaracteresInvalidos}} no se permiten en este campo</div>            
+                <div slot="minlength" class="alert alert-danger mt-2">Ingrese como minimo {{minimoPermitido}} caracteres</div>            
+                <div v-if="formData.password.length == maximoPermitido" class="alert alert-danger mt-2">El maximo permitido es de {{maximoPermitido}} caracteres</div>            
               </field-messages>
             </validate>
 
@@ -139,38 +169,48 @@
 <script>
 export default {
   name: 'pantallaEntrada',
-  props: [],
+  props: ['isLogin'],
   data(){
     return{
-      formData:this.estadoInicial(),
+      formData:this.isLogin? this.estadoInicialLogin(): this.estadoInicialRegister(),
       formState:{},
-      minContrasenia:5,
+      minimoPermitido:5,
+      maximoPermitido:30,
+      esVisibleContrasenia:false
     }
   },
   filters:{
 
   },
   methods:{
-    estadoInicial(){
+    estadoInicialLogin(){
       return{
         email:'',
-        password:''
+        password:'',
+      }
+    },
+    estadoInicialRegister(){
+      return{
+        username:'',
+        email:'',
+        password:'',
       }
     },
     enviar(){
       console.log(this.formData);
-      this.formData=this.estadoInicial()
+      this.formData=this.isLogin? this.estadoInicialLogin(): this.estadoInicialRegister()
       this.formState._reset()
     },
     labelColor:(valid,dirty,value)=>{
-      console.log(valid,dirty,value);
       return {
           color:value? dirty? valid?'#22BB33':'red' :'black':'black',
       }
     }
   },
   computed:{
-
+    getType(){
+      return this.esVisibleContrasenia ? 'text':'password'
+    }
   }
 }
 </script>
