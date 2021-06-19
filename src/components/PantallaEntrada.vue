@@ -74,92 +74,100 @@
       <!-- COMIENZO DEL FORMULARIO -->
       
       <b-col cols="4">
-        <b-card title="Ingresá">
+        <b-card :title="obtenerTituloFormulario()">
           <hr>
-          <vue-form :state="formState" @submit.prevent="enviar()">
-            <!-- USERNAME -->
-            <validate v-if="!isLogin" tag="div">
-              <label for="username"
-                v-if="formState.username" :style="labelColor(formState.username.$valid,formState.$dirty,formData.username)">Nombre de Usuario
-              </label>
-              <input 
-                type="text" 
-                name="username" 
-                id="username"
-                class="form-control"
-                autocomplete="off"
-                v-model.trim="formData.username"
-                required
-                :minlength="minimoPermitido"
-                :maxlength="maximoPermitido"
-              >
-              <field-messages name="username" show="$dirty">
-                <div slot="required" class="alert alert-danger mt-2">Campo requerido</div>            
-                <div slot="username" class="alert alert-danger mt-2">Nombre de usuario no válido</div>            
-                <div slot="minlength" class="alert alert-danger mt-2">Ingrese como minimo {{minimoPermitido}} caracteres</div>            
-                <div v-if="formData.username.length == maximoPermitido" class="alert alert-danger mt-2">El maximo permitido es de {{maximoPermitido}} caracteres</div>            
-              </field-messages>
-            </validate>
-            <br>
-            <!-- EMAIL -->
-            <validate tag="div">
-              <label for="email"
-                v-if="formState.email" :style="labelColor(formState.email.$valid,formState.$dirty,formData.email)">Email
-              </label>
-              <input 
-                type="email" 
-                name="email" 
-                id="email"
-                class="form-control"
-                autocomplete="off"
-                v-model.trim="formData.email"
-                required
-                no-espacios
-              >
-              <field-messages name="email" show="$dirty">
-                <div slot="required" class="alert alert-danger mt-2">Campo requerido</div>            
-                <div slot="email" class="alert alert-danger mt-2">Email no válido</div>            
-                <div slot="no-espacios" class="alert alert-danger mt-2">No se permiten espacios en este campo</div>         
-                <div slot="minlength" class="alert alert-danger mt-2">Ingrese como minimo {{minimoPermitido}} caracteres</div>            
-              </field-messages>
-            </validate>
-            <br>
-            <!-- CONTRASEÑA -->
-            <validate tag="div">
-              <label for="password"
-                v-if="formState.password" :style="labelColor(formState.password.$valid,formState.$dirty,formData.password)">Password
-              </label>
-              <input 
-                size="1"
-                :type="getType" 
-                name="password" 
-                id="password"
-                class="form-control"
-                autocomplete="off"
-                v-model.trim="formData.password"
-                :minlength="minimoPermitido"
-                :maxlength="maximoPermitido"
-                required
-                no-caracteres
-                no-espacios
-              >
-              <field-messages name="password" show="$dirty">
-                <div slot="required" class="alert alert-danger mt-2">Campo requerido</div>            
-                <div slot="no-espacios" class="alert alert-danger mt-2">No se permiten espacios en este campo</div>            
-                <div slot="no-caracteres" class="alert alert-danger mt-2">Los caracteres {{getCaracteresInvalidos}} no se permiten en este campo</div>            
-                <div slot="minlength" class="alert alert-danger mt-2">Ingrese como minimo {{minimoPermitido}} caracteres</div>            
-                <div v-if="formData.password.length == maximoPermitido" class="alert alert-danger mt-2">El maximo permitido es de {{maximoPermitido}} caracteres</div>            
-              </field-messages>
-            </validate>
+              <vue-form :state="formState" @submit.prevent="enviar()">
+                <!-- USERNAME -->
+                <validate v-if="!isLogin" tag="div">
+                  <label for="username"
+                    v-if="formState.username" :style="labelColor(formState.username.$valid,formState.$dirty,formData.username)">Nombre de Usuario
+                  </label>
+                  <input 
+                    type="text" 
+                    name="username" 
+                    id="username"
+                    class="form-control"
+                    autocomplete="off"
+                    v-model.trim="formData.username"
+                    required
+                    :minlength="minimoPermitido"
+                    :maxlength="maximoPermitido"
+                  >
+                  <field-messages name="username" show="$dirty">
+                    <div slot="required" class="alert alert-danger mt-2">Campo requerido</div>            
+                    <div slot="username" class="alert alert-danger mt-2">Nombre de usuario no válido</div>            
+                    <div slot="minlength" class="alert alert-danger mt-2">Ingrese como minimo {{minimoPermitido}} caracteres</div>            
+                    <div v-if="formData.username.length == maximoPermitido" class="alert alert-danger mt-2">El maximo permitido es de {{maximoPermitido}} caracteres</div>            
+                  </field-messages>
+                </validate>
+                <br>
+                <!-- EMAIL -->
+                <validate tag="div">
+                  <label for="email"
+                    v-if="formState.email" :style="labelColor(formState.email.$valid,formState.$dirty,formData.email)">Email
+                  </label>
+                  <input 
+                    type="email" 
+                    name="email" 
+                    id="email"
+                    class="form-control"
+                    autocomplete="off"
+                    v-model.trim="formData.email"
+                    required
+                    no-espacios
+                  >
+                  <field-messages name="email" show="$dirty">
+                    <div slot="required" class="alert alert-danger mt-2">Campo requerido</div>            
+                    <div slot="email" class="alert alert-danger mt-2">Email no válido</div>            
+                    <div slot="no-espacios" class="alert alert-danger mt-2">No se permiten espacios en este campo</div>         
+                    <div slot="minlength" class="alert alert-danger mt-2">Ingrese como minimo {{minimoPermitido}} caracteres</div>            
+                  </field-messages>
+                </validate>
+                <br>
+                <b-row>
+                  <b-col cols="10"> 
+                    <!-- CONTRASEÑA -->
+                    <validate tag="div">
+                      <label for="password"
+                        v-if="formState.password" :style="labelColor(formState.password.$valid,formState.$dirty,formData.password)">Password
+                      </label>
+                      <input 
+                        size="1"
+                        :type="getType" 
+                        name="password" 
+                        id="password"
+                        class="form-control"
+                        autocomplete="off"
+                        v-model.trim="formData.password"
+                        :minlength="minimoPermitido"
+                        :maxlength="maximoPermitido"
+                        required
+                        no-caracteres
+                        no-espacios
+                      >
+                      <field-messages name="password" show="$dirty">
+                        <div slot="required" class="alert alert-danger mt-2">Campo requerido</div>            
+                        <div slot="no-espacios" class="alert alert-danger mt-2">No se permiten espacios en este campo</div>            
+                        <div slot="no-caracteres" class="alert alert-danger mt-2">Los caracteres {{getCaracteresInvalidos}} no se permiten en este campo</div>            
+                        <div slot="minlength" class="alert alert-danger mt-2">Ingrese como minimo {{minimoPermitido}} caracteres</div>            
+                        <div v-if="formData.password.length == maximoPermitido" class="alert alert-danger mt-2">El maximo permitido es de {{maximoPermitido}} caracteres</div>            
+                      </field-messages>
+                    </validate>
+                  </b-col>
+                  <b-col cols="2" style="padding-left:2px">
+                    <b-button class="botonVisibilidad" :variant="obtenerClaseBotonVisibilidad" @click="cambiarVisibilidad()">
+                      <b-icon-eye-slash v-if="!esVisibleContrasenia"></b-icon-eye-slash>
+                      <b-icon-eye v-if="esVisibleContrasenia"></b-icon-eye>
+                    </b-button></b-col>
+                </b-row>
+                <br>
+                <hr>
 
-            <br>
-            <hr>
-
-            <!-- ENVIO FORMULARIO -->
-            <button class="btn-secondary btn-disabled" align="center" disabled v-if="formState.$invalid" @click="enviar()">Enviar</button>
-            <button class="example_a" align="center" v-else-if="formState.$valid" @click="enviar()">Enviar</button>
-            
-          </vue-form>
+                <!-- ENVIO FORMULARIO -->
+                <button class="btn-secondary btn-disabled" align="center" disabled v-if="formState.$invalid" @click="enviar()">Enviar</button>
+                <button class="botonEnvio" align="center" v-else-if="formState.$valid" @click="enviar()">Enviar</button>
+                
+              </vue-form>
         </b-card>
       </b-col>
     </b-row>
@@ -205,11 +213,20 @@ export default {
       return {
           color:value? dirty? valid?'#22BB33':'red' :'black':'black',
       }
+    },
+    cambiarVisibilidad(){
+      this.esVisibleContrasenia=!this.esVisibleContrasenia
+    },
+    obtenerTituloFormulario(){
+      return this.isLogin ? 'Ingresá' :  'Registrate'
     }
   },
   computed:{
     getType(){
       return this.esVisibleContrasenia ? 'text':'password'
+    },
+    obtenerClaseBotonVisibilidad(){
+      return this.esVisibleContrasenia ? 'info' : 'dark'
     }
   }
 }
@@ -230,7 +247,7 @@ export default {
 	border: none;
 	transition: all 0.4s ease 0s;
 }
-.example_a {
+.botonEnvio {
 	color: #fff !important;
 	text-transform: uppercase;
 	text-decoration: none;
@@ -243,12 +260,16 @@ export default {
 	border: none;
 	transition: all 0.4s ease 0s;
 }
-.example_a:hover {
+.botonEnvio:hover {
 	background: #008300;
 	letter-spacing: 1.5px;
 	-webkit-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
 	-moz-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
 	box-shadow: 5px 40px -10px rgba(0,0,0,0.57);
 	transition: all 0.4s ease 0s;
+}
+.botonVisibilidad{
+  margin-top:32px; 
+  padding-right: 10px;
 }
 </style>
