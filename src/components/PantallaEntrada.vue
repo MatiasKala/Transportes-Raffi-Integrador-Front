@@ -78,7 +78,7 @@
           <hr>
               <vue-form :state="formState" @submit.prevent="enviar()">
                 <!-- USERNAME -->
-                <validate v-if="!isLogin" tag="div">
+                <validate v-if="!isLogin && !loadingProgress" tag="div">
                   <label for="username"
                     v-if="formState.username" :style="labelColor(formState.username.$valid,formState.$dirty,formData.username)">Nombre de Usuario
                   </label>
@@ -100,9 +100,10 @@
                     <div v-if="formData.username.length == maximoPermitido" class="alert alert-danger mt-2">El maximo permitido es de {{maximoPermitido}} caracteres</div>            
                   </field-messages>
                 </validate>
+                <b-skeleton width="85%" v-else-if="!isLogin && loadingProgress "></b-skeleton>
                 <br>
                 <!-- EMAIL -->
-                <validate tag="div">
+                <validate v-if="!loadingProgress" tag="div">
                   <label for="email"
                     v-if="formState.email" :style="labelColor(formState.email.$valid,formState.$dirty,formData.email)">Email
                   </label>
@@ -122,11 +123,12 @@
                     <div slot="minlength" class="alert alert-danger mt-2">Ingrese como minimo {{minimoPermitido}} caracteres</div>            
                   </field-messages>
                 </validate>
+                <b-skeleton width="70%" v-else></b-skeleton>
                 <br>
                 <b-row>
                   <b-col cols="10"> 
                     <!-- CONTRASEÑA -->
-                    <validate tag="div">
+                    <validate v-if="!loadingProgress" tag="div">
                       <label for="password"
                         v-if="formState.password" :style="labelColor(formState.password.$valid,formState.$dirty,formData.password)">Password
                       </label>
@@ -152,8 +154,9 @@
                         <div v-if="formData.password.length == maximoPermitido" class="alert alert-danger mt-2">El maximo permitido es de {{maximoPermitido}} caracteres</div>            
                       </field-messages>
                     </validate>
+                    <b-skeleton width="95%" v-else></b-skeleton>
                   </b-col>
-                  <b-col cols="2" style="padding-left:2px">
+                  <b-col cols="2" style="padding-left:2px" v-if="!loadingProgress">
                     <b-button class="botonVisibilidad" :variant="obtenerClaseBotonVisibilidad" @click="cambiarVisibilidad()">
                       <b-icon-eye-slash v-if="!esVisibleContrasenia"></b-icon-eye-slash>
                       <b-icon-eye v-if="esVisibleContrasenia"></b-icon-eye>
@@ -166,10 +169,10 @@
                 <b-container>
                   <b-row align-h="center">                 
                     <b-col cols="12"> 
-                      <button class="btn-secondary btn-disabled" disabled v-if="formState.$invalid && !estaCargando" @click="enviar()">Enviar</button>
-                      <button class="botonEnvio" v-else-if="formState.$valid && !estaCargando" @click="enviar()">Enviar</button>
+                      <button class="btn-secondary btn-disabled" disabled v-if="formState.$invalid && !loadingProgress" @click="enviar()">Enviar</button>
+                      <button class="botonEnvio" v-else-if="formState.$valid && !loadingProgress" @click="enviar()">Enviar</button>
                       <!-- <b-skeleton type="input" width="100%" class=" btn-disabled" v-if="estaCargando"></b-skeleton> -->
-                      <b-progress v-if="estaCargando" class="w-100" :max="maxLoadingTime" height="1.5rem">
+                      <b-progress v-if="loadingProgress" class="w-100" :max="maxLoadingTime" height="1.5rem">
                         <b-progress-bar :variant="obtenerEstiloProgressBar" :value="loadingTime" :label="`${((loadingTime / maxLoadingTime) * 100).toFixed(2)}%`"></b-progress-bar>
                       </b-progress>
                     </b-col>
@@ -178,7 +181,9 @@
 
               </vue-form>
         </b-card>
+        <h1 v-if="!loadingProgress">{{`Respuesta :${response}`}}</h1>
       </b-col>
+
     </b-row>
   </b-container>
 </template>
@@ -186,7 +191,7 @@
 <script>
 export default {
   name: 'pantallaEntrada',
-  props: ['isLogin'],
+  props: ['isLogin','recursoCargado','response'],
   data(){
     return{
       formData:this.isLogin? this.estadoInicialLogin(): this.estadoInicialRegister(),
@@ -194,28 +199,28 @@ export default {
       minimoPermitido:5,
       maximoPermitido:30,
       esVisibleContrasenia:false,
-      estaCargando:false,
-      loading: false,
+      loadingProgress: false,
       loadingTime: 0,
-      maxLoadingTime: 10
+      maxLoadingTime: 10,
     }
   },
   watch: {
-    loading(newValue, oldValue) {
+    loadingProgress(newValue, oldValue) {
       if (newValue !== oldValue) {
         this.clearLoadingTimeInterval()
 
         if (newValue) {
           this.$_loadingTimeInterval = setInterval(() => {
             this.loadingTime++
-          }, 150)
+          }, 250)
         }
       }
     },
     loadingTime(newValue, oldValue) {
       if (newValue !== oldValue) {
         if (newValue === this.maxLoadingTime) {
-          this.loading = false
+          this.loadingProgress = false
+          console.log(this.recursoCargado);
         }
       }
     }
@@ -238,7 +243,6 @@ export default {
       }
     },
     enviar(){
-      this.estaCargando = true
       this.startLoading()
       this.$emit('envioFormulario',this.formData)  
       this.formData=this.isLogin? this.estadoInicialLogin(): this.estadoInicialRegister()
@@ -260,9 +264,9 @@ export default {
       this.$_loadingTimeInterval = null
     },
     startLoading() {
-      this.loading = true
+      this.loadingProgress = true
       this.loadingTime = 0
-    }
+    },
   },
   computed:{
     getType(){
@@ -280,7 +284,7 @@ export default {
       }  else {
         return 'success'  
       }
-    }
+    },
   }
 }
 </script>

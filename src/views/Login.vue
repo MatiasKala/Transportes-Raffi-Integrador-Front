@@ -1,6 +1,6 @@
 <template>
   <div class="login">
-    <PantallaEntrada :isLogin="true" @envioFormulario="postLogin($event)"/>
+    <PantallaEntrada :isLogin="true" :recursoCargado="recursoCargado" :response="response" @envioFormulario="postLogin($event)"/>
   </div>
 </template>
 
@@ -16,23 +16,32 @@ export default {
   data(){
     return{
       entidadApi:'usuarios',
+      recursoCargado:true,
+      response:null
     }
   },
   methods:{
     postLogin(data){
+      this.recursoCargado=false
       this.axios.post(
         `${this.getDominioApi}/${this.entidadApi}/login`, 
       {
         email: data.email,
         password: data.password,
       })
-      .then(function (response) {
-        console.log(response);
+      .then(response=> {
+        console.log('Entre al si')
+        this.response=response
+        console.log(this.response)
       })
-      .catch(function (error) {
-        console.log(error);
+      .catch(error =>{
+        this.response=error
+        console.log(error)
       })
+      this.recursoCargado=true
     }
+  },
+  computed:{
   }
 }
 </script>
