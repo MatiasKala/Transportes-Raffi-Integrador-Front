@@ -178,10 +178,17 @@
                     </b-col>
                   </b-row>
                 </b-container>
-
               </vue-form>
         </b-card>
-        <h1 v-if="!loadingProgress">{{`Respuesta :${response}`}}</h1>
+        <br>
+        <b-col v-if="response && !loadingProgress">
+          <b-container v-if="response.status==401"> 
+            <b-alert :variant="getResponseColor" show >{{`Respuesta: ${response.mensaje}, Status: ${response.status}`}}</b-alert>
+          </b-container>
+          <b-container v-else> 
+            <b-alert :variant="getResponseColor" show >{{`Respuesta: ${response.data.user.username+'\n'+response.data.token}, Status: ${response.status}`}}</b-alert>  
+          </b-container>
+        </b-col>
       </b-col>
 
     </b-row>
@@ -212,7 +219,7 @@ export default {
         if (newValue) {
           this.$_loadingTimeInterval = setInterval(() => {
             this.loadingTime++
-          }, 250)
+          }, 350)
         }
       }
     },
@@ -220,7 +227,6 @@ export default {
       if (newValue !== oldValue) {
         if (newValue === this.maxLoadingTime) {
           this.loadingProgress = false
-          console.log(this.recursoCargado);
         }
       }
     }
@@ -285,6 +291,10 @@ export default {
         return 'success'  
       }
     },
+    getResponseColor(){
+      console.log(this.response);
+      return this.response ? this.response.status==401 ? 'danger':'success':'secondary'
+    }
   }
 }
 </script>

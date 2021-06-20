@@ -22,6 +22,7 @@ export default {
   },
   methods:{
     postLogin(data){
+      console.log(data);
       this.recursoCargado=false
       this.axios.post(
         `${this.getDominioApi}/${this.entidadApi}/login`, 
@@ -32,11 +33,9 @@ export default {
       .then(response=> {
         console.log('Entre al si')
         this.response=response
-        console.log(this.response)
       })
       .catch(error =>{
-        this.response=error
-        console.log(error)
+        this.response={mensaje:error.response.data , status:error.response.status}
       })
       this.recursoCargado=true
     }
