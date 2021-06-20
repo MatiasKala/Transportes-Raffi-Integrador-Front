@@ -114,7 +114,6 @@
                     autocomplete="off"
                     v-model.trim="formData.email"
                     required
-                    no-espacios
                   >
                   <field-messages name="email" show="$dirty">
                     <div slot="required" class="alert alert-danger mt-2">Campo requerido</div>            
@@ -164,9 +163,16 @@
                 <hr>
 
                 <!-- ENVIO FORMULARIO -->
-                <button class="btn-secondary btn-disabled" align="center" disabled v-if="formState.$invalid" @click="enviar()">Enviar</button>
-                <button class="botonEnvio" align="center" v-else-if="formState.$valid" @click="enviar()">Enviar</button>
-                
+                <b-container>
+                  <b-row align-h="center">                 
+                    <b-col cols="12"> 
+                      <button class="btn-secondary btn-disabled" disabled v-if="formState.$invalid && !estaCargando" @click="enviar()">Enviar</button>
+                      <button class="botonEnvio" v-else-if="formState.$valid && !estaCargando" @click="enviar()">Enviar</button>
+                      <b-skeleton type="input" width="100%" class=" btn-disabled" v-if="estaCargando"></b-skeleton>
+                    </b-col>
+                  </b-row>
+                </b-container>
+
               </vue-form>
         </b-card>
       </b-col>
@@ -184,7 +190,8 @@ export default {
       formState:{},
       minimoPermitido:5,
       maximoPermitido:30,
-      esVisibleContrasenia:false
+      esVisibleContrasenia:false,
+      estaCargando:false
     }
   },
   filters:{
@@ -205,7 +212,8 @@ export default {
       }
     },
     enviar(){
-      console.log(this.formData);
+      this.estaCargando = true
+      this.$emit('envioFormulario',this.formData)  
       this.formData=this.isLogin? this.estadoInicialLogin(): this.estadoInicialRegister()
       this.formState._reset()
     },

@@ -38,20 +38,26 @@
             <b-col cols="12">
                 <ul id="lista" class="pt-4">
                     <li id="item">Wpp: 11-1111-1111    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <b-link href="#">
                       <b-iconstack>
                         <b-icon stacked icon="chat-dots" style="color: 	white;"></b-icon>
                         <b-icon stacked icon="chat-dots-fill" style="color:  #4dc247;"></b-icon>
                       </b-iconstack>
+                    </b-link>  
                     </li>
-                    <li id="item">Mail: tRaffi@ort.com &nbsp;&nbsp;   
-                    <b-iconstack>
-                      <b-icon stacked icon="envelope-open" scale="1.15" style="color:white;"></b-icon>
-                      <b-icon stacked icon="envelope-open" style="color:  #ff2e00;"></b-icon>
-                      <b-icon stacked icon="envelope-open-fill" style="color: #ff8282;"></b-icon>
-                    </b-iconstack>
+                    <li id="item">Mail: tRaffi@ort.com &nbsp;&nbsp; 
+                    <b-link href="#">
+                      <b-iconstack>
+                        <b-icon stacked icon="envelope-open" scale="1.15" style="color:white;"></b-icon>
+                        <b-icon stacked icon="envelope-open" style="color:  #ff2e00;"></b-icon>
+                        <b-icon stacked icon="envelope-open-fill" style="color: #ff8282;"></b-icon>
+                      </b-iconstack>
+                    </b-link>  
                     </li>
                     <li id="item">Tel: 0800-0000-0000 &nbsp;&nbsp;
+                    <b-link href="#">
                       <b-icon icon="phone-fill" style="color: white"></b-icon>
+                    </b-link>  
                     </li>
                 </ul>
             </b-col>

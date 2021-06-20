@@ -1,6 +1,6 @@
 <template>
   <div class="login">
-    <PantallaEntrada :isLogin="true"/>
+    <PantallaEntrada :isLogin="true" @envioFormulario="postLogin($event)"/>
   </div>
 </template>
 
@@ -12,6 +12,27 @@ export default {
   name: 'loginComponent',
   components: {
     PantallaEntrada
+  },
+  data(){
+    return{
+      entidadApi:'usuarios',
+    }
+  },
+  methods:{
+    postLogin(data){
+      this.axios.post(
+        `${this.getDominioApi}/${this.entidadApi}/login`, 
+      {
+        email: data.email,
+        password: data.password,
+      })
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+    }
   }
 }
 </script>

@@ -13,14 +13,14 @@
               <b-row> 
                 <b-col sm="6" lg="5" class="p-1 pt-2">
                   <router-link to="/login">
-                    <b-button size="sm" variant="primary">
+                    <b-button size="sm" variant="light">
                       Login
                     </b-button>
                   </router-link>
                 </b-col>    
                 <b-col sm="6" lg="7" class="px-2 pt-2">
                   <router-link to="/register">
-                    <b-button size="sm" variant="primary">
+                    <b-button size="sm" variant="light">
                         Register
                     </b-button>
                   </router-link>

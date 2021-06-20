@@ -7,6 +7,9 @@ var mixin = {
         getCaracteresInvalidos() {
             return this.$store.state.caracteresNoPermitidosContrasenia
         },
+        getDominioApi(){
+            return this.$store.state.apiDominio
+        }
     }
 }
 
