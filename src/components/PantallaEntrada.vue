@@ -77,6 +77,7 @@
         <b-card :title="obtenerTituloFormulario()">
           <hr>
               <vue-form :state="formState" @submit.prevent="enviar()">
+                <br>
                 <!-- USERNAME -->
                 <validate v-if="!isLogin && !loadingProgress" tag="div">
                   <label for="username"
@@ -173,7 +174,7 @@
                       <button class="botonEnvio" v-else-if="formState.$valid && !loadingProgress" @click="enviar()">Enviar</button>
                       <!-- <b-skeleton type="input" width="100%" class=" btn-disabled" v-if="estaCargando"></b-skeleton> -->
                       <b-progress v-if="loadingProgress" class="w-100" :max="maxLoadingTime" height="1.5rem">
-                        <b-progress-bar :variant="obtenerEstiloProgressBar" :value="loadingTime" :label="`${((loadingTime / maxLoadingTime) * 100).toFixed(2)}%`"></b-progress-bar>
+                        <b-progress-bar :variant="obtenerEstiloProgressBar" :value="loadingTime" :label="`${((loadingTime / maxLoadingTime) * 100)}%`"></b-progress-bar>
                       </b-progress>
                     </b-col>
                   </b-row>
@@ -181,12 +182,20 @@
               </vue-form>
         </b-card>
         <br>
-        <b-col v-if="response && !loadingProgress">
-          <b-container v-if="response.status==401"> 
-            <b-alert :variant="getResponseColor" show >{{`Respuesta: ${response.mensaje}, Status: ${response.status}`}}</b-alert>
+        <b-col v-if="isLogin && (response && !loadingProgress)">
+          <b-container v-if="response.status>400"> 
+            <b-alert :variant="getResponseColor" show >{{`Login Fallido: ${response.mensaje}, Status: ${response.status}`}}</b-alert>
           </b-container>
           <b-container v-else> 
-            <b-alert :variant="getResponseColor" show >{{`Respuesta: ${response.data.user.username+'\n'+response.data.token}, Status: ${response.status}`}}</b-alert>  
+            <b-alert :variant="getResponseColor" show >{{`Login Correcto: ${response.data.user.username+'\n'+response.data.token}, Status: ${response.status}`}}</b-alert>  
+          </b-container>
+        </b-col>
+        <b-col v-if="!isLogin && (response && !loadingProgress)">
+          <b-container v-if="response.status>400"> 
+            <b-alert :variant="getResponseColor" show >{{`Register Fallido: ${response.mensaje}, Status: ${response.status}`}}</b-alert>
+          </b-container>
+          <b-container v-else> 
+            <b-alert :variant="getResponseColor" show >{{`Bienvenido ${response.data.ops[0].username}, Status: ${response.status}`}}</b-alert>  
           </b-container>
         </b-col>
       </b-col>
@@ -201,7 +210,7 @@ export default {
   props: ['isLogin','recursoCargado','response'],
   data(){
     return{
-      formData:this.isLogin? this.estadoInicialLogin(): this.estadoInicialRegister(),
+      formData:this.estadoInicial(),
       formState:{},
       minimoPermitido:5,
       maximoPermitido:30,
@@ -235,23 +244,21 @@ export default {
 
   },
   methods:{
-    estadoInicialLogin(){
-      return{
+    estadoInicial(){
+      const estado ={
         email:'',
         password:'',
       }
-    },
-    estadoInicialRegister(){
-      return{
-        username:'',
-        email:'',
-        password:'',
+      if (!this.isLogin) {
+        estado.username=''
       }
+
+      return estado
     },
     enviar(){
       this.startLoading()
       this.$emit('envioFormulario',this.formData)  
-      this.formData=this.isLogin? this.estadoInicialLogin(): this.estadoInicialRegister()
+      this.formData=this.estadoInicial()
       this.formState._reset()
     },
     labelColor:(valid,dirty,value)=>{
@@ -292,8 +299,7 @@ export default {
       }
     },
     getResponseColor(){
-      console.log(this.response);
-      return this.response ? this.response.status==401 ? 'danger':'success':'secondary'
+      return this.response ? this.response.status>400 ? 'danger':'success':'secondary'
     }
   }
 }
@@ -312,7 +318,7 @@ export default {
 	border-radius: 5px;
 	display: inline-block;
 	border: none;
-	transition: all 0.4s ease 0s;
+	transition: all 0.7s ease 0s;
 }
 .botonEnvio {
 	color: #fff !important;
@@ -325,15 +331,15 @@ export default {
 	border-radius: 5px;
 	display: inline-block;
 	border: none;
-	transition: all 0.4s ease 0s;
+	transition: all 0.7s ease 0s;
 }
 .botonEnvio:hover {
 	background: #008300;
-	letter-spacing: 1.5px;
+	letter-spacing: 5px;
 	-webkit-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
 	-moz-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
 	box-shadow: 5px 40px -10px rgba(0,0,0,0.57);
-	transition: all 0.4s ease 0s;
+	transition: all 0.7s ease 0s;
 }
 .botonVisibilidad{
   margin-top:32px; 
