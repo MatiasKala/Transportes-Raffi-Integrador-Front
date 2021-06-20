@@ -168,7 +168,10 @@
                     <b-col cols="12"> 
                       <button class="btn-secondary btn-disabled" disabled v-if="formState.$invalid && !estaCargando" @click="enviar()">Enviar</button>
                       <button class="botonEnvio" v-else-if="formState.$valid && !estaCargando" @click="enviar()">Enviar</button>
-                      <b-skeleton type="input" width="100%" class=" btn-disabled" v-if="estaCargando"></b-skeleton>
+                      <!-- <b-skeleton type="input" width="100%" class=" btn-disabled" v-if="estaCargando"></b-skeleton> -->
+                      <b-progress v-if="estaCargando" class="w-100" :max="maxLoadingTime" height="1.5rem">
+                        <b-progress-bar :variant="obtenerEstiloProgressBar" :value="loadingTime" :label="`${((loadingTime / maxLoadingTime) * 100).toFixed(2)}%`"></b-progress-bar>
+                      </b-progress>
                     </b-col>
                   </b-row>
                 </b-container>
@@ -191,7 +194,30 @@ export default {
       minimoPermitido:5,
       maximoPermitido:30,
       esVisibleContrasenia:false,
-      estaCargando:false
+      estaCargando:false,
+      loading: false,
+      loadingTime: 0,
+      maxLoadingTime: 10
+    }
+  },
+  watch: {
+    loading(newValue, oldValue) {
+      if (newValue !== oldValue) {
+        this.clearLoadingTimeInterval()
+
+        if (newValue) {
+          this.$_loadingTimeInterval = setInterval(() => {
+            this.loadingTime++
+          }, 150)
+        }
+      }
+    },
+    loadingTime(newValue, oldValue) {
+      if (newValue !== oldValue) {
+        if (newValue === this.maxLoadingTime) {
+          this.loading = false
+        }
+      }
     }
   },
   filters:{
@@ -213,6 +239,7 @@ export default {
     },
     enviar(){
       this.estaCargando = true
+      this.startLoading()
       this.$emit('envioFormulario',this.formData)  
       this.formData=this.isLogin? this.estadoInicialLogin(): this.estadoInicialRegister()
       this.formState._reset()
@@ -227,6 +254,14 @@ export default {
     },
     obtenerTituloFormulario(){
       return this.isLogin ? 'Ingresá' :  'Registrate'
+    },
+    clearLoadingTimeInterval() {
+      clearInterval(this.$_loadingTimeInterval)
+      this.$_loadingTimeInterval = null
+    },
+    startLoading() {
+      this.loading = true
+      this.loadingTime = 0
     }
   },
   computed:{
@@ -235,6 +270,16 @@ export default {
     },
     obtenerClaseBotonVisibilidad(){
       return this.esVisibleContrasenia ? 'info' : 'dark'
+    },
+    obtenerEstiloProgressBar(){
+      const progress =((this.loadingTime / this.maxLoadingTime) * 100)
+      if (progress<=33) {
+        return 'danger' 
+      } else if (progress<=66) {
+        return 'warning'
+      }  else {
+        return 'success'  
+      }
     }
   }
 }
