@@ -37,7 +37,7 @@ export default {
         this.response={mensaje:error.response.data , status:error.response.status}
       })
       this.recursoCargado=true
-    }
+    },
   },
   computed:{
   }

@@ -198,8 +198,10 @@
             <b-alert :variant="getResponseColor" show >{{`Bienvenido ${response.data.ops[0].username}, Status: ${response.status}`}}</b-alert>  
           </b-container>
         </b-col>
+        <div v-if="response">
+        {{this.response.data}}
+        </div>
       </b-col>
-
     </b-row>
   </b-container>
 </template>
@@ -236,6 +238,7 @@ export default {
       if (newValue !== oldValue) {
         if (newValue === this.maxLoadingTime) {
           this.loadingProgress = false
+          this.setLoggedUser()
         }
       }
     }
@@ -280,6 +283,12 @@ export default {
       this.loadingProgress = true
       this.loadingTime = 0
     },
+    setLoggedUser(){
+      console.log('LLegue al metodo local de PantallaEntrada');
+      if(this.response.status==200){
+        this.$store.dispatch('setLoggedUser', this.response.data)
+      }
+    }
   },
   computed:{
     getType(){
