@@ -10,7 +10,7 @@
           <b-row>
             <b-col cols="9" sm="7" md="9" lg="10"><h2 id="tituloheader"><b>Transportes Raffi</b></h2></b-col>
             <b-col cols="3" sm="5" md="3" lg="2">
-              <b-row> 
+              <b-row v-if="Object.keys(this.$store.state.loggedUser).length === 0"> 
                 <b-col sm="6" lg="5" class="p-1 pt-2">
                   <router-link to="/login">
                     <b-button size="sm" variant="light">
@@ -24,6 +24,11 @@
                         Register
                     </b-button>
                   </router-link>
+                </b-col>
+              </b-row>
+              <b-row v-else>
+                <b-col>
+                  <p style="margin-top:10px; color:white;">Bienvenido, {{this.$store.state.loggedUser.user.username}}</p>
                 </b-col>
               </b-row>
             </b-col>

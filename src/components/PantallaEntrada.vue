@@ -187,7 +187,7 @@
             <b-alert :variant="getResponseColor" show >{{`Login Fallido: ${response.mensaje}, Status: ${response.status}`}}</b-alert>
           </b-container>
           <b-container v-else> 
-            <b-alert :variant="getResponseColor" show >{{`Login Correcto: ${response.data.user.username+'\n'+response.data.token}, Status: ${response.status}`}}</b-alert>  
+            <b-alert :variant="getResponseColor" show >{{`Login Correcto: ${response.data.user.username}, Status: ${response.status}`}}</b-alert>  
           </b-container>
         </b-col>
         <b-col v-if="!isLogin && (response && !loadingProgress)">
@@ -198,9 +198,6 @@
             <b-alert :variant="getResponseColor" show >{{`Bienvenido ${response.data.ops[0].username}, Status: ${response.status}`}}</b-alert>  
           </b-container>
         </b-col>
-        <div v-if="response">
-        {{this.response.data}}
-        </div>
       </b-col>
     </b-row>
   </b-container>
@@ -230,7 +227,7 @@ export default {
         if (newValue) {
           this.$_loadingTimeInterval = setInterval(() => {
             this.loadingTime++
-          }, 350)
+          }, 450)
         }
       }
     },
@@ -284,9 +281,8 @@ export default {
       this.loadingTime = 0
     },
     setLoggedUser(){
-      console.log('LLegue al metodo local de PantallaEntrada');
       if(this.response.status==200){
-        this.$store.dispatch('setLoggedUser', this.response.data)
+        this.$store.dispatch('recieveLoggedUser', this.response.data)
       }
     }
   },
