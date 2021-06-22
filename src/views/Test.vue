@@ -1,6 +1,7 @@
 <template>
   <div class="Test">
-    <Tabla :datos="registros" :nombre="entidad"/>
+    <Tabla :datos="registros1" :nombre="entidad"/>
+    <Tabla :datos="registros" :nombre="'Choferes'"/>
   </div>
 </template>
 
@@ -16,14 +17,15 @@ export default {
   props:['entidad'],
   data(){
     return{
-      registros:this.getRegistros(),
+      registros1:this.getRegistros(),
+      registros:this.getRegistrosConToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MGNlYWJhYjc1MGI1MzAwMTVjZGMzNjIiLCJpYXQiOjE2MjQzMjc4NjEsImV4cCI6MTYyNDM0MjI2MX0.thS18LhBsE_PFbphzeWKXRfbrasZG5BR7vOzxOXu8FU')
     }
   },
   methods:{
     getRegistros(){
-      this.axios.get(`https://stormy-mountain-51560.herokuapp.com/${this.entidad}`).then(response => {
+      this.axios.get(`${this.$store.state.apiDominio}/${this.entidad}`).then(response => {
         this.eliminarCamposPrivados(response.data)
-        this.registros = response.data
+        this.registros1 = response.data
       })
     },
     eliminarCamposPrivados(data){
@@ -31,7 +33,20 @@ export default {
         delete d.password
         delete d._id
       });
-    }
+    },
+    getRegistrosConToken(token){
+      this.registros=this.axios.get(`${this.$store.state.apiDominio}/choferes`, {
+          headers: {
+            Authorization: 'Bearer ' + token 
+          }
+      }).then(response => {
+        console.log(response.data);
+        this.registros= response.data
+      })
+    },
+  },
+  computed:{
+
   },
 }
 </script>

@@ -6,7 +6,7 @@ import store from './imports/store'
 import router from './imports/routes'
 import './imports/forms'
 import './imports/client'
-import './imports/mixins/index'
+import './imports/mixins'
 
 import {BootstrapVue , IconsPlugin} from 'bootstrap-vue'
 Vue.use(BootstrapVue)
