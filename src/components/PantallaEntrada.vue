@@ -188,7 +188,6 @@
           </b-container>
           <b-container v-else> 
             <b-alert :variant="getResponseColor" show >{{`Login Correcto: ${response.data.user.username}, Status: ${response.status}`}}</b-alert>  
-            {{response.data}}
           </b-container>
         </b-col>
         <b-col v-if="!isLogin && (response && !loadingProgress)">

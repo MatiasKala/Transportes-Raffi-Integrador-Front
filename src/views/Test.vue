@@ -23,7 +23,7 @@ export default {
   },
   methods:{
     getRegistros(){
-      this.axios.get(`${this.$store.state.apiDominio}/${this.entidad}`).then(response => {
+      this.axios.get(`${this.getDominioApi()}/${this.entidad}`).then(response => {
         this.eliminarCamposPrivados(response.data)
         this.registros1 = response.data
       })
@@ -40,8 +40,10 @@ export default {
             Authorization: 'Bearer ' + token 
           }
       }).then(response => {
-        console.log(response.data);
+        this.eliminarCamposPrivados(response.data)
         this.registros= response.data
+      }).catch(error =>{
+        console.log(error);
       })
     },
   },

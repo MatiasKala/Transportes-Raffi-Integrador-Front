@@ -24,7 +24,7 @@ export default {
     postRegister(data){
       this.recursoCargado=false
       this.axios.post(
-        `${this.getDominioApi}/${this.entidadApi}/`, 
+        `${this.getDominioApi()}/${this.entidadApi}/`, 
       {        
         username: data.username,
         email: data.email,

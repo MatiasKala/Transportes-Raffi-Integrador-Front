@@ -24,7 +24,7 @@ export default {
     postLogin(data){
       this.recursoCargado=false
       this.axios.post(
-        `${this.getDominioApi}/${this.entidadApi}/login`, 
+        `${this.getDominioApi()}/${this.entidadApi}/login`, 
       {
         email: data.email,
         password: data.password,
