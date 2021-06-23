@@ -240,11 +240,13 @@ export default {
     },
     response(newValue,oldValue){
       if (newValue!== oldValue) {
-        this.setLoggedUser(newValue)
-        setTimeout(() => {
-          console.log('Interval');
-          this.$router.push({ path: `/` });
-        }, 5000);
+        if(newValue.status==200){
+          this.setLoggedUser(newValue)
+          setTimeout(() => {
+            console.log('Interval');
+            this.$router.push({ path: `/` });
+          }, 5000);
+        }
       }
     }
   },
