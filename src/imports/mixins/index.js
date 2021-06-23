@@ -6,11 +6,21 @@ Vue.mixin({
             return this.$store.state.apiDominio
         },
         getLoggedUserToken(){
-            return this.$store.state.loggedUser['token']
+            return JSON.parse(localStorage.getItem('token'))
         },
         setLoggedUser(response){
+            console.log(response);
             this.$store.dispatch('receiveLoggedUser', response.data)
         },
+        getLocalStoreUserUsername(){
+            console.log('Pase por get username');
+            const username = JSON.parse(localStorage.getItem('user'))
+            return username ? username.username : null
+        },
+        cerrarSesion(){
+            localStorage.clear()
+            this.$forceUpdate()
+        }
     },
     computed : {
         getCaracteresInvalidos() {
