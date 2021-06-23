@@ -7,15 +7,15 @@ export default new Vuex.Store({
   state: {
     caracteresNoPermitidosContrasenia:'(),$\'%#"=-+*~[]`^{};:<>|°¬?¡!',
     apiDominio:'https://stormy-mountain-51560.herokuapp.com',
-    loggedUser:{}
+    loggedUser:{} 
   },
   actions: {
-    recieveLoggedUser({commit},data){
-      commit('setLoggedUser',data.user,data.token)
+    receiveLoggedUser({commit},data){
+      commit('setLoggedUser',data)
     },
   },  
     mutations: {
-    setLoggedUser(state,user,token) {
+    setLoggedUser(state,{user,token}) {
       state.loggedUser = {user:user,token:token}
     }
   },
