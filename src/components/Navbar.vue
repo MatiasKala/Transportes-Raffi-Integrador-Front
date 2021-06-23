@@ -1,7 +1,7 @@
 <template>
   <div class="container p-5">
     <b-navbar toggleable="lg" type="dark" variant="info">
-      <b-navbar-brand href="#">NavBar</b-navbar-brand>
+      <b-navbar-brand href="#">Navegacion</b-navbar-brand>
 
       <b-navbar-toggle target="navbar-toggle-collapse">
         <template #default="{ expanded }">

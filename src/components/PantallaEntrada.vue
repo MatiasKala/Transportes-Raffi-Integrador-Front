@@ -235,8 +235,12 @@ export default {
       if (newValue !== oldValue) {
         if (newValue === this.maxLoadingTime) {
           this.loadingProgress = false
-          this.setLoggedUser()
         }
+      }
+    },
+    response(newValue,oldValue){
+      if (newValue!== oldValue) {
+        this.setLoggedUser(newValue)
       }
     }
   },
@@ -280,11 +284,6 @@ export default {
       this.loadingProgress = true
       this.loadingTime = 0
     },
-    setLoggedUser(){
-      if(this.response.status==200){
-        this.$store.dispatch('recieveLoggedUser', this.response.data)
-      }
-    }
   },
   computed:{
     getType(){

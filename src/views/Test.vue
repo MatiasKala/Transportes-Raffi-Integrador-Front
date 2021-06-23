@@ -18,7 +18,7 @@ export default {
   data(){
     return{
       registros1:this.getRegistros(),
-      registros:this.getRegistrosConToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MGNlYWJhYjc1MGI1MzAwMTVjZGMzNjIiLCJpYXQiOjE2MjQzMjc4NjEsImV4cCI6MTYyNDM0MjI2MX0.thS18LhBsE_PFbphzeWKXRfbrasZG5BR7vOzxOXu8FU')
+      registros:this.getRegistrosConToken(this.getLoggedUserToken())
     }
   },
   methods:{
@@ -35,6 +35,7 @@ export default {
       });
     },
     getRegistrosConToken(token){
+      console.log(token);
       this.registros=this.axios.get(`${this.$store.state.apiDominio}/choferes`, {
           headers: {
             Authorization: 'Bearer ' + token 
