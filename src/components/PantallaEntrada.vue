@@ -106,7 +106,7 @@
                 <!-- EMAIL -->
                 <validate v-if="!loadingProgress" tag="div">
                   <label for="email"
-                    v-if="formState.email" :style="labelColor(formState.email.$valid,formState.$dirty,formData.email)">Email
+                    v-if="formState.email" :style="labelColor(formState.email.$valid,formState.$dirty,formData.email)">Mail
                   </label>
                   <input 
                     type="email" 
@@ -243,8 +243,8 @@ export default {
         if(newValue.status==200){
           this.setLoggedUser(newValue)
           setTimeout(() => {
-            console.log('Interval');
-            this.$router.push({ path: `/` });
+            this.$router.push({ path: `/` })
+            location.reload()
           }, 5000);
         }
       }

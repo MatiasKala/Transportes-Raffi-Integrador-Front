@@ -13,13 +13,12 @@ Vue.mixin({
             this.$store.dispatch('receiveLoggedUser', response.data)
         },
         getLocalStoreUserUsername(){
-            console.log('Pase por get username');
             const username = JSON.parse(localStorage.getItem('user'))
             return username ? username.username : null
         },
         cerrarSesion(){
             localStorage.clear()
-            this.$forceUpdate()
+            location.reload()
         }
     },
     computed : {
