@@ -245,7 +245,7 @@ export default {
           setTimeout(() => {
             this.$router.push({ path: `/` })
             location.reload()
-          }, 5000);
+          }, 7000);
         }
       }
     }

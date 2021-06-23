@@ -19,6 +19,10 @@ Vue.mixin({
         cerrarSesion(){
             localStorage.clear()
             location.reload()
+        },
+        getCamposOrdenables(){
+            let campos = this.$store.state.camposOrdenables
+            return campos.split(',')
         }
     },
     computed : {

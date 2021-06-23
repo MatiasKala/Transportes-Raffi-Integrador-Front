@@ -7,6 +7,7 @@ export default new Vuex.Store({
   state: {
     caracteresNoPermitidosContrasenia:'(),$\'%#"=-+*~[]`^{};:<>|°¬?¡!',
     apiDominio:'https://stormy-mountain-51560.herokuapp.com',
+    camposOrdenables:'email,username'
   },
   actions: {
     receiveLoggedUser({commit},data){
