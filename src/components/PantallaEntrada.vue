@@ -150,7 +150,7 @@
                       <field-messages name="password" show="$dirty">
                         <div slot="required" class="alert alert-danger mt-2">Campo requerido</div>            
                         <div slot="no-espacios" class="alert alert-danger mt-2">No se permiten espacios en este campo</div>            
-                        <div slot="no-caracteres" class="alert alert-danger mt-2">Los caracteres {{getCaracteresInvalidos}} no se permiten en este campo</div>            
+                        <div slot="no-caracteres" class="alert alert-danger mt-2" v-if="formData.password.length >= minimoPermitido">Los caracteres {{getCaracteresInvalidos}} no se permiten en este campo</div>            
                         <div slot="minlength" class="alert alert-danger mt-2">Ingrese como minimo {{minimoPermitido}} caracteres</div>            
                         <div v-if="formData.password.length == maximoPermitido" class="alert alert-danger mt-2">El maximo permitido es de {{maximoPermitido}} caracteres</div>            
                       </field-messages>
@@ -239,6 +239,7 @@ export default {
       }
     },
     response(newValue,oldValue){
+      this.esVisibleContrasenia = false
       if (newValue!== oldValue) {
         if(newValue.status==200){
           this.setLoggedUser(newValue)
@@ -343,7 +344,7 @@ export default {
 	border: none;
 	transition: all 0.7s ease 0s;
 }
-.botonEnvio:hover {
+.botonEnvio:hover:focus {
 	background: #008300;
 	letter-spacing: 5px;
 	-webkit-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
@@ -354,5 +355,9 @@ export default {
 .botonVisibilidad{
   margin-top:32px; 
   padding-right: 10px;
+}
+
+.botonVisibilidad:hover{
+  background-color: rgb(41, 119, 119);
 }
 </style>
