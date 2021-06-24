@@ -32,7 +32,8 @@ Vue.mixin({
         },
         getCRUDStaticFields(){
             return [
-                {key:'Eliminar' }
+                { key: 'eliminar', label: 'Eliminar' },
+                { key: 'editar', label: 'Editar' },
             ]
         }
     },
