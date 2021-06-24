@@ -18,8 +18,8 @@
               </router-link>
           </b-nav-item>
           <b-nav-item href="#">
-              <router-link to="/">
-                <a class="nav-link" href="#">Test1</a>
+              <router-link to="/manejoMaestros/choferes">
+                <a class="nav-link" href="#">Choferes</a>
               </router-link>
           </b-nav-item>
           <b-nav-item href="#">

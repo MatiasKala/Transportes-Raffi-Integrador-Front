@@ -9,7 +9,7 @@ Vue.mixin({
             return JSON.parse(localStorage.getItem('token'))
         },
         setLoggedUser(response){
-            console.log(response);
+            console.log(response)
             this.$store.dispatch('receiveLoggedUser', response.data)
         },
         getLocalStoreUserUsername(){
@@ -23,6 +23,17 @@ Vue.mixin({
         getCamposOrdenables(){
             let campos = this.$store.state.camposOrdenables
             return campos.split(',')
+        },
+        eliminarCamposPrivados(data){
+            return data.forEach(d => {
+              delete d.password
+              delete d._id
+            });
+        },
+        getCRUDStaticFields(){
+            return [
+                {key:'Eliminar' }
+            ]
         }
     },
     computed : {
