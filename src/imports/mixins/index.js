@@ -27,13 +27,12 @@ Vue.mixin({
         eliminarCamposPrivados(data){
             return data.forEach(d => {
               delete d.password
-              delete d._id
             });
         },
         getCRUDStaticFields(){
             return [
-                { key: 'eliminar', label: 'Eliminar' },
                 { key: 'editar', label: 'Editar' },
+                { key: 'eliminar', label: 'Eliminar' },
             ]
         }
     },

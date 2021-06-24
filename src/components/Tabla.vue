@@ -2,22 +2,22 @@
   <b-container class="tabla">
     <h1>Tabla de {{nombre | primeraMayuscula()}}</h1>
     <div  v-if="!estaVacia" class="table-container ">
-      <b-table table-variant='info' head-variant="dark" :busy="estaCargando" bordered outlined hover responsive  :items="datos" :fields="getFields">
+      <b-table table-variant='light' head-variant="dark" :busy="estaCargando" outlined hover responsive  :items="datos" :fields="getFields">
         
         <!-- Para cuando la tabla todavia no cargó  -->
         <template #table-busy>
           <div class="text-center text-primary my-2">
             <b-spinner class="align-middle"></b-spinner>
-            <strong>Loading...</strong>
+            <strong> Loading...</strong>
           </div>
         </template>
 
-        <template #cell(eliminar)>
-          Elimino
+        <template #cell(editar)="data">
+          <button class="btn btn-outline-warning" @click="editar(data)">Editar</button>
         </template>
 
-        <template #cell(editar)>
-          Edito
+        <template #cell(eliminar)="data">
+          <button class="btn btn-outline-danger" @click="eliminar(data)">Eliminar</button>
         </template>
 
 
@@ -46,6 +46,12 @@ export default {
     isSortable(campo){
       let campos = this.getCamposOrdenables()
       return campos.includes(campo)
+    },
+    eliminar(data){
+      console.log(data);
+    },
+    editar(data){
+      console.log(data);
     }
   },
   computed:{
@@ -54,18 +60,19 @@ export default {
        const staticFields = this.getCRUDStaticFields()
   
         const fields= Object.keys(this.datos[0]).map((field)=>{
-          return {key:field, sortable:this.isSortable(field)? true: false }
+          if(field!='_id'){
+            return {key:field, sortable:this.isSortable(field)? true: false}
+          }
         })
+        
         return fields.concat(staticFields)
       }
       return []
     },
     estaCargando(){
-      console.log(this.datos, ' cargando');
       return this.datos == undefined
     },
     estaVacia(){
-      console.log(this.datos, ' vacia');
       return this.datos == {}
     }
   }
