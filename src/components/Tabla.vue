@@ -14,16 +14,45 @@
 
         <template #cell(editar)="data">
           <button class="btn btn-outline-warning" id="toggle-btn" @click="cambiarVisibilidadEditar()">Editar</button>
-          <b-modal ref="editar-modal" hide-footer title="Editar">
+          <b-modal 
+            ref="editar-modal" 
+            title="Editar"
+            header-bg-variant="warning"
+            hide-footer
+          >
             <div class="d-block text-center">
-              <h3>Hello From My Modal! {{data}}</h3>
+              <!-- EDITAR -->
+              <vue-form :state="formState" @submit.prevent="enviarEditar(data.index)">
+                <h3>Hello From My Modal!</h3>
+                <validate tag="div">
+                  <label for="nombre"
+                    v-if="formState.nombre">Mail
+                  </label>
+                  <input 
+                    type="text" 
+                    name="nombre" 
+                    id="nombre"
+                    class="form-control"
+                    autocomplete="off"
+                    v-model.trim="formData.nombre"
+                    required
+                  >
+                </validate>
+                <b-button class="mt-3" variant="warning" @click="enviarEditar(data.index)">
+                  Enviar
+                </b-button>
+              </vue-form>
             </div>
           </b-modal>
         </template>
 
         <template #cell(eliminar)="data">
           <button class="btn btn-outline-danger" id="toggle-btn" @click="cambiarVisibilidadEliminar()">Eliminar</button>
-          <b-modal ref="eliminar-modal" title="Eliminar">
+          <b-modal 
+            ref="eliminar-modal"
+            centered
+            title="Eliminar"
+          >
             <div class="d-block text-center">
               <h3>Hello From My Modal! {{data}}</h3>
             </div>
@@ -44,6 +73,8 @@ export default {
   props: ['datos','nombre','isCRUD'],
   data(){
     return{
+      formData:this.estadoInicial(),
+      formState:{}
     }
   },
   filters:{
@@ -67,6 +98,27 @@ export default {
     },
     cambiarVisibilidadEliminar(){
       this.$refs['eliminar-modal'].toggle('#toggle-btn')
+    },
+    estadoInicial(){
+      if (this.nombre == 'choferes') {
+        return this.estadoInicialChoferes()
+      }
+      return null
+    },
+    estadoInicialChoferes(){
+      console.log(this.datos);
+      return {
+        CUIT:'',
+        nombre:'',
+        apellido:'',
+        fechaNacimiento:'',
+        comision:'',
+      }
+    },
+    enviarEditar(index){
+      console.log('index ',index);
+      console.log('id',this.datos[index]._id)
+      console.log(this.formData);
     }
   },
   computed:{
