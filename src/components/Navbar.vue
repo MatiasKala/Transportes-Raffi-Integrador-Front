@@ -1,5 +1,5 @@
 <template>
-  <div class="container p-5">
+  <div v-if="hayUsuario" class="container p-5">
     <b-navbar toggleable="lg" type="dark" variant="dark">
       <b-navbar-brand href="#">Navegacion</b-navbar-brand>
 
@@ -37,6 +37,11 @@
 export default {
   name: 'navbar',
   props: {
+  },
+  computed:{
+    hayUsuario(){
+      return this.hayUsuarioLogeadoEnStorage()
+    }
   }
 }
 </script>

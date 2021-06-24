@@ -1,5 +1,5 @@
 <template>
-  <b-container class="pantallaEntrada">
+  <b-container class="pantallaEntrada p-5">
     <b-row>
       <b-col cols="8">
         <b-card border-variant="info" header="Transportes Raffi" header-bg-variant="info" header-text-variant="white" title="Ingresá y obtené toda la información sobre tu pedido">      
@@ -246,7 +246,7 @@ export default {
           setTimeout(() => {
             this.$router.push({ path: `/` })
             location.reload()
-          }, 7000);
+          }, 5000);
         }
       }
     }
@@ -344,7 +344,7 @@ export default {
 	border: none;
 	transition: all 0.7s ease 0s;
 }
-.botonEnvio:hover:focus {
+.botonEnvio:hover {
 	background: #008300;
 	letter-spacing: 5px;
 	-webkit-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);

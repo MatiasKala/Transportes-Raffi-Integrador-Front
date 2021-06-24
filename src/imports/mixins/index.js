@@ -18,6 +18,7 @@ Vue.mixin({
         },
         cerrarSesion(){
             localStorage.clear()
+            this.$router.push({ path: `/` })
             location.reload()
         },
         getCamposOrdenables(){
@@ -34,6 +35,9 @@ Vue.mixin({
                 { key: 'editar', label: 'Editar' },
                 { key: 'eliminar', label: 'Eliminar' },
             ]
+        },   
+        hayUsuarioLogeadoEnStorage(){
+            return localStorage.user ? true : false 
         }
     },
     computed : {
