@@ -1,6 +1,6 @@
 <template>
   <b-container class="tabla">
-    <h1>Tabla de {{nombre | primeraMayuscula()}}</h1>
+    <h1>Tabla de {{entidad | primeraMayuscula()}}</h1>
     <div  v-if="!estaVacia" class="table-container ">
       <b-table table-variant='light' head-variant="dark" :busy="estaCargando" outlined hover responsive  :items="datos" :fields="getFields">
         
@@ -22,26 +22,7 @@
           >
             <div class="d-block text-center">
               <!-- EDITAR -->
-              <vue-form :state="formState" @submit.prevent="enviarEditar(data.index)">
-                <h3>Hello From My Modal!</h3>
-                <validate tag="div">
-                  <label for="nombre"
-                    v-if="formState.nombre">Mail
-                  </label>
-                  <input 
-                    type="text" 
-                    name="nombre" 
-                    id="nombre"
-                    class="form-control"
-                    autocomplete="off"
-                    v-model.trim="formData.nombre"
-                    required
-                  >
-                </validate>
-                <b-button class="mt-3" variant="warning" @click="enviarEditar(data.index)">
-                  Enviar
-                </b-button>
-              </vue-form>
+              <FormularioEdicion :datosActualesTabla="data" :entidad="entidad"/>
             </div>
           </b-modal>
         </template>
@@ -68,13 +49,18 @@
 </template>
 
 <script>
+
+import FormularioEdicion from "../components/FormularioEdicion.vue";
+
 export default {
   name: 'tabla',
-  props: ['datos','nombre','isCRUD'],
+  props: ['datos','entidad','isCRUD'],
+  components:{
+    FormularioEdicion
+  },
   data(){
     return{
-      formData:this.estadoInicial(),
-      formState:{}
+
     }
   },
   filters:{
@@ -99,27 +85,6 @@ export default {
     cambiarVisibilidadEliminar(){
       this.$refs['eliminar-modal'].toggle('#toggle-btn')
     },
-    estadoInicial(){
-      if (this.nombre == 'choferes') {
-        return this.estadoInicialChoferes()
-      }
-      return null
-    },
-    estadoInicialChoferes(){
-      console.log(this.datos);
-      return {
-        CUIT:'',
-        nombre:'',
-        apellido:'',
-        fechaNacimiento:'',
-        comision:'',
-      }
-    },
-    enviarEditar(index){
-      console.log('index ',index);
-      console.log('id',this.datos[index]._id)
-      console.log(this.formData);
-    }
   },
   computed:{
     getFields(){
