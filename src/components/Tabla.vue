@@ -13,11 +13,21 @@
         </template>
 
         <template #cell(editar)="data">
-          <button class="btn btn-outline-warning" @click="editar(data)">Editar</button>
+          <button class="btn btn-outline-warning" id="toggle-btn" @click="cambiarVisibilidadEditar()">Editar</button>
+          <b-modal ref="editar-modal" hide-footer title="Editar">
+            <div class="d-block text-center">
+              <h3>Hello From My Modal! {{data}}</h3>
+            </div>
+          </b-modal>
         </template>
 
         <template #cell(eliminar)="data">
-          <button class="btn btn-outline-danger" @click="eliminar(data)">Eliminar</button>
+          <button class="btn btn-outline-danger" id="toggle-btn" @click="cambiarVisibilidadEliminar()">Eliminar</button>
+          <b-modal ref="eliminar-modal" title="Eliminar">
+            <div class="d-block text-center">
+              <h3>Hello From My Modal! {{data}}</h3>
+            </div>
+          </b-modal>
         </template>
 
 
@@ -34,7 +44,6 @@ export default {
   props: ['datos','nombre','isCRUD'],
   data(){
     return{
-
     }
   },
   filters:{
@@ -52,6 +61,12 @@ export default {
     },
     editar(data){
       console.log(data);
+    },
+    cambiarVisibilidadEditar(){
+      this.$refs['editar-modal'].toggle('#toggle-btn')
+    },
+    cambiarVisibilidadEliminar(){
+      this.$refs['eliminar-modal'].toggle('#toggle-btn')
     }
   },
   computed:{
@@ -64,7 +79,6 @@ export default {
             return {key:field, sortable:this.isSortable(field)? true: false}
           }
         })
-        
         return fields.concat(staticFields)
       }
       return []
