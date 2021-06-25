@@ -1,7 +1,7 @@
 <template>
   <vue-form :state="formState" @submit.prevent="enviarEditar(data.index)">
     <h3>Hello From My Modal!</h3>
-    <validate tag="div">
+    <validate v-for="(label,index) in getLabels" :key="index" tag="div">
       <label for="nombre">Mail
       </label>
       <input 
@@ -58,7 +58,10 @@
       }
     },
     computed: {
-
+      getLabels(){
+        let datosModificables=Object.keys(this.datosActualesTabla.item).filter(dato => dato !='_id' )
+        return datosModificables
+      }
     }
 }
 
