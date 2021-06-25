@@ -1,6 +1,6 @@
 <template>
   <b-container class="tabla">
-    <h1>Tabla de {{entidad | primeraMayuscula()}}</h1>
+    <h1>Tabla de {{entidad | primeraMayuscula}}</h1>
     <div  v-if="!estaVacia" class="table-container ">
       <b-table table-variant='light' head-variant="dark" :busy="estaCargando" outlined hover responsive  :items="datos" :fields="getFields">
         
@@ -61,11 +61,6 @@ export default {
   data(){
     return{
 
-    }
-  },
-  filters:{
-    primeraMayuscula(value){
-      return value.charAt(0).toUpperCase() + value.slice(1);
     }
   },
   methods:{

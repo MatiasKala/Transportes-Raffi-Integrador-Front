@@ -1,20 +1,21 @@
 <template>
-  <vue-form :state="formState" @submit.prevent="enviarEditar(data.index)">
-    <h3>Hello From My Modal!</h3>
+  <vue-form :state="formState" @submit.prevent="enviarEditar(datosActualesTabla.index)">
+    <h3>Ingrese los campos que quiere modificar de {{datosActualesTabla}}</h3>
     <validate v-for="(label,index) in getLabels" :key="index" tag="div">
-      <label for="nombre">Mail
+      <label :for="label">{{label | primeraMayuscula | separarLabelConEspacios}}
       </label>
       <input 
-        type="text" 
-        name="nombre" 
-        id="nombre"
+        :type="getType(label)" 
+        :name="label" 
+        :id="label"
         class="form-control"
         autocomplete="off"
-        v-model.trim="formData.nombre"
-        required
+        v-model.trim="formData[label]"
       >
     </validate>
-    <b-button class="mt-3" variant="warning" @click="enviarEditar(data.index)">
+    {{formData}}
+    <br>
+    <b-button class="mt-3" variant="warning" @click="enviarEditar(datosActualesTabla.index)">
       Enviar
     </b-button>
   </vue-form>
@@ -36,13 +37,15 @@
     },
     methods: {
       estadoInicial(){
-        if (this.entidad == 'choferes') {
-          return this.estadoInicialChoferes()
+        const estados = {
+          'choferes':this.estadoInicialChoferes(),
+          'vehiculos':this.estadoInicialVehiculos(),
+          'clientes':this.estadoInicialClientes(),
+          'viajes':this.estadoInicialViajes(),
         }
-        return null
+        return estados[this.entidad]
       },
       estadoInicialChoferes(){
-        console.log(this.datos);
         return {
           CUIT:'',
           nombre:'',
@@ -51,15 +54,37 @@
           comision:'',
         }
       },
+      estadoInicialVehiculos(){
+        return {
+        }
+      },
+      estadoInicialClientes(){
+        return {
+        }
+      },
+      estadoInicialViajes(){
+        return {
+        }
+      },
       enviarEditar(index){
         console.log('index ',index);
-        console.log('id',this.datos[index]._id)
+        console.log('id',this.datosActualesTabla['item']._id)
         console.log(this.formData);
+      },
+      getType(label){
+        switch (label) {
+          case 'comision':
+            return 'number'
+          case 'fechaNacimiento':
+            return 'date'
+          default:
+            return 'text'
+        }
       }
     },
     computed: {
       getLabels(){
-        let datosModificables=Object.keys(this.datosActualesTabla.item).filter(dato => dato !='_id' )
+        let datosModificables=Object.keys(this.datosActualesTabla.item).filter(dato => dato !='_id' && dato !='vehiculosAsignados' )
         return datosModificables
       }
     }

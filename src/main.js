@@ -7,6 +7,7 @@ import router from './imports/routes'
 import './imports/forms'
 import './imports/client'
 import './imports/mixins'
+import './imports/filters'
 
 import {BootstrapVue , IconsPlugin} from 'bootstrap-vue'
 Vue.use(BootstrapVue)
