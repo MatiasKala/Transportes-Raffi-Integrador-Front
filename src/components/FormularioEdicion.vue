@@ -11,7 +11,11 @@
         class="form-control"
         autocomplete="off"
         v-model.trim="formData[label]"
+        
+        :minlength="g"
+        
       >
+      <!--  lo que vamos a hacer es ponerle 0 cuando no hay limite a min y 9999 a max  -->
     </validate>
     {{formData}}
     <br>
@@ -72,6 +76,7 @@
         console.log(this.formData);
       },
       getType(label){
+        // Va a haber que agregar mas harcodeados o cambiar el metodo
         switch (label) {
           case 'comision':
             return 'number'

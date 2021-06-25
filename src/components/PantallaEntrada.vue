@@ -116,10 +116,11 @@
                     autocomplete="off"
                     v-model.trim="formData.email"
                     required
+                    validar-email
                   >
                   <field-messages name="email" show="$dirty">
                     <div slot="required" class="alert alert-danger mt-2">Campo requerido</div>            
-                    <div slot="email" class="alert alert-danger mt-2">Email no válido</div>            
+                    <div slot="validar-email" class="alert alert-danger mt-2">Email no válido</div>            
                     <div slot="no-espacios" class="alert alert-danger mt-2">No se permiten espacios en este campo</div>         
                     <div slot="minlength" class="alert alert-danger mt-2">Ingrese como minimo {{minimoPermitido}} caracteres</div>            
                   </field-messages>
@@ -241,12 +242,19 @@ export default {
     response(newValue,oldValue){
       this.esVisibleContrasenia = false
       if (newValue!== oldValue) {
+        console.log(newValue);
         if(newValue.status==200){
-          this.setLoggedUser(newValue)
-          setTimeout(() => {
-            this.$router.push({ path: `/` })
-            location.reload()
-          }, 5000);
+          if (newValue.isRegister) {
+            setTimeout(() => {
+              this.$router.push({ path: `/login` })
+            }, 5000);
+          } else{
+            this.setLoggedUser(newValue)
+            setTimeout(() => {
+              this.$router.push({ path: `/` })
+              location.reload()
+            }, 5000);
+          }
         }
       }
     }

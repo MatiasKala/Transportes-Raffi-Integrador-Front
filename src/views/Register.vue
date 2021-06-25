@@ -31,6 +31,7 @@ export default {
         password: data.password,
       })
       .then(response => {
+        response.isRegister = true
         this.response=response
       })
       .catch(error => {
