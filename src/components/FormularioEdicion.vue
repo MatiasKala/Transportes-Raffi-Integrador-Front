@@ -174,7 +174,7 @@
     computed: {
       getLabels(){
         let datosModificables=Object.keys(this.datosActualesTabla.item).filter(dato => dato !='_id' && dato !='vehiculosAsignados' )
-        console.log(datosModificables);
+        console.log(datosModificables); 
         return datosModificables
       }
     }
