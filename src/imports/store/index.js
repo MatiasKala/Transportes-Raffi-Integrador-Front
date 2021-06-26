@@ -13,12 +13,14 @@ export default new Vuex.Store({
       "nombre":3,
       "apellido":3,
       "comision":3,
+      "fechaNacimiento":-1,
     },
     labelsLengthMaxs:{
-      "CUIT":13,
+      "CUIT":11,
       "nombre":20,
       "apellido":20,
-      "comision":7,
+      "comision":4,
+      "fechaNacimiento":-1,
     }
   },
   actions: {

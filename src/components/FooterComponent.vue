@@ -136,7 +136,7 @@ export default {
   }
 
 #titulofooter:hover:after { 
-    width: 95%; 
+    width: 100%; 
     left: 0; 
 }
 

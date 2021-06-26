@@ -11,16 +11,22 @@
         class="form-control"
         autocomplete="off"
         v-model.trim="formData[label]"
-        
         :minlength="getMin(label)"
         :maxlength="getMax(label)"
-        
+        no-caracteres
+        :solo-numeros="label == 'CUIT'"
       >
       <!--  lo que vamos a hacer es ponerle 0 cuando no hay limite a min y 9999 a max  -->
+      <field-messages :name="label" show="$dirty">
+        <div slot="no-caracteres" class="alert alert-danger mt-2" v-if="formData[label].length >= getMin(label)">Los caracteres {{getCaracteresInvalidos}} no se permiten en este campo</div>            
+        <div slot="minlength" class="alert alert-danger mt-2">Ingrese como minimo {{getMin(label)}} caracteres</div>            
+        <div slot="solo-numeros" class="alert alert-danger mt-2">En este campo solo se permiten numeros</div>            
+        <div v-if="formData[label].length == getMax(label) && label!='CUIT' " class="alert alert-warning mt-2">El maximo permitido es de {{getMax(label)}} caracteres</div>            
+      </field-messages>
     </validate>
     {{formData}} 
     <br>
-    <b-button v-if="formState.$invalid || formState.$dirty" class="mt-3 btn-disabled" @click="enviarEditar(datosActualesTabla.index)">
+    <b-button disabled v-if="formState.$invalid && formState.$dirty" class="mt-3 btn-disabled" @click="enviarEditar(datosActualesTabla.index)">
       Enviar
     </b-button>
     <b-button v-else class="mt-3 btn-envio" variant="warning" @click="enviarEditar(datosActualesTabla.index)">
@@ -82,7 +88,7 @@
       getType(label){
         // Va a haber que agregar mas harcodeados o cambiar el metodo
         switch (label) {
-          case 'comision':
+          case 'comision' || 'CUIT':
             return 'number'
           case 'fechaNacimiento':
             return 'date'

@@ -5,8 +5,8 @@
 
       <b-navbar-toggle target="navbar-toggle-collapse">
         <template #default="{ expanded }">
-          <b-icon v-if="expanded" animation="spin" icon="list-nested"></b-icon>
-          <b-icon v-else  animation="fade" icon="list"></b-icon>
+          <b-icon v-if="expanded" icon="chevron-double-up"></b-icon>
+          <b-icon v-else icon="chevron-double-down"></b-icon>
         </template>
       </b-navbar-toggle>
 
