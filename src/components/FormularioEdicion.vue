@@ -82,23 +82,21 @@
 
     <b-modal 
       id="confirmar-modal" 
+      title="Confirmar Modificacion"
       header-bg-variant="info"
       centered
-      title="Confirmar Modificacion"
-      hide-footer
       size="sm"
+      hide-footer
     >
       <div class="d-block text-center">
         El Chofer de id <b>{{datosActualesTabla.item._id}}</b> quedara de la siguiente manera 
       </div>
       <div class="d-block text-center mt-2">
         <b-card>
-          {{formData['CUIT'] }}
-          {{formData['nombre']}}
-          {{formData['apellido']}}
-          {{formData[getLabels[4]]}}
+          <p v-for="(label,index) in getLabels" :key="index">
+            {{label | primeraMayuscula}} : {{formData[getLabels[index]] ? formData[getLabels[index]] : datosActualesTabla.item[getLabels[index]]}}
+          </p>
         </b-card>
-        <b-badge>New</b-badge>
       </div>
     </b-modal>
   </vue-form>
