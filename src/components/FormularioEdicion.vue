@@ -80,12 +80,12 @@
       Enviar
     </b-button>
 
+    <!-- MODAL DE CONFIRMACION -->
     <b-modal 
       id="confirmar-modal" 
       title="Confirmar Modificacion"
       header-bg-variant="info"
       centered
-      size="sm"
       hide-footer
     >
       <div class="d-block text-center">
@@ -97,6 +97,15 @@
             {{label | primeraMayuscula}} : {{formData[getLabels[index]] ? formData[getLabels[index]] : datosActualesTabla.item[getLabels[index]]}}
           </p>
         </b-card>
+      </div>
+      
+      <div style="text-align: center;">
+        <b-button class="mt-3 mx-4 btn-envio text-center" variant="info" @click="enviar()">
+          Confirmar
+        </b-button >
+        <b-button class="mt-3 mx-4 btn-envio text-center" variant="danger" @click="$bvModal.hide('confirmar-modal')">
+          Cancelar
+        </b-button >
       </div>
     </b-modal>
   </vue-form>
@@ -157,6 +166,9 @@
       },
       inputNoValidar(label){
         return this.getCamposNoValidar().includes(label)
+      },
+      enviar(){
+        console.log(this.formData);
       }
     },
     computed: {
