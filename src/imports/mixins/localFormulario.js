@@ -25,22 +25,22 @@ export const mixinLocal = {
             }
           },
         // VALIDACIONES FORMULARIOS
-        getCamposOrdenables(){
-            let campos = this.$store.state.camposOrdenables
-            return campos.split(',')
-        },
         getCamposValidarLongitud(){
-            let campos = this.$store.state.camposSoloValidarLongitud
+            let campos = this.$store.state.camposValidarLongitud
             return campos.split(',')
         },
         getCamposValidarLongitudNoCaracteresEspeciales(){
             let campos = this.$store.state.camposValidarLongitudNoCaracteresEspeciales
             return campos.split(',')
         },
-        getCamposSoloNumeros(){
-            let campos = this.$store.state.camposSoloNumeros
+        getCamposValidarSoloNumeros(){
+            let campos = this.$store.state.camposValidarSoloNumeros
             return campos.split(',')
         },
+        getCamposNoValidar(){
+            let campos = this.$store.state.camposNoValidar
+            return campos.split(',')
+        }
     },
     computed : {
     }

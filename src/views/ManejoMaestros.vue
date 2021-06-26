@@ -16,11 +16,11 @@ export default {
   props:['entidad'],
   data(){
     return{
-      registros:this.getRegistrosCon(this.getLoggedUserToken())
+      registros:this.getRegistros(this.getLoggedUserToken())
     }
   },
   methods:{
-    getRegistrosCon(token){
+    getRegistros(token){
       this.registros=this.axios.get(`${this.$store.state.apiDominio}/${this.entidad}`, {
           headers: {
             Authorization: 'Bearer ' + token 

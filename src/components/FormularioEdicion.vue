@@ -1,12 +1,11 @@
 <template>
-  <vue-form :state="formState" @submit.prevent="enviarEditar(datosActualesTabla.index)">
+  <vue-form :state="formState" @submit.prevent="confirmarEnvio(datosActualesTabla.index)">
     <h3>Ingrese los campos que quiere modificar del {{entidad | aSingular}} {{datosActualesTabla.item._id}}</h3>
     <validate v-for="(label,index) in getLabels" :key="index" tag="div">
-      <label :for="label">{{label | primeraMayuscula | separarLabelConEspacios}}
+      <label class="mt-2" :for="label">{{label | primeraMayuscula | separarLabelConEspacios}}
       </label>
 
       <!-- SOLO LONGITUD -->
-     
       <input 
         v-if="inputValidarLongitud(label)"
         :type="getType(label)" 
@@ -18,13 +17,7 @@
         :minlength="getMin(label)"
         :maxlength="getMax(label)"
       >
-      <field-messages :name="label" show="$dirty">
-        <div slot="minlength" class="alert alert-danger mt-2">Ingrese como minimo {{getMin(label)}} caracteres</div>            
-        <div v-if="formData[label].length == getMax(label) && label!='CUIT' " class="alert alert-warning mt-2">El maximo permitido es de {{getMax(label)}} caracteres</div>            
-      </field-messages>
-
       <!-- CARACTERES ESPECIALES -->
-     
      
       <input 
         v-if="inputLongitudNoCaracteresEspeciales(label)"
@@ -37,14 +30,7 @@
         :minlength="getMin(label)"
         :maxlength="getMax(label)"
         no-caracteres
-        solo-numeros
       >
-      <field-messages :name="label" show="$dirty">
-        <div slot="minlength" class="alert alert-danger mt-2">Ingrese como minimo {{getMin(label)}} caracteres</div>            
-        <div v-if="formData[label].length == getMax(label)" class="alert alert-warning mt-2">El maximo permitido es de {{getMax(label)}} caracteres</div>            
-        <div slot="no-caracteres" v-if="formData[label].length >= getMin(label)" class="alert alert-danger mt-2">Los caracteres {{getCaracteresInvalidos}} no se permiten en este campo</div>            
-      </field-messages>
-
 
       <!-- SOLO NUMEROS -->
      
@@ -59,27 +45,62 @@
         v-model.trim="formData[label]"
         :minlength="getMin(label)"
         :maxlength="getMax(label)"
-        no-caracteres
         solo-numeros
       >
+
+      <!-- INPUT NO VALIDAR -->
+     
+      <input 
+        v-if="inputNoValidar(label)"
+        :type="getType(label)" 
+        :name="label" 
+        :id="label"
+        class="form-control"
+        autocomplete="off"
+        v-model.trim="formData[label]"
+      >
+
       <field-messages :name="label" show="$dirty">
-        <div slot="minlength" class="alert alert-danger mt-2">Ingrese como minimo {{getMin(label)}} caracteres</div>            
-        <div v-if="formData[label].length == getMax(label)" class="alert alert-warning mt-2">El maximo permitido es de {{getMax(label)}} caracteres</div>            
+        <div slot="minlength" v-if="label != 'CUIT'" class="alert alert-danger mt-2">Ingrese como minimo {{getMin(label)}} caracteres</div>            
+        <div slot="minlength" v-else class="alert alert-danger mt-2">El CUIT debe tener {{getMin(label)}} numeros</div>            
+        <div v-if="formData[label].length == getMax(label) && label != 'CUIT'"  class="alert alert-warning mt-2">El maximo permitido es de {{getMax(label)}} caracteres</div>            
+        <div slot="maxlength" v-else-if="label == 'comision'" class="alert alert-danger mt-2">El maximo permitido es de {{getMax(label)}} caracteres</div>            
+        <div slot="no-caracteres" v-if="formData[label].length >= getMin(label)" class="alert alert-danger mt-2">Los caracteres {{getCaracteresInvalidos}} no se permiten en este campo</div>            
         <div slot="solo-numeros" class="alert alert-danger mt-2">En este campo solo se permiten numeros</div>            
-        <div v-if="formData[label].length >= getMin(label)" slot="no-caracteres" class="alert alert-danger mt-2">Los caracteres {{getCaracteresInvalidos}} no se permiten en este campo</div>            
       </field-messages>
+
+
     </validate>
     {{formData}} 
-    <br>
-    <br>
-    {{formState.nombre}}
-    <br>
-    <b-button disabled v-if="formState.$invalid && formState.$dirty" class="mt-3 btn-disabled" @click="enviarEditar(datosActualesTabla.index)">
+    <br>    
+    <b-button disabled v-if="formState.$invalid || !formState.$dirty" class="mt-3 btn-disabled">
       Enviar
     </b-button>
-    <b-button v-else class="mt-3 btn-envio" variant="warning" @click="enviarEditar(datosActualesTabla.index)">
+    <b-button v-else class="mt-3 btn-envio" variant="warning" v-b-modal.confirmar-modal>
       Enviar
     </b-button>
+
+    <b-modal 
+      id="confirmar-modal" 
+      header-bg-variant="info"
+      centered
+      title="Confirmar Modificacion"
+      hide-footer
+      size="sm"
+    >
+      <div class="d-block text-center">
+        El Chofer de id <b>{{datosActualesTabla.item._id}}</b> quedara de la siguiente manera 
+      </div>
+      <div class="d-block text-center mt-2">
+        <b-card>
+          {{formData['CUIT'] }}
+          {{formData['nombre']}}
+          {{formData['apellido']}}
+          {{formData[getLabels[4]]}}
+        </b-card>
+        <b-badge>New</b-badge>
+      </div>
+    </b-modal>
   </vue-form>
 </template>
 
@@ -97,6 +118,7 @@
       return {
         formState:{},
         formData:this.estadoInicial(),
+        mostrarConfirmacion:false
       }
     },
     methods: {
@@ -108,11 +130,6 @@
           'viajes':this.estadoInicialViajes(),
         }
         return estados[this.entidad]
-      },
-      enviarEditar(index){
-        console.log('index ',index);
-        console.log('id',this.datosActualesTabla['item']._id)
-        console.log(this.formData);
       },
       getType(label){
         // Va a haber que agregar mas harcodeados o cambiar el metodo
@@ -138,12 +155,16 @@
         return this.getCamposValidarLongitudNoCaracteresEspeciales().includes(label)
       },
       inputLongitudSoloNumeros(label){
-        return this.getCamposValidarL().includes(label)
+        return this.getCamposValidarSoloNumeros().includes(label)
+      },
+      inputNoValidar(label){
+        return this.getCamposNoValidar().includes(label)
       }
     },
     computed: {
       getLabels(){
         let datosModificables=Object.keys(this.datosActualesTabla.item).filter(dato => dato !='_id' && dato !='vehiculosAsignados' )
+        console.log(datosModificables);
         return datosModificables
       }
     }

@@ -8,7 +8,7 @@
         <template #table-busy>
           <div class="text-center text-primary my-2">
             <b-spinner class="align-middle"></b-spinner>
-            <strong> Loading...</strong>
+            <p ><b> Loading... </b></p>
           </div>
         </template>
 

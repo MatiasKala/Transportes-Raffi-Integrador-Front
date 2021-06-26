@@ -20,6 +20,10 @@ Vue.mixin({
             this.$router.push({ path: `/` })
             location.reload()
         },
+        getCamposOrdenables(){
+            let campos = this.$store.state.camposOrdenables
+            return campos.split(',')
+        },
         eliminarCamposPrivados(data){
             return data.forEach(d => {
               delete d.password
