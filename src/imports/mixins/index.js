@@ -9,7 +9,6 @@ Vue.mixin({
             return JSON.parse(localStorage.getItem('token'))
         },
         setLoggedUser(response){
-            console.log(response)
             this.$store.dispatch('receiveLoggedUser', response.data)
         },
         getLocalStoreUserUsername(){

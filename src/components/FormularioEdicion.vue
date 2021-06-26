@@ -1,6 +1,6 @@
 <template>
   <vue-form :state="formState" @submit.prevent="enviarEditar(datosActualesTabla.index)">
-    <h3>Ingrese los campos que quiere modificar de {{datosActualesTabla}}</h3>
+    <h3>Ingrese los campos que quiere modificar del {{entidad | aSingular}} {{datosActualesTabla.item._id}}</h3>
     <validate v-for="(label,index) in getLabels" :key="index" tag="div">
       <label :for="label">{{label | primeraMayuscula | separarLabelConEspacios}}
       </label>
@@ -12,14 +12,18 @@
         autocomplete="off"
         v-model.trim="formData[label]"
         
-        :minlength="g"
+        :minlength="getMin(label)"
+        :maxlength="getMax(label)"
         
       >
       <!--  lo que vamos a hacer es ponerle 0 cuando no hay limite a min y 9999 a max  -->
     </validate>
-    {{formData}}
+    {{formData}} 
     <br>
-    <b-button class="mt-3" variant="warning" @click="enviarEditar(datosActualesTabla.index)">
+    <b-button v-if="formState.$invalid || formState.$dirty" class="mt-3 btn-disabled" @click="enviarEditar(datosActualesTabla.index)">
+      Enviar
+    </b-button>
+    <b-button v-else class="mt-3 btn-envio" variant="warning" @click="enviarEditar(datosActualesTabla.index)">
       Enviar
     </b-button>
   </vue-form>
@@ -85,7 +89,14 @@
           default:
             return 'text'
         }
+      },
+      getMin(label){
+        return this.$store.state.labelsLengthMins[label]
+      },
+      getMax(label){
+        return this.$store.state.labelsLengthMaxs[label]
       }
+      
     },
     computed: {
       getLabels(){
@@ -101,5 +112,27 @@
 <style scoped>
   .formulario-edicion {
 
+  }
+  .btn-disabled{
+	text-transform: uppercase;
+	text-decoration: none;
+	padding: 15px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+	border-radius: 5px;
+	display: inline-block;
+	border: none;
+	transition: all 0.7s ease 0s;
+  }
+  .btn-envio{
+	text-transform: uppercase;
+	text-decoration: none;
+	padding: 15px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+	border-radius: 5px;
+	display: inline-block;
+	border: none;
+	transition: all 0.7s ease 0s;
   }
 </style>
