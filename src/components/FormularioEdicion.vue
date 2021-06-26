@@ -4,7 +4,30 @@
     <validate v-for="(label,index) in getLabels" :key="index" tag="div">
       <label :for="label">{{label | primeraMayuscula | separarLabelConEspacios}}
       </label>
+
+      <!-- SOLO LONGITUD -->
+     
       <input 
+        v-if="inputValidarLongitud(label)"
+        :type="getType(label)" 
+        :name="label" 
+        :id="label"
+        class="form-control"
+        autocomplete="off"
+        v-model.trim="formData[label]"
+        :minlength="getMin(label)"
+        :maxlength="getMax(label)"
+      >
+      <field-messages :name="label" show="$dirty">
+        <div slot="minlength" class="alert alert-danger mt-2">Ingrese como minimo {{getMin(label)}} caracteres</div>            
+        <div v-if="formData[label].length == getMax(label) && label!='CUIT' " class="alert alert-warning mt-2">El maximo permitido es de {{getMax(label)}} caracteres</div>            
+      </field-messages>
+
+      <!-- CARACTERES ESPECIALES -->
+     
+     
+      <input 
+        v-if="inputLongitudNoCaracteresEspeciales(label)"
         :type="getType(label)" 
         :name="label" 
         :id="label"
@@ -14,17 +37,42 @@
         :minlength="getMin(label)"
         :maxlength="getMax(label)"
         no-caracteres
-        :solo-numeros="label == 'CUIT'"
+        solo-numeros
       >
-      <!--  lo que vamos a hacer es ponerle 0 cuando no hay limite a min y 9999 a max  -->
       <field-messages :name="label" show="$dirty">
-        <div slot="no-caracteres" class="alert alert-danger mt-2" v-if="formData[label].length >= getMin(label)">Los caracteres {{getCaracteresInvalidos}} no se permiten en este campo</div>            
         <div slot="minlength" class="alert alert-danger mt-2">Ingrese como minimo {{getMin(label)}} caracteres</div>            
+        <div v-if="formData[label].length == getMax(label)" class="alert alert-warning mt-2">El maximo permitido es de {{getMax(label)}} caracteres</div>            
+        <div slot="no-caracteres" v-if="formData[label].length >= getMin(label)" class="alert alert-danger mt-2">Los caracteres {{getCaracteresInvalidos}} no se permiten en este campo</div>            
+      </field-messages>
+
+
+      <!-- SOLO NUMEROS -->
+     
+     
+      <input 
+        v-if="inputLongitudSoloNumeros(label)"
+        :type="getType(label)" 
+        :name="label" 
+        :id="label"
+        class="form-control"
+        autocomplete="off"
+        v-model.trim="formData[label]"
+        :minlength="getMin(label)"
+        :maxlength="getMax(label)"
+        no-caracteres
+        solo-numeros
+      >
+      <field-messages :name="label" show="$dirty">
+        <div slot="minlength" class="alert alert-danger mt-2">Ingrese como minimo {{getMin(label)}} caracteres</div>            
+        <div v-if="formData[label].length == getMax(label)" class="alert alert-warning mt-2">El maximo permitido es de {{getMax(label)}} caracteres</div>            
         <div slot="solo-numeros" class="alert alert-danger mt-2">En este campo solo se permiten numeros</div>            
-        <div v-if="formData[label].length == getMax(label) && label!='CUIT' " class="alert alert-warning mt-2">El maximo permitido es de {{getMax(label)}} caracteres</div>            
+        <div v-if="formData[label].length >= getMin(label)" slot="no-caracteres" class="alert alert-danger mt-2">Los caracteres {{getCaracteresInvalidos}} no se permiten en este campo</div>            
       </field-messages>
     </validate>
     {{formData}} 
+    <br>
+    <br>
+    {{formState.nombre}}
     <br>
     <b-button disabled v-if="formState.$invalid && formState.$dirty" class="mt-3 btn-disabled" @click="enviarEditar(datosActualesTabla.index)">
       Enviar
@@ -37,12 +85,14 @@
 
 <script>
 
+  import { mixinLocal } from "../imports/mixins/localFormulario";
   export default  {
     name: 'formulario-edicion',
     props: ['datosActualesTabla','entidad'],
     mounted () {
     
     },
+    mixins:[mixinLocal],
     data () {
       return {
         formState:{},
@@ -58,27 +108,6 @@
           'viajes':this.estadoInicialViajes(),
         }
         return estados[this.entidad]
-      },
-      estadoInicialChoferes(){
-        return {
-          CUIT:'',
-          nombre:'',
-          apellido:'',
-          fechaNacimiento:'',
-          comision:'',
-        }
-      },
-      estadoInicialVehiculos(){
-        return {
-        }
-      },
-      estadoInicialClientes(){
-        return {
-        }
-      },
-      estadoInicialViajes(){
-        return {
-        }
       },
       enviarEditar(index){
         console.log('index ',index);
@@ -101,8 +130,16 @@
       },
       getMax(label){
         return this.$store.state.labelsLengthMaxs[label]
+      },
+      inputValidarLongitud(label){
+        return this.getCamposValidarLongitud().includes(label)
+      },
+      inputLongitudNoCaracteresEspeciales(label){
+        return this.getCamposValidarLongitudNoCaracteresEspeciales().includes(label)
+      },
+      inputLongitudSoloNumeros(label){
+        return this.getCamposValidarL().includes(label)
       }
-      
     },
     computed: {
       getLabels(){

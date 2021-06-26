@@ -13,6 +13,9 @@ var options = {
         'validar-email' : function(value) {
             return value.match(/^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/)
         },
+        'solo-numeros': function(value) {
+            return value.match(/^[0-9]*$/)
+        }
     }
 }
 

@@ -8,6 +8,9 @@ export default new Vuex.Store({
     caracteresNoPermitidosContrasenia:'(),$\'%#"=-+*~[]`^{};:<>|°¬?¡!',
     apiDominio:'https://stormy-mountain-51560.herokuapp.com',
     camposOrdenables:'email,username,apellido',
+    camposSoloNumeros:'CUIT,',
+    camposValidarLongitud:'',
+    camposValidarLongitudNoCaracteresEspeciales:'nombre,apellido',
     labelsLengthMins:{
       "CUIT":11,
       "nombre":3,
