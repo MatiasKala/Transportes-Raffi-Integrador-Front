@@ -93,8 +93,8 @@
       </div>
       <div class="d-block text-center mt-2">
         <b-card>
-          <p v-for="(label,index) in getLabels" :key="index">
-            {{label | primeraMayuscula}} : {{label=='comision'?'$':''}} {{formData[getLabels[index]] ? formData[getLabels[index]] : datosActualesTabla.item[getLabels[index]]}}
+          <p v-for="(label,index) in getLabels()" :key="index">
+            {{label | primeraMayuscula}} : {{label=='comision'?'$':''}} {{formData[getLabels()[index]] ? formData[getLabels()[index]] : datosActualesTabla.item[getLabels()[index]]}}
           </p>
         </b-card>
       </div>
@@ -131,6 +131,11 @@
       estadoInicial(){
         return this.estadoInicialEntidad(this.getLabels())
       },
+      // DEVUELVE CAMPOS QUE VAMOS A PODER MODIFICAR DESDE EL FORMULARIO, ESCONDEN LOS ATRIBUTOS QUE NO SON MODIFICABLES
+      getLabels(){
+        let datosModificables=Object.keys(this.datosActualesTabla.item).filter(dato => dato !='_id' && dato !='vehiculosAsignados' )
+        return datosModificables
+      },
       getType(label){
         // Va a haber que agregar mas harcodeados o cambiar el metodo
         switch (label) {
@@ -163,26 +168,26 @@
       },
       enviar(datosActualesEntidad){
         /* HACER LLAMADA A PUT */
-        console.log(datosActualesEntidad);
-        // this.axios.put(
-        //   `${this.getDominioApi()}/${this.entidadApi}/${this.datosActualesTabla}`, 
-        //   JSON.stringify(this.formData)
-        // )
-        // .then(response=> {
-        //   this.response=response
-        // })
-        // .catch(error =>{
-        //   Object.keys(error)
-        //   this.response={mensaje:error.response.data , status:error.response.status}
-        // })
+        this.axios.put(
+          `${this.getDominioApi()}/${this.entidad}/${datosActualesEntidad._id}`, 
+            JSON.stringify(this.formData),
+            {
+              headers: {Authorization: 'Bearer ' + this.getLoggedUserToken()}
+            }
+        )
+        .then(response=> {
+          console.log(response)
+        })
+        .catch(error =>{
+          console.error(error)
+        })
+
+
       }
+      
     },
     computed: {
-      // DEVUELVE CAMPOS QUE VAMOS A PODER MODIFICAR DESDE EL FORMULARIO, ESCONDEN LOS ATRIBUTOS QUE NO SON MODIFICABLES
-      getLabels(){
-        let datosModificables=Object.keys(this.datosActualesTabla.item).filter(dato => dato !='_id' && dato !='vehiculosAsignados' )
-        return datosModificables
-      }
+
     },
 }
 
