@@ -5,9 +5,7 @@ export const mixinLocal = {
         // ESTADOS INICIALES FORMULARIOS
         estadoInicialEntidad(labels){
           let objeto = {}
-          labels.forEach(e => {
-            objeto[e] = ''
-          });
+          labels.forEach(e => objeto[e] = '');
           return objeto
         },
         // VALIDACIONES FORMULARIOS
