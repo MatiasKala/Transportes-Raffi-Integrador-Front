@@ -12,6 +12,8 @@
           </div>
         </template>
 
+        <!-- Campos personalizados EDITAR Y ELIMINAR -->
+        
         <template #cell(editar)="data">
           <button class="btn btn-outline-warning" id="toggle-btn" @click="cambiarVisibilidadEditar()">Editar</button>
           <b-modal 
@@ -68,12 +70,6 @@ export default {
       let campos = this.getCamposOrdenables()
       return campos.includes(campo)
     },
-    eliminar(data){
-      console.log(data);
-    },
-    editar(data){
-      console.log(data);
-    },
     cambiarVisibilidadEditar(){
       this.$refs['editar-modal'].toggle('#toggle-btn')
     },
@@ -84,13 +80,17 @@ export default {
   computed:{
     getFields(){
       if(this.datos){
-       const staticFields = this.getCRUDStaticFields()
-  
+        /* Obtiene los campos estaticos que comparten todas las tablas */
+        const staticFields = this.getCRUDStaticFields()
+
+        // Filtra los campos que vamos a renderizar
         const fields= Object.keys(this.datos[0]).map((field)=>{
           if(field!='_id'){
+            // Si son campos que puedan ordenar la tabla les agrega la propiedad sortable
             return {key:field, sortable:this.isSortable(field)? true: false}
           }
         })
+        // Devuelve los campos propios de cada entidad + los campos estaticos
         return fields.concat(staticFields)
       }
       return []

@@ -2,6 +2,7 @@
   <b-container class="pantallaEntrada p-5">
     <b-row>
       <b-col cols="8">
+      <!-- Imagenes de la derecha -->
         <b-card border-variant="info" header="Transportes Raffi" header-bg-variant="info" header-text-variant="white" title="Ingresá y obtené toda la información sobre tu pedido">      
           <hr style="background-color:silver;">
           <b-carousel
@@ -79,6 +80,7 @@
               <vue-form :state="formState" @submit.prevent="enviar()">
                 <br>
                 <!-- USERNAME -->
+                <!-- Se muestra solo si la pantalla es de Register -->
                 <validate v-if="!isLogin && !loadingProgress" tag="div">
                   <label for="username"
                     v-if="formState.username" :style="labelColor(formState.username.$valid,formState.$dirty,formData.username)">Nombre de Usuario
@@ -173,7 +175,6 @@
                     <b-col cols="12"> 
                       <button class="btn-secondary btn-disabled" disabled v-if="formState.$invalid && !loadingProgress" @click="enviar()">Enviar</button>
                       <button class="botonEnvio" v-else-if="formState.$valid && !loadingProgress" @click="enviar()">Enviar</button>
-                      <!-- <b-skeleton type="input" width="100%" class=" btn-disabled" v-if="estaCargando"></b-skeleton> -->
                       <b-progress v-if="loadingProgress" class="w-100" :max="maxLoadingTime" height="1.5rem">
                         <b-progress-bar :variant="obtenerEstiloProgressBar" :value="loadingTime" :label="`${((loadingTime / maxLoadingTime) * 100)}%`"></b-progress-bar>
                       </b-progress>
@@ -183,6 +184,7 @@
               </vue-form>
         </b-card>
         <br>
+        <!-- Respuestas en caso de que sea Login -->
         <b-col v-if="isLogin && (response && !loadingProgress)">
           <b-container v-if="response.status>400"> 
             <b-alert :variant="getResponseColor" show >{{`Login Fallido: ${response.mensaje}, Status: ${response.status}`}}</b-alert>
@@ -191,6 +193,7 @@
             <b-alert :variant="getResponseColor" show >{{`Login Correcto: ${response.data.user.username}, Status: ${response.status}`}}</b-alert>  
           </b-container>
         </b-col>
+        <!-- Respuestas en caso de que sea Register -->
         <b-col v-if="!isLogin && (response && !loadingProgress)">
           <b-container v-if="response.status>400"> 
             <b-alert :variant="getResponseColor" show >{{`Register Fallido: ${response.mensaje}, Status: ${response.status}`}}</b-alert>
@@ -221,6 +224,8 @@ export default {
     }
   },
   watch: {
+    // Observa cualquier cambio de loadingProgress y 
+    // cuando cambia comienza a contar
     loadingProgress(newValue, oldValue) {
       if (newValue !== oldValue) {
         this.clearLoadingTimeInterval()
@@ -232,6 +237,7 @@ export default {
         }
       }
     },
+    // Cueta hasta que loading time llegue al tiempo maximo establecido
     loadingTime(newValue, oldValue) {
       if (newValue !== oldValue) {
         if (newValue === this.maxLoadingTime) {
@@ -239,16 +245,19 @@ export default {
         }
       }
     },
+    // Redirige o maneja lo que va a pasar segun la respuesta obtenida
     response(newValue,oldValue){
       this.esVisibleContrasenia = false
       if (newValue!== oldValue) {
         console.log(newValue);
         if(newValue.status==200){
           if (newValue.isRegister) {
+            // Register Correcto
             setTimeout(() => {
               this.$router.push({ path: `/login` })
             }, 5000);
           } else{
+            // Login correcto
             this.setLoggedUser(newValue)
             setTimeout(() => {
               this.$router.push({ path: `/` })
@@ -276,6 +285,8 @@ export default {
     },
     enviar(){
       this.startLoading()
+      // Cuando emite el evento hacia arriba lo recibe la vista 
+      // que este utilizando el componente
       this.$emit('envioFormulario',this.formData)  
       this.formData=this.estadoInicial()
       this.formState._reset()

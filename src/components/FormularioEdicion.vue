@@ -89,18 +89,18 @@
       hide-footer
     >
       <div class="d-block text-center">
-        El Chofer de id <b>{{datosActualesTabla.item._id}}</b> quedara de la siguiente manera 
+        El {{entidad | aSingular}} de id <b>{{datosActualesTabla.item._id}}</b> quedara de la siguiente manera 
       </div>
       <div class="d-block text-center mt-2">
         <b-card>
           <p v-for="(label,index) in getLabels" :key="index">
-            {{label | primeraMayuscula}} : {{formData[getLabels[index]] ? formData[getLabels[index]] : datosActualesTabla.item[getLabels[index]]}}
+            {{label | primeraMayuscula}} : {{label=='comision'?'$':''}} {{formData[getLabels[index]] ? formData[getLabels[index]] : datosActualesTabla.item[getLabels[index]]}}
           </p>
         </b-card>
       </div>
       
       <div style="text-align: center;">
-        <b-button class="mt-3 mx-4 btn-envio text-center" variant="info" @click="enviar()">
+        <b-button class="mt-3 mx-4 btn-envio text-center" variant="info" @click="enviar(datosActualesTabla.item)">
           Confirmar
         </b-button >
         <b-button class="mt-3 mx-4 btn-envio text-center" variant="danger" @click="$bvModal.hide('confirmar-modal')">
@@ -125,7 +125,6 @@
       return {
         formState:{},
         formData:this.estadoInicial(),
-        mostrarConfirmacion:false
       }
     },
     methods: {
@@ -155,6 +154,7 @@
       getMax(label){
         return this.$store.state.labelsLengthMaxs[label]
       },
+      //DECIDEN EL TIPO DE INPUT QUE SE VA A RENDERIZAR
       inputValidarLongitud(label){
         return this.getCamposValidarLongitud().includes(label)
       },
@@ -167,14 +167,26 @@
       inputNoValidar(label){
         return this.getCamposNoValidar().includes(label)
       },
-      enviar(){
-        console.log(this.formData);
+      enviar(datosActualesEntidad){
+        /* HACER LLAMADA A PUT */
+        console.log(datosActualesEntidad);
+        // this.axios.put(
+        //   `${this.getDominioApi()}/${this.entidadApi}/${this.datosActualesTabla}`, 
+        //   JSON.stringify(this.formData)
+        // )
+        // .then(response=> {
+        //   this.response=response
+        // })
+        // .catch(error =>{
+        //   Object.keys(error)
+        //   this.response={mensaje:error.response.data , status:error.response.status}
+        // })
       }
     },
     computed: {
+      // DEVUELVE CAMPOS QUE VAMOS A PODER MODIFICAR DESDE EL FORMULARIO, ESCONDEN LOS ATRIBUTOS QUE NO SON MODIFICABLES
       getLabels(){
         let datosModificables=Object.keys(this.datosActualesTabla.item).filter(dato => dato !='_id' && dato !='vehiculosAsignados' )
-        console.log(datosModificables);
         return datosModificables
       }
     }
@@ -184,9 +196,6 @@
 </script>
 
 <style scoped>
-  .formulario-edicion {
-
-  }
   .btn-disabled{
 	text-transform: uppercase;
 	text-decoration: none;
