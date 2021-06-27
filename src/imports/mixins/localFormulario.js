@@ -3,27 +3,11 @@ export const mixinLocal = {
     },
     methods:{
         // ESTADOS INICIALES FORMULARIOS
-        estadoInicialChoferes(){
-            return {
-              CUIT:'',
-              nombre:'',
-              apellido:'',
-              fechaNacimiento:'',
-              comision:'',
-            }
-          },
-          estadoInicialVehiculos(){
-            return {
-            }
-          },
-          estadoInicialClientes(){
-            return {
-            }
-          },
-          estadoInicialViajes(){
-            return {
-            }
-          },
+        estadoInicialEntidad(labels){
+          let objeto = {}
+          labels.forEach(e => objeto[e] = '');
+          return objeto
+        },
         // VALIDACIONES FORMULARIOS
         getCamposValidarLongitud(){
             let campos = this.$store.state.camposValidarLongitud

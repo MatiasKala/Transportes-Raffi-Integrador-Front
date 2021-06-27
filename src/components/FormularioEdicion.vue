@@ -1,7 +1,7 @@
 <template>
   <vue-form :state="formState" @submit.prevent="confirmarEnvio(datosActualesTabla.index)">
     <h3>Ingrese los campos que quiere modificar del {{entidad | aSingular}} {{datosActualesTabla.item._id}}</h3>
-    <validate v-for="(label,index) in getLabels" :key="index" tag="div">
+    <validate v-for="(label,index) in getLabels()" :key="index" tag="div">
       <label class="mt-2" :for="label">{{label | primeraMayuscula | separarLabelConEspacios}}
       </label>
 
@@ -129,13 +129,7 @@
     },
     methods: {
       estadoInicial(){
-        const estados = {
-          'choferes':this.estadoInicialChoferes(),
-          'vehiculos':this.estadoInicialVehiculos(),
-          'clientes':this.estadoInicialClientes(),
-          'viajes':this.estadoInicialViajes(),
-        }
-        return estados[this.entidad]
+        return this.estadoInicialEntidad(this.getLabels())
       },
       getType(label){
         // Va a haber que agregar mas harcodeados o cambiar el metodo
@@ -189,7 +183,7 @@
         let datosModificables=Object.keys(this.datosActualesTabla.item).filter(dato => dato !='_id' && dato !='vehiculosAsignados' )
         return datosModificables
       }
-    }
+    },
 }
 
 
