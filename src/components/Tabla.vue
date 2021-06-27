@@ -35,6 +35,7 @@
             ref="eliminar-modal"
             centered
             title="Eliminar"
+            hide-footer
           >
             <div class="d-block text-center">
               <h3>Hello From My Modal! {{data}}</h3>
@@ -42,11 +43,27 @@
           </b-modal>
         </template>
 
-
-
       </b-table>
     </div>
+
+    <!-- Si no hay datos en la tabla -->
     <div v-else>TABLA SIN DATOS</div>
+
+    <!-- CREAR REGISTRO -->
+    <b-row>
+      <button class="btn btn-outline-primary" id="toggle-btn" @click="cambiarVisibilidadAgregar()">Agregar {{this.entidad | aSingular }}</button>
+      <b-modal 
+        ref="agregar-modal"
+        centered
+        title="Agregar"
+        hide-footer
+      >
+        <div class="d-block text-center">
+          <FormularioCreacion :entidad="entidad"/>
+        </div>
+      </b-modal>
+    </b-row>
+    
   </b-container>
 </template>
 
@@ -69,6 +86,9 @@ export default {
     isSortable(campo){
       let campos = this.getCamposOrdenables()
       return campos.includes(campo)
+    },
+    cambiarVisibilidadAgregar(){
+      this.$refs['agregar-modal'].toggle('#toggle-btn')
     },
     cambiarVisibilidadEditar(){
       this.$refs['editar-modal'].toggle('#toggle-btn')

@@ -1,6 +1,6 @@
 <template>
-  <vue-form :state="formState" @submit.prevent="confirmarEnvio(datosActualesTabla.index)">
-    <h3>Ingrese los campos que quiere modificar del {{entidad | aSingular}} {{datosActualesTabla.item._id}}</h3>
+  <vue-form :state="formState" @submit.prevent="envio()">
+    <h3>Ingrese los datos del nuevo {{entidad | aSingular}}</h3>
     <validate v-for="(label,index) in getLabels()" :key="index" tag="div">
       <label class="mt-2" :for="label">{{label | primeraMayuscula | separarLabelConEspacios}}
       </label>
@@ -16,6 +16,7 @@
         v-model.trim="formData[label]"
         :minlength="getMin(label)"
         :maxlength="getMax(label)"
+        required
       >
       <!-- CARACTERES ESPECIALES -->
      
@@ -29,6 +30,7 @@
         v-model.trim="formData[label]"
         :minlength="getMin(label)"
         :maxlength="getMax(label)"
+        required
         no-caracteres
       >
 
@@ -45,6 +47,7 @@
         v-model.trim="formData[label]"
         :minlength="getMin(label)"
         :maxlength="getMax(label)"
+        required
         solo-numeros
       >
 
@@ -57,10 +60,12 @@
         :id="label"
         class="form-control"
         autocomplete="off"
+        required
         v-model.trim="formData[label]"
       >
 
       <field-messages :name="label" show="$dirty">
+        <div slot="required" class="alert alert-danger mt-2">Campo requerido</div>            
         <div slot="minlength" v-if="label != 'CUIT'" class="alert alert-danger mt-2">Ingrese como minimo {{getMin(label)}} caracteres</div>            
         <div slot="minlength" v-else class="alert alert-danger mt-2">El CUIT debe tener {{getMin(label)}} numeros</div>            
         <div v-if="formData[label].length == getMax(label) && label != 'CUIT'"  class="alert alert-warning mt-2">El maximo permitido es de {{getMax(label)}} caracteres</div>            
@@ -73,10 +78,10 @@
     </validate>
     {{formData}} 
     <br>    
-    <b-button disabled v-if="formState.$invalid || !formState.$dirty" class="mt-3 btn-disabled">
+    <b-button disabled v-if="formState.$invalid" class="mt-3 btn-disabled">
       Enviar
     </b-button>
-    <b-button v-else class="mt-3 btn-envio" variant="warning" v-b-modal.confirmar-modal>
+    <b-button v-else class="mt-3 btn-envio" variant="success" v-b-modal.confirmar-modal>
       Enviar
     </b-button>
 
@@ -89,7 +94,7 @@
       hide-footer
     >
       <div class="d-block text-center">
-        El {{entidad | aSingular}} de id <b>{{datosActualesTabla.item._id}}</b> quedara de la siguiente manera 
+        El {{entidad | aSingular}} quedara de la siguiente manera 
       </div>
       <div class="d-block text-center mt-2">
         <b-card>
@@ -120,7 +125,7 @@
   import { mixinLocal } from "../imports/mixins/localFormulario";
   export default  {
     name: 'formulario-edicion',
-    props: ['datosActualesTabla','entidad'],
+    props: ['entidad'],
     mounted () {
     
     },
@@ -134,12 +139,29 @@
     },
     methods: {
       estadoInicial(){
-        return this.estadoInicialEntidad(this.getLabels())
+        const estados = {
+          'choferes':this.estadoInicialChoferes(),
+          'vehiculos':this.estadoInicialVehiculos(),
+          'clientes':this.estadoInicialClientes(),
+          'viajes':this.estadoInicialViajes(),
+        }
+        return estados[this.entidad]
       },
       // DEVUELVE CAMPOS QUE VAMOS A PODER MODIFICAR DESDE EL FORMULARIO, ESCONDEN LOS ATRIBUTOS QUE NO SON MODIFICABLES
       getLabels(){
-        let datosModificables=Object.keys(this.datosActualesTabla.item).filter(dato => dato !='_id' && dato !='vehiculosAsignados' )
+        let datosModificables=Object.keys(this.estadoInicial()).filter(dato => dato !='_id' && dato !='vehiculosAsignados' )
         return datosModificables
+      },
+      getType(label){
+        // Va a haber que agregar mas harcodeados o cambiar el metodo
+        switch (label) {
+          case 'comision' || 'CUIT':
+            return 'number'
+          case 'fechaNacimiento':
+            return 'date'
+          default:
+            return 'text'
+        }
       },
       enviar(datosActualesEntidad){
         /* HACER LLAMADA A PUT */
@@ -167,6 +189,8 @@
         .catch(error =>{
           this.response=error
         })
+
+
       }
       
     },

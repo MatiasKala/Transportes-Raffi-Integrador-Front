@@ -8,23 +8,58 @@ export const mixinLocal = {
           labels.forEach(e => objeto[e] = '');
           return objeto
         },
+        estadoInicialChoferes(){
+            return {
+              CUIT:'',
+              nombre:'',
+              apellido:'',
+              fechaNacimiento:'',
+              comision:'',
+            }
+        },
+          estadoInicialVehiculos(){
+            return {
+            }
+        },
+          estadoInicialClientes(){
+            return {
+            }
+        },
+          estadoInicialViajes(){
+            return {
+            }
+        },
+        //DECIDEN EL TIPO DE INPUT QUE SE VA A RENDERIZAR
+        inputValidarLongitud(label){
+            return this.$store.state.camposValidarLongitud.split(',').includes(label)
+        },
+        inputLongitudNoCaracteresEspeciales(label){
+            return this.$store.state.camposValidarLongitudNoCaracteresEspeciales.split(',').includes(label)
+        },
+        inputLongitudSoloNumeros(label){
+            return this.$store.state.camposValidarSoloNumeros.split(',').includes(label)
+        },
+        inputNoValidar(label){
+            return this.$store.state.camposNoValidar.split(',').includes(label)
+        },
         // VALIDACIONES FORMULARIOS
-        getCamposValidarLongitud(){
-            let campos = this.$store.state.camposValidarLongitud
-            return campos.split(',')
+        getMin(label){
+            return this.$store.state.labelsLengthMins[label]
         },
-        getCamposValidarLongitudNoCaracteresEspeciales(){
-            let campos = this.$store.state.camposValidarLongitudNoCaracteresEspeciales
-            return campos.split(',')
+        getMax(label){    
+            return this.$store.state.labelsLengthMaxs[label]
         },
-        getCamposValidarSoloNumeros(){
-            let campos = this.$store.state.camposValidarSoloNumeros
-            return campos.split(',')
+        getType(label){
+            // Va a haber que agregar mas harcodeados o cambiar el metodo
+            switch (label) {
+              case 'comision' || 'CUIT':
+                return 'number'
+              case 'fechaNacimiento':
+                return 'date'
+              default:
+                return 'text'
+            }
         },
-        getCamposNoValidar(){
-            let campos = this.$store.state.camposNoValidar
-            return campos.split(',')
-        }
     },
     computed : {
     }
