@@ -35,6 +35,7 @@
             ref="eliminar-modal"
             centered
             title="Eliminar"
+            header-bg-variant="danger"
             hide-footer
           >
             <div class="d-block text-center">
@@ -51,15 +52,17 @@
 
     <!-- CREAR REGISTRO -->
     <b-row>
-      <button class="btn btn-outline-primary" id="toggle-btn" @click="cambiarVisibilidadAgregar()">Agregar {{this.entidad | aSingular }}</button>
+      <button class="btn btn-outline-primary ml-3" id="toggle-btn" @click="cambiarVisibilidadAgregar()">Agregar {{this.entidad | aSingular }}</button>
       <b-modal 
         ref="agregar-modal"
         centered
         title="Agregar"
+        header-bg-variant="primary"
+        header-text-variant="light"
         hide-footer
       >
         <div class="d-block text-center">
-          <FormularioCreacion :entidad="entidad"/>
+          <FormularioCreacion :entidad="entidad" />
         </div>
       </b-modal>
     </b-row>
@@ -69,13 +72,16 @@
 
 <script>
 
+import FormularioCreacion from "../components/FormularioCreacion.vue";
 import FormularioEdicion from "../components/FormularioEdicion.vue";
 
 export default {
   name: 'tabla',
   props: ['datos','entidad','isCRUD'],
   components:{
-    FormularioEdicion
+    FormularioCreacion,
+    FormularioEdicion,
+    
   },
   data(){
     return{

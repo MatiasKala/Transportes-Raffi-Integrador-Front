@@ -7,7 +7,7 @@ export const mixinLocal = {
           let objeto = {}
           labels.forEach(e => objeto[e] = '');
           return objeto
-        },
+        },        
         estadoInicialChoferes(){
             return {
               CUIT:'',

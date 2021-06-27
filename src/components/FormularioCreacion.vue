@@ -1,5 +1,5 @@
 <template>
-  <vue-form :state="formState" @submit.prevent="envio()">
+  <vue-form :state="formState" @submit.prevent="enviar()">
     <h3>Ingrese los datos del nuevo {{entidad | aSingular}}</h3>
     <validate v-for="(label,index) in getLabels()" :key="index" tag="div">
       <label class="mt-2" :for="label">{{label | primeraMayuscula | separarLabelConEspacios}}
@@ -88,7 +88,7 @@
     <!-- MODAL DE CONFIRMACION -->
     <b-modal 
       id="confirmar-modal" 
-      title="Confirmar Modificacion"
+      title="Confirmar Creacion"
       header-bg-variant="info"
       centered
       hide-footer
@@ -99,13 +99,13 @@
       <div class="d-block text-center mt-2">
         <b-card>
           <p v-for="(label,index) in getLabels()" :key="index">
-            {{label | primeraMayuscula}} : {{label=='comision'?'$':''}} {{formData[getLabels()[index]] ? formData[getLabels()[index]] : datosActualesTabla.item[getLabels()[index]]}}
+            {{label | primeraMayuscula}} : {{label=='comision'?'$':''}} {{formData[getLabels()[index]]}}
           </p>
         </b-card>
       </div>
       
-      <div class="d-block text-center" v-if="!getResponse">
-        <b-button class="mt-3 mx-4 btn-envio text-center" variant="info" @click="enviar(datosActualesTabla.item)">
+      <div class="d-block text-center" v-if="!response">
+        <b-button class="mt-3 mx-4 btn-envio text-center" variant="info" @click="enviar()">
           Confirmar
         </b-button >
         <b-button class="mt-3 mx-4 btn-envio text-center" variant="danger" @click="$bvModal.hide('confirmar-modal')">
@@ -113,8 +113,8 @@
         </b-button >
       </div>
       <div class="d-block text-center" v-else>
-        <b-card bg-variant="success" >Modificacion realizada correctamente</b-card>
-        <b-card bg-variant="danger">Error en la modificacion</b-card>
+        <b-card bg-variant="success" v-if="response.status >= 200" >Creacion realizada correctamente</b-card>
+        <b-card bg-variant="danger" v-else>Error en la creacion</b-card>
       </div>
     </b-modal>
   </vue-form>
@@ -134,7 +134,7 @@
       return {
         formState:{},
         formData:this.estadoInicial(),
-        response:{}
+        response:''
       }
     },
     methods: {
@@ -163,16 +163,16 @@
             return 'text'
         }
       },
-      enviar(datosActualesEntidad){
-        /* HACER LLAMADA A PUT */
-        let keys=Object.keys(this.formData)
-        keys.forEach(element => {
-          if (!this.formData[element]) {
-            delete this.formData[element]
-          }
-        })
-        this.axios.put(
-          `${this.getDominioApi()}/${this.entidad}/${datosActualesEntidad._id}`, 
+      enviar(){
+        /* HACER LLAMADA A POST */
+
+        this.formData.fechaCreacion = this.getFechaActual()
+        this.formData.fechaBaja = null
+
+        this.agregarCampoSegunEntidad(this.entidad)
+
+        this.axios.post(
+          `${this.getDominioApi()}/${this.entidad}`, 
             this.formData
             ,
             {
@@ -191,13 +191,23 @@
         })
 
 
-      }
+      },
+      agregarCampoSegunEntidad(entidad){
+        // COMPLETAR CAMPOS TIPO ARRAY PARA CADA ENTIDAD
+        console.log('LLegue a metodo');
+        switch (entidad) {
+          case 'choferes':
+            this.formData.vehiculosAsignados=[]
+            break;
+          default:
+            break;
+        }
+        console.log(this.formData);
+      },
       
     },
     computed: {
-      getResponse(){
-        return this.response.status !== undefined
-      }
+
     },
 }
 

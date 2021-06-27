@@ -99,7 +99,7 @@
         </b-card>
       </div>
       
-      <div class="d-block text-center" v-if="!getResponse">
+      <div class="d-block text-center" v-if="!response.status">
         <b-button class="mt-3 mx-4 btn-envio text-center" variant="info" @click="enviar(datosActualesTabla.item)">
           Confirmar
         </b-button >
@@ -108,8 +108,8 @@
         </b-button >
       </div>
       <div class="d-block text-center" v-else>
-        <b-card bg-variant="success" >Modificacion realizada correctamente</b-card>
-        <b-card bg-variant="danger">Error en la modificacion</b-card>
+        <div v-if="response.status >=200" >Modificacion realizada correctamente</div>
+        <div v-else >Error en la modificacion</div>
       </div>
     </b-modal>
   </vue-form>
@@ -171,9 +171,7 @@
       
     },
     computed: {
-      getResponse(){
-        return this.response.status !== undefined
-      }
+
     },
 }
 
