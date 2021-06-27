@@ -168,9 +168,16 @@
       },
       enviar(datosActualesEntidad){
         /* HACER LLAMADA A PUT */
+        let keys=Object.keys(this.formData)
+        keys.forEach(element => {
+          if (!this.formData[element]) {
+            delete this.formData[element]
+          }
+        })
         this.axios.put(
           `${this.getDominioApi()}/${this.entidad}/${datosActualesEntidad._id}`, 
-            JSON.stringify(this.formData),
+            this.formData
+            ,
             {
               headers: {Authorization: 'Bearer ' + this.getLoggedUserToken()}
             }

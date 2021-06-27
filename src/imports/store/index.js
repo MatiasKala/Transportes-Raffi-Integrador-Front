@@ -7,6 +7,7 @@ export default new Vuex.Store({
   state: {
     caracteresNoPermitidosContrasenia:'(),$\'%#"=-+*~[]`^{};:<>|°¬?¡!',
     apiDominio:'https://stormy-mountain-51560.herokuapp.com',
+    // apiDominio:'http://localhost:3000',
     camposOrdenables:'email,username,apellido',
     camposNoValidar:'fechaNacimiento',
     camposValidarLongitud:'',
