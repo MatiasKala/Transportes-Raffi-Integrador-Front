@@ -63,12 +63,11 @@
       <field-messages :name="label" show="$dirty">
         <div slot="minlength" v-if="label != 'CUIT'" class="alert alert-danger mt-2">Ingrese como minimo {{getMin(label)}} caracteres</div>            
         <div slot="minlength" v-else class="alert alert-danger mt-2">El CUIT debe tener {{getMin(label)}} numeros</div>            
-        <div v-if="formData[label].length == getMax(label) && label != 'CUIT'"  class="alert alert-warning mt-2">El maximo permitido es de {{getMax(label)}} caracteres</div>            
+        <div v-if="formData[label] && formData[label].length == getMax(label) && label != 'CUIT'"  class="alert alert-warning mt-2">El maximo permitido es de {{getMax(label)}} caracteres</div>            
         <div slot="maxlength" v-else-if="label == 'comision'" class="alert alert-danger mt-2">El maximo permitido es de {{getMax(label)}} caracteres</div>            
-        <div slot="no-caracteres" v-if="formData[label].length >= getMin(label)" class="alert alert-danger mt-2">Los caracteres {{getCaracteresInvalidos}} no se permiten en este campo</div>            
+        <div slot="no-caracteres" v-if="formData[label] && formData[label].length >= getMin(label)" class="alert alert-danger mt-2">Los caracteres {{getCaracteresInvalidos}} no se permiten en este campo</div>            
         <div slot="solo-numeros" class="alert alert-danger mt-2">En este campo solo se permiten numeros</div>            
       </field-messages>
-
 
     </validate>
     {{formData}} 
@@ -99,7 +98,7 @@
         </b-card>
       </div>
       
-      <div class="d-block text-center" v-if="!response">
+      <div class="d-block text-center" v-if="!response"> 
         <b-button class="mt-3 mx-4 btn-envio text-center" variant="info" @click="enviar(datosActualesTabla.item)">
           Confirmar
         </b-button >
@@ -108,8 +107,8 @@
         </b-button >
       </div>
       <div class="d-block text-center" v-else>
-        <div v-if="response.status >=200" >Modificacion realizada correctamente</div>
-        <div v-else >Error en la modificacion</div>
+        <b-card bg-variant="success" v-if="response.status >= 200" >Modificacion realizada correctamente</b-card>
+        <b-card bg-variant="danger" v-else>Error en la modificacion</b-card>
       </div>
     </b-modal>
   </vue-form>
@@ -129,7 +128,7 @@
       return {
         formState:{},
         formData:this.estadoInicial(),
-        response:null
+        response:'',
       }
     },
     methods: {
@@ -138,7 +137,7 @@
       },
       // DEVUELVE CAMPOS QUE VAMOS A PODER MODIFICAR DESDE EL FORMULARIO, ESCONDEN LOS ATRIBUTOS QUE NO SON MODIFICABLES
       getLabels(){
-        let datosModificables=Object.keys(this.datosActualesTabla.item).filter(dato => dato !='_id' && dato !='vehiculosAsignados' )
+        let datosModificables=Object.keys(this.datosActualesTabla.item).filter(dato => dato !='_id' && dato !='vehiculosAsignados' && dato !='viajesAsignados' )
         return datosModificables
       },
       enviar(datosActualesEntidad){

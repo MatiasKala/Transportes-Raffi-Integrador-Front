@@ -23,6 +23,21 @@
               </router-link>
           </b-nav-item>
           <b-nav-item>
+              <router-link to="/manejoMaestros/vehiculos">
+                <a class="nav-link"><b-button variant="dark"> Vehiculos </b-button></a> 
+              </router-link>
+          </b-nav-item>
+          <b-nav-item>
+              <router-link to="/manejoMaestros/clientes">
+                <a class="nav-link"><b-button variant="dark"> Clientes </b-button></a> 
+              </router-link>
+          </b-nav-item>
+          <b-nav-item>
+              <router-link to="/manejoMaestros/viajes">
+                <a class="nav-link"><b-button variant="dark"> Viajes </b-button></a> 
+              </router-link>
+          </b-nav-item>
+          <b-nav-item>
               <router-link to="/">
                 <a class="nav-link"><b-button variant="dark"> Home </b-button></a>
               </router-link>

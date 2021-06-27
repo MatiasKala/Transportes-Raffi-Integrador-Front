@@ -19,14 +19,30 @@ export const mixinLocal = {
         },
           estadoInicialVehiculos(){
             return {
+              patente:'',
+              marca:'',
+              modelo:'',
+              anio:'',
+              seguro:'',
+              tipo:'',
+              chofer:'',
             }
         },
           estadoInicialClientes(){
             return {
+              cuit:'',
+              nombre:'',
+              direccion:'',
+              tipoCobro:'',
             }
         },
           estadoInicialViajes(){
             return {
+              fechaEntrega:'',
+              domicilioEntrega:'',
+              descripcionPaquete:'',
+              vehiculo:'',
+              cliente:'',
             }
         },
         //DECIDEN EL TIPO DE INPUT QUE SE VA A RENDERIZAR
