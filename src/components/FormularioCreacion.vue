@@ -184,7 +184,7 @@
           this.response=response
           setTimeout(() => {
             location.reload()
-          }, 4000);
+          }, 3000);
         })
         .catch(error =>{
           this.response=error

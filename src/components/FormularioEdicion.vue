@@ -99,7 +99,7 @@
         </b-card>
       </div>
       
-      <div class="d-block text-center" v-if="!response.status">
+      <div class="d-block text-center" v-if="!response">
         <b-button class="mt-3 mx-4 btn-envio text-center" variant="info" @click="enviar(datosActualesTabla.item)">
           Confirmar
         </b-button >
@@ -129,7 +129,7 @@
       return {
         formState:{},
         formData:this.estadoInicial(),
-        response:{}
+        response:null
       }
     },
     methods: {
@@ -143,12 +143,9 @@
       },
       enviar(datosActualesEntidad){
         /* HACER LLAMADA A PUT */
-        let keys=Object.keys(this.formData)
-        keys.forEach(element => {
-          if (!this.formData[element]) {
-            delete this.formData[element]
-          }
-        })
+
+        this.eliminarCamposVacios()
+
         this.axios.put(
           `${this.getDominioApi()}/${this.entidad}/${datosActualesEntidad._id}`, 
             this.formData
@@ -162,10 +159,18 @@
           this.response=response
           setTimeout(() => {
             location.reload()
-          }, 4000);
+          }, 3000);
         })
         .catch(error =>{
           this.response=error
+        })
+      },
+      eliminarCamposVacios(){
+        let keys=Object.keys(this.formData)
+        keys.forEach(element => {
+          if (!this.formData[element]) {
+            delete this.formData[element]
+          }
         })
       }
       

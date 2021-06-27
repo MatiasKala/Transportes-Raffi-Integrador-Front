@@ -32,14 +32,27 @@
         <template #cell(eliminar)="data">
           <button class="btn btn-outline-danger" id="toggle-btn" @click="cambiarVisibilidadEliminar()">Eliminar</button>
           <b-modal 
-            ref="eliminar-modal"
+            id="eliminar-modal"
             centered
             title="Eliminar"
             header-bg-variant="danger"
+            header-text-variant="light"
             hide-footer
           >
-            <div class="d-block text-center">
-              <h3>Hello From My Modal! {{data}}</h3>
+            <div class="d-block text-center" >
+              Seguro que desea eliminar el {{entidad | aSingular}} de id <b>{{data.item._id}}</b> 
+            </div>
+            <div class="d-block text-center" v-if="!responseEliminado">
+              <b-button class="mt-3 mx-4 btn-envio text-center" variant="info" @click="eliminar(data.item._id)">
+                Confirmar
+              </b-button >
+              <b-button class="mt-3 mx-4 btn-envio text-center" variant="danger" @click="$bvModal.hide('eliminar-modal')">
+                Cancelar
+              </b-button >
+            </div>
+            <div class="d-block text-center mt-2"  v-else>
+              <b-card bg-variant="success" v-if="responseEliminado.status >= 200" >Eliminacion realizada correctamente</b-card>
+              <b-card bg-variant="danger" v-else>Error en la Eliminacion</b-card>
             </div>
           </b-modal>
         </template>
@@ -85,7 +98,7 @@ export default {
   },
   data(){
     return{
-
+        responseEliminado:null
     }
   },
   methods:{
@@ -102,6 +115,24 @@ export default {
     cambiarVisibilidadEliminar(){
       this.$refs['eliminar-modal'].toggle('#toggle-btn')
     },
+    eliminar(id){
+      this.axios.delete(
+        `${this.getDominioApi()}/${this.entidad}/${id}`, 
+          {
+            headers: {Authorization: 'Bearer ' + this.getLoggedUserToken()}
+          }
+      )
+      .then(response=> {
+        console.log(response);
+        this.responseEliminado=response
+        setTimeout(() => {
+          location.reload()
+        }, 3000);
+      })
+      .catch(error =>{
+        this.response=error
+      })
+    }
   },
   computed:{
     getFields(){
