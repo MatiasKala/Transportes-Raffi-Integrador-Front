@@ -33,6 +33,7 @@
           <button class="btn btn-outline-danger" id="toggle-btn" @click="cambiarVisibilidadEliminar()">Eliminar</button>
           <b-modal 
             id="eliminar-modal"
+            ref="eliminar-modal"
             centered
             title="Eliminar"
             header-bg-variant="danger"
