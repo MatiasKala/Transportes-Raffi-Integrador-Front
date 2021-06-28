@@ -147,8 +147,7 @@
       },
       // DEVUELVE CAMPOS QUE VAMOS A PODER MODIFICAR DESDE EL FORMULARIO, ESCONDEN LOS ATRIBUTOS QUE NO SON Creables
       getLabels(){
-        let datosCreables=Object.keys(this.estadoInicial()).filter(dato => dato !='_id' && dato !='vehiculosAsignados' && dato != 'chofer' )
-        console.log(datosCreables);
+        let datosCreables=Object.keys(this.estadoInicial()).filter(dato => dato !='_id' && dato != 'chofer' )
         return datosCreables
       },
       enviar(){
@@ -185,14 +184,13 @@
         console.log('LLegue a metodo');
         switch (entidad) {
           case 'vehiculos':
-            this.formData.chofer={}
+            this.formData.chofer=''
             break;
           case 'viajes':
-            this.formData.cliente={}
-            this.formData.vehiculo={}
+            this.formData.cliente=''
+            this.formData.vehiculo=''
             break;
         }
-        console.log(this.formData);
       },
       
     },

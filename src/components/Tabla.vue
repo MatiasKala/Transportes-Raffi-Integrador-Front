@@ -63,8 +63,8 @@
     <!-- Si no hay datos en la tabla -->
     <div v-else>TABLA SIN DATOS</div>
 
-    <!-- CREAR REGISTRO -->
     <b-row>
+      <!-- CREAR REGISTRO -->
       <button class="btn btn-outline-primary ml-3" id="toggle-btn" @click="cambiarVisibilidadAgregar()">Agregar {{this.entidad | aSingular }}</button>
       <b-modal 
         ref="agregar-modal"
@@ -91,18 +91,54 @@
         hide-footer
       >
         <div class="d-block text-center" v-if="getDataChoferesAsignar">
-          <b-form-select v-model="choferElegido" :options="dataChoferesAsignar">
+
+          <b-form-select v-model="idChoferElegido" :options="dataChoferesAsignar">
             <template #first>
               <b-form-select-option :value="null" disabled>Elija un Chofer</b-form-select-option>
             </template>
           </b-form-select>
-          <div class="mt-2">Selected: <strong>{{ choferElegido }}</strong></div>
-          <b-button v-if="choferElegido!=null" class="mt-2" variant="info">Aceptar</b-button>
+
+          <b-form-select class="mt-4" v-model="idVehiculoElegido" :options="getVehiculosBindeados()">
+            <template #first>
+              <b-form-select-option :value="null" disabled>A qué vehículo se le asignará</b-form-select-option>
+            </template>
+          </b-form-select>
+
+          <b-button v-if="idChoferElegido!=null && idVehiculoElegido!=null"  class="mt-2" variant="info" v-b-modal.asignar-chofer-confirmar-modal>Aceptar</b-button>
           <b-button v-else class="mt-2" disabled variant="secondary">Aceptar</b-button>
         </div>
         <b-card text-variant="light" bg-variant="danger " v-else >No hay choferes para asignar</b-card>
       </b-modal>
+      
+      <!-- CONFIRMACION ASIGNACION CHOFER VEHICULO -->
+      <b-modal 
+      id="asignar-chofer-confirmar-modal" 
+      title="Confirmar"
+      header-bg-variant="info"
+      header-text-variant="light"
+      centered
+      hide-footer
+      size="sm"
+      >
+        <div class="d-block text-center" v-if="idChoferElegido!=null && idVehiculoElegido!=null">
+          El chofer de id <strong> {{idChoferElegido}}</strong> sera asignado al vehiculo de id <strong>{{idVehiculoElegido}}</strong>
+        </div>
+        <div class="d-block text-center" v-if="!response">
+          <b-button class="mt-3 mx-4 btn-envio text-center" variant="info" @click="asignarChoferAvehiculo()">
+            Confirmar
+          </b-button >
+          <b-button class="mt-3 mx-4 btn-envio text-center" variant="danger" @click="$bvModal.hide('asignar-chofer-confirmar-modal')">
+            Cancelar
+          </b-button >
+        </div>
+        <div class="d-block text-center mt-2" v-else>
+          <b-card bg-variant="success" v-if="response.status >= 200" >Modificacion realizada correctamente</b-card>
+          <b-card bg-variant="danger" v-else>Error en la modificacion</b-card>
+        </div>
+        
+      </b-modal>
     </b-row>
+    
     
   </b-container>
 </template>
@@ -124,7 +160,9 @@ export default {
         responseEliminado:null,
         data:null,
         dataChoferesAsignar:this.getChoferes(),
-        choferElegido:null
+        idChoferElegido:null,
+        idVehiculoElegido:null,
+        response:null
     }
   },
   methods:{
@@ -160,11 +198,22 @@ export default {
             return obj
           }
         )
-        response.data.push({ value: null, text: '' })
         this.dataChoferesAsignar = response.data
       }).catch(error =>{
         console.log(error);
       })
+    },
+    getVehiculosBindeados(){
+      let vehiculos=this.datos.map(vehiculo => 
+        {
+          var obj ={
+            value:vehiculo._id,
+            text:vehiculo.marca+' '+vehiculo.patente
+          }
+          return obj
+        }
+      )
+      return vehiculos
     },
     eliminar(id){
       this.axios.delete(
@@ -194,6 +243,25 @@ export default {
       let campos = this.getCamposOrdenables()
       return campos.includes(campo)
     },
+    asignarChoferAvehiculo(){
+      let token = this.getLoggedUserToken()
+      this.axios.put(
+        `${this.getDominioApi()}/${this.entidad}/${this.idVehiculoElegido}/${this.idChoferElegido}`, 
+          {
+            header: {Authorization: 'Bearer ' + token}
+          }
+      )
+      .then(response=> {
+        this.response=response
+        setTimeout(() => {
+          location.reload()
+        }, 3000);
+      })
+      .catch(error =>{
+        console.log(error);
+        this.response=error
+      })
+    }
   },
   computed:{
     getFields(){
@@ -209,15 +277,15 @@ export default {
             return {key:field, sortable:this.isSortable(field)? true: false}
           }
         })
-        // 
+        // ACA PARA CAMBIAR COMO SE VEN LOS CAMPOS DE LAS TABLAS QUE ESTAN RELACIONADOS A OTROS
         if (this.entidad == 'viajes') {          
           this.datos.forEach(element => {
-            element.vehiculo = element.vehiculo.patente ?  element.vehiculo.patente : {}
-            element.cliente = element.cliente.cuit ?  element.cliente.cuit : {}
+            element.vehiculo = element.vehiculo.patente ?  element.vehiculo : {}
+            element.cliente = element.cliente.cuit ?  element.cliente : {}
           })
         } else if (this.entidad == 'vehiculos') {
           this.datos.forEach(element => {
-            element.chofer = element.chofer.CUIT ?  element.chofer.CUIT : {}
+            element.chofer = element.chofer ?  element.chofer : {}
           })
         }
         // Devuelve los campos propios de cada entidad + los campos estaticos
