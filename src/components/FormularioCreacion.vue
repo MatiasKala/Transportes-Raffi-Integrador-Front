@@ -147,30 +147,20 @@
         }
         return estados[this.entidad]
       },
-      // DEVUELVE CAMPOS QUE VAMOS A PODER MODIFICAR DESDE EL FORMULARIO, ESCONDEN LOS ATRIBUTOS QUE NO SON MODIFICABLES
+      // DEVUELVE CAMPOS QUE VAMOS A PODER MODIFICAR DESDE EL FORMULARIO, ESCONDEN LOS ATRIBUTOS QUE NO SON Creables
       getLabels(){
-        let datosModificables=Object.keys(this.estadoInicial()).filter(dato => dato !='_id' && dato !='vehiculosAsignados' )
-        return datosModificables
-      },
-      getType(label){
-        // Va a haber que agregar mas harcodeados o cambiar el metodo
-        switch (label) {
-          case 'comision' || 'CUIT':
-            return 'number'
-          case 'fechaNacimiento':
-            return 'date'
-          default:
-            return 'text'
-        }
+        let datosCreables=Object.keys(this.estadoInicial()).filter(dato => dato !='_id' && dato !='vehiculosAsignados' && dato != 'chofer' )
+        console.log(datosCreables);
+        return datosCreables
       },
       enviar(){
         /* HACER LLAMADA A POST */
+        console.log('ENVIAR');
 
         this.formData.fechaCreacion = this.getFechaActual()
         this.formData.fechaBaja = null
 
         this.agregarCampoSegunEntidad(this.entidad)
-
         this.axios.post(
           `${this.getDominioApi()}/${this.entidad}`, 
             this.formData
@@ -196,10 +186,12 @@
         // COMPLETAR CAMPOS TIPO ARRAY PARA CADA ENTIDAD
         console.log('LLegue a metodo');
         switch (entidad) {
-          case 'choferes':
-            this.formData.vehiculosAsignados=[]
+          case 'vehiculos':
+            this.formData.chofer={}
             break;
-          default:
+          case 'viajes':
+            this.formData.cliente={}
+            this.formData.vehiculo={}
             break;
         }
         console.log(this.formData);

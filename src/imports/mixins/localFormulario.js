@@ -25,7 +25,6 @@ export const mixinLocal = {
               anio:'',
               seguro:'',
               tipo:'',
-              chofer:'',
             }
         },
           estadoInicialClientes(){
@@ -41,8 +40,6 @@ export const mixinLocal = {
               fechaEntrega:'',
               domicilioEntrega:'',
               descripcionPaquete:'',
-              vehiculo:'',
-              cliente:'',
             }
         },
         //DECIDEN EL TIPO DE INPUT QUE SE VA A RENDERIZAR
@@ -67,14 +64,18 @@ export const mixinLocal = {
         },
         getType(label){
             // Va a haber que agregar mas harcodeados o cambiar el metodo
-            switch (label) {
-              case 'comision' || 'CUIT':
-                return 'number'
-              case 'fechaNacimiento':
-                return 'date'
-              default:
-                return 'text'
+            const labels = {
+              'comision':'number',
+              'cuit':'number',
+              'CUIT':'number',
+              'anio':'number',
+              'viajes':this.estadoInicialViajes(),
+              'fechaNacimiento':'date',
+              'fechaEntrega':'date',
             }
+
+            return labels[label] ? labels[label] : 'text'
+
         },
     },
     computed : {

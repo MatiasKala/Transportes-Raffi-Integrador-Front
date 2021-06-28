@@ -3,8 +3,8 @@ import Vue from 'vue'
 const entidadesSingular = {
     "choferes":"chofer",
     "viajes":"viaje",
-    "vehiculos":"vehiculos",
-    "clientes":"clientes",
+    "vehiculos":"vehiculo",
+    "clientes":"cliente",
 }
 
 Vue.filter('primeraMayuscula', function(value) {

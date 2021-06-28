@@ -137,7 +137,8 @@
       },
       // DEVUELVE CAMPOS QUE VAMOS A PODER MODIFICAR DESDE EL FORMULARIO, ESCONDEN LOS ATRIBUTOS QUE NO SON MODIFICABLES
       getLabels(){
-        let datosModificables=Object.keys(this.datosActualesTabla.item).filter(dato => dato !='_id' && dato !='vehiculosAsignados' && dato !='viajesAsignados' )
+        let datosModificables=Object.keys(this.datosActualesTabla.item)
+                                    .filter(dato => dato !='_id' && dato !='vehiculosAsignados' && dato !='cliente' && dato != 'vehiculo' && dato !='fechaCreacion' && dato != 'fechaBaja'  )
         return datosModificables
       },
       enviar(datosActualesEntidad){

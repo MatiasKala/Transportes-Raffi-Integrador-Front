@@ -1,7 +1,7 @@
 <template>
   <b-container class="tabla">
     <h1>Tabla de {{entidad | primeraMayuscula}}</h1>
-    <div  v-if="!estaVacia" class="table-container ">
+    <div  v-if="!estaVacia && !estaCargando" class="table-container ">
       <b-table table-variant='light' head-variant="dark" :busy="estaCargando" outlined hover responsive  :items="datos" :fields="getFields">
         
         <!-- Para cuando la tabla todavia no cargó  -->
@@ -13,9 +13,8 @@
         </template>
 
         <!-- Campos personalizados EDITAR Y ELIMINAR -->
-        
         <template #cell(editar)="data">
-          <button class="btn btn-outline-warning" id="toggle-btn" @click="cambiarVisibilidadEditar()">Editar</button>
+          <button class="btn btn-outline-warning" id="toggle-btn" @click="cambiarVisibilidadEditar(data)">Editar</button>
           <b-modal 
             ref="editar-modal" 
             title="Editar"
@@ -24,13 +23,13 @@
           >
             <div class="d-block text-center">
               <!-- EDITAR -->
-              <FormularioEdicion :datosActualesTabla="data" :entidad="entidad"/>
+              <FormularioEdicion :datosActualesTabla="getData()" :entidad="entidad"/>
             </div>
           </b-modal>
         </template>
 
         <template #cell(eliminar)="data">
-          <button class="btn btn-outline-danger" id="toggle-btn" @click="cambiarVisibilidadEliminar()">Eliminar</button>
+          <button class="btn btn-outline-danger" id="toggle-btn" @click="cambiarVisibilidadEliminar(data)">Eliminar</button>
           <b-modal 
             id="eliminar-modal"
             ref="eliminar-modal"
@@ -41,10 +40,10 @@
             hide-footer
           >
             <div class="d-block text-center" >
-              Seguro que desea eliminar el {{entidad | aSingular}} de id <b>{{data.item._id}}</b> 
+              Seguro que desea eliminar el {{entidad | aSingular}} de id <b>{{getData() ? getData().item._id:''}}</b> 
             </div>
             <div class="d-block text-center" v-if="!responseEliminado">
-              <b-button class="mt-3 mx-4 btn-envio text-center" variant="info" @click="eliminar(data.item._id)">
+              <b-button class="mt-3 mx-4 btn-envio text-center" variant="info" @click="eliminar(getData() ? getData().item._id:'')">
                 Confirmar
               </b-button >
               <b-button class="mt-3 mx-4 btn-envio text-center" variant="danger" @click="$bvModal.hide('eliminar-modal')">
@@ -85,7 +84,6 @@
 </template>
 
 <script>
-
 import FormularioCreacion from "../components/FormularioCreacion.vue";
 import FormularioEdicion from "../components/FormularioEdicion.vue";
 
@@ -99,21 +97,20 @@ export default {
   },
   data(){
     return{
-        responseEliminado:null
+        responseEliminado:null,
+        data:null
     }
   },
   methods:{
-    isSortable(campo){
-      let campos = this.getCamposOrdenables()
-      return campos.includes(campo)
-    },
     cambiarVisibilidadAgregar(){
       this.$refs['agregar-modal'].toggle('#toggle-btn')
     },
-    cambiarVisibilidadEditar(){
+    cambiarVisibilidadEditar(data){
+      this.setData(data)
       this.$refs['editar-modal'].toggle('#toggle-btn')
     },
-    cambiarVisibilidadEliminar(){
+    cambiarVisibilidadEliminar(data){
+      this.setData(data)
       this.$refs['eliminar-modal'].toggle('#toggle-btn')
     },
     eliminar(id){
@@ -133,21 +130,43 @@ export default {
       .catch(error =>{
         this.response=error
       })
-    }
+    },
+    setData(data){
+      this.data = data 
+    },
+    getData(){
+      return this.data 
+    },
+    isSortable(campo){
+      let campos = this.getCamposOrdenables()
+      return campos.includes(campo)
+    },
   },
   computed:{
     getFields(){
+      // if(this.datos.length != 0){
       if(this.datos){
         /* Obtiene los campos estaticos que comparten todas las tablas */
         const staticFields = this.getCRUDStaticFields()
 
         // Filtra los campos que vamos a renderizar
         const fields= Object.keys(this.datos[0]).map((field)=>{
-          if(field!='_id'){
+          if(field != '_id' && field != 'fechaCreacion' && field != 'fechaBaja'){
             // Si son campos que puedan ordenar la tabla les agrega la propiedad sortable
             return {key:field, sortable:this.isSortable(field)? true: false}
           }
         })
+        // 
+        if (this.entidad == 'viajes') {          
+          this.datos.forEach(element => {
+            element.vehiculo = element.vehiculo.patente ?  element.vehiculo.patente : {}
+            element.cliente = element.cliente.cuit ?  element.cliente.cuit : {}
+          })
+        } else if (this.entidad == 'vehiculos') {
+          this.datos.forEach(element => {
+            element.chofer = element.chofer.CUIT ?  element.chofer.CUIT : {}
+          })
+        }
         // Devuelve los campos propios de cada entidad + los campos estaticos
         return fields.concat(staticFields)
       }
