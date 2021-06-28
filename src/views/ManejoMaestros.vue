@@ -26,9 +26,8 @@ export default {
             Authorization: 'Bearer ' + token 
           }
       }).then(response => {
-        // ESTA EN GLOBAL MIXIN POR MTAD
+        // ESTA EN GLOBAL MIXIN 
         this.eliminarCamposPrivados(response.data)
-        console.log(response.data);
         this.registros= response.data
       }).catch(error =>{
         console.log(error);

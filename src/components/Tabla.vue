@@ -78,6 +78,30 @@
           <FormularioCreacion :entidad="entidad" />
         </div>
       </b-modal>
+
+
+      <!-- ASIGNAR CHOFER A VEHICULO -->
+      <button v-if="(!estaVacia && !estaCargando) && this.entidad == 'vehiculos'" class="btn btn-outline-info ml-3" id="toggle-btn" @click="cambiarVisibilidadAsignarChofer()">Asignar Chofer</button>
+      <b-modal 
+        ref="asignar-chofer-modal"
+        centered
+        title="Asignar Chofer"
+        header-bg-variant="info"
+        header-text-variant="light"
+        hide-footer
+      >
+        <div class="d-block text-center" v-if="getDataChoferesAsignar">
+          <b-form-select v-model="choferElegido" :options="dataChoferesAsignar">
+            <template #first>
+              <b-form-select-option :value="null" disabled>Elija un Chofer</b-form-select-option>
+            </template>
+          </b-form-select>
+          <div class="mt-2">Selected: <strong>{{ choferElegido }}</strong></div>
+          <b-button v-if="choferElegido!=null" class="mt-2" variant="info">Aceptar</b-button>
+          <b-button v-else class="mt-2" disabled variant="secondary">Aceptar</b-button>
+        </div>
+        <b-card text-variant="light" bg-variant="danger " v-else >No hay choferes para asignar</b-card>
+      </b-modal>
     </b-row>
     
   </b-container>
@@ -98,7 +122,9 @@ export default {
   data(){
     return{
         responseEliminado:null,
-        data:null
+        data:null,
+        dataChoferesAsignar:this.getChoferes(),
+        choferElegido:null
     }
   },
   methods:{
@@ -112,6 +138,33 @@ export default {
     cambiarVisibilidadEliminar(data){
       this.setData(data)
       this.$refs['eliminar-modal'].toggle('#toggle-btn')
+    },
+    async cambiarVisibilidadAsignarChofer(){
+      console.log(this.dataChoferesAsignar);
+      this.$refs['asignar-chofer-modal'].toggle('#toggle-btn')
+    },
+    getChoferes(){
+      this.axios.get(`${this.$store.state.apiDominio}/choferes`, {
+          headers: {
+            Authorization: 'Bearer ' + this.getLoggedUserToken()
+          }
+      }).then(response => {
+        // ESTA EN GLOBAL MIXIN 
+        this.eliminarCamposPrivados(response.data)
+        response.data=response.data.map(chofer => 
+          {
+            var obj ={
+              value:chofer._id,
+              text:chofer.nombre+' '+chofer.apellido
+            }
+            return obj
+          }
+        )
+        response.data.push({ value: null, text: '' })
+        this.dataChoferesAsignar = response.data
+      }).catch(error =>{
+        console.log(error);
+      })
     },
     eliminar(id){
       this.axios.delete(
@@ -177,6 +230,9 @@ export default {
     },
     estaVacia(){
       return this.datos == {}
+    },
+    getDataChoferesAsignar(){
+      return this.dataChoferesAsignar
     }
   }
 }
