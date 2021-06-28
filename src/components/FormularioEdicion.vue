@@ -70,7 +70,6 @@
       </field-messages>
 
     </validate>
-    {{formData}} 
     <br>    
     <b-button disabled v-if="formState.$invalid || !formState.$dirty" class="mt-3 btn-disabled">
       Enviar

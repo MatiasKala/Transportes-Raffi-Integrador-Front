@@ -1,7 +1,9 @@
 <template>
   <div v-if="hayUsuario" class="container p-5">
     <b-navbar toggleable="lg" type="dark" variant="dark">
-      <b-navbar-brand href="#">Navegacion</b-navbar-brand>
+      <router-link to="/">
+          <b-navbar-brand>Home</b-navbar-brand>
+      </router-link>
 
       <b-navbar-toggle target="navbar-toggle-collapse">
         <template #default="{ expanded }">
@@ -30,11 +32,6 @@
           <b-nav-item>
               <router-link to="/manejoMaestros/viajes">
                 <a class="nav-link"><b-button variant="dark"> Viajes </b-button></a> 
-              </router-link>
-          </b-nav-item>
-          <b-nav-item>
-              <router-link to="/">
-                <a class="nav-link"><b-button variant="dark"> Home </b-button></a>
               </router-link>
           </b-nav-item>
         </b-navbar-nav>

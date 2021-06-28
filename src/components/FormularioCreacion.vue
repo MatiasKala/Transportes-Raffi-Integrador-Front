@@ -66,17 +66,15 @@
 
       <field-messages :name="label" show="$dirty">
         <div slot="required" class="alert alert-danger mt-2">Campo requerido</div>            
-        <div slot="minlength" v-if="label != 'CUIT'" class="alert alert-danger mt-2">Ingrese como minimo {{getMin(label)}} caracteres</div>            
-        <div slot="minlength" v-else class="alert alert-danger mt-2">El CUIT debe tener {{getMin(label)}} numeros</div>            
-        <div v-if="formData[label].length == getMax(label) && label != 'CUIT'"  class="alert alert-warning mt-2">El maximo permitido es de {{getMax(label)}} caracteres</div>            
-        <div slot="maxlength" v-else-if="label == 'comision'" class="alert alert-danger mt-2">El maximo permitido es de {{getMax(label)}} caracteres</div>            
+        <div slot="minlength" class="alert alert-danger mt-2">Ingrese como minimo {{getMin(label)}} caracteres</div>            
+        <div v-if="formData[label].length == getMax(label) && label == 'cuit' && label == 'CUIT'"  class="alert alert-warning mt-2">El maximo permitido es de {{getMax(label)}} caracteres</div>            
+        <div slot="maxlength" class="alert alert-danger mt-2">El maximo permitido es de {{getMax(label)}} caracteres</div>            
         <div slot="no-caracteres" v-if="formData[label].length >= getMin(label)" class="alert alert-danger mt-2">Los caracteres {{getCaracteresInvalidos}} no se permiten en este campo</div>            
         <div slot="solo-numeros" class="alert alert-danger mt-2">En este campo solo se permiten numeros</div>            
       </field-messages>
 
 
     </validate>
-    {{formData}} 
     <br>    
     <b-button disabled v-if="formState.$invalid" class="mt-3 btn-disabled">
       Enviar
