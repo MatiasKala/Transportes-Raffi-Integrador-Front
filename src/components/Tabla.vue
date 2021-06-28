@@ -200,18 +200,18 @@
       <!-- ASIGNAR VEHICULO A VIAJE -->
       <button v-if="(!estaVacia && !estaCargando) && this.entidad == 'viajes'" class="btn btn-outline-info ml-3" id="toggle-btn" @click="cambiarVisibilidadAsignarVehiculo()">Asignar Vehiculo</button>
       <b-modal 
-        ref="asignar-cliente-modal"
+        ref="asignar-vehiculo-modal"
         centered
-        title="Asignar Cliente"
+        title="Asignar Vehiculo"
         header-bg-variant="info"
         header-text-variant="light"
         hide-footer
       >
-        <div class="d-block text-center" v-if="getDataClientesAsignar">
+        <div class="d-block text-center" v-if="getDataVehiculosAsignar">
 
-          <b-form-select v-model="idClienteElegido" :options="dataClientesAsignar">
+          <b-form-select v-model="idVehiculoElegido" :options="getDataVehiculosAsignar">
             <template #first>
-              <b-form-select-option :value="null" disabled>Elija un Cliente</b-form-select-option>
+              <b-form-select-option :value="null" disabled>Elija un Vehiculo</b-form-select-option>
             </template>
           </b-form-select>
 
@@ -221,15 +221,15 @@
             </template>
           </b-form-select>
 
-          <b-button v-if="idClienteElegido!=null && idViajeElegido!=null"  class="mt-2" variant="info" v-b-modal.asignar-cliente-confirmar-modal>Aceptar</b-button>
+          <b-button v-if="idVehiculoElegido!=null && idViajeElegido!=null"  class="mt-2" variant="info" v-b-modal.asignar-vehiculo-confirmar-modal>Aceptar</b-button>
           <b-button v-else class="mt-2" disabled variant="secondary">Aceptar</b-button>
         </div>
-        <b-card class="mt-2" text-variant="light" bg-variant="danger" v-else >No hay cliente para asignar</b-card>
+        <b-card class="mt-2" text-variant="light" bg-variant="danger" v-else >No hay vehiculo para asignar</b-card>
       </b-modal>
       
-      <!-- CONFIRMACION ASIGNACION CLIENTE VIAJE -->
+      <!-- CONFIRMACION ASIGNACION VEHICULO VIAJE -->
       <b-modal 
-      id="asignar-cliente-confirmar-modal" 
+      id="asignar-vehiculo-confirmar-modal" 
       title="Confirmar"
       header-bg-variant="info"
       header-text-variant="light"
@@ -237,14 +237,14 @@
       hide-footer
       size="sm"
       >
-        <div class="d-block text-center" v-if="idClienteElegido!=null && idViajeElegido!=null">
-          El cliente de id <strong> {{idClienteElegido}}</strong> sera asignado al viaje de id <strong>{{idViajeElegido}}</strong>
+        <div class="d-block text-center" v-if="idVehiculoElegido!=null && idViajeElegido!=null">
+          El vehiculo de id <strong> {{idVehiculoElegido}}</strong> sera asignado al viaje de id <strong>{{idViajeElegido}}</strong>
         </div>
         <div class="d-block text-center" v-if="!response">
-          <b-button class="mt-3 mx-4 btn-envio text-center" variant="info" @click="asignarClienteAviaje()">
+          <b-button class="mt-3 mx-4 btn-envio text-center" variant="info" @click="asignarVehiculoAviaje()">
             Confirmar
           </b-button >
-          <b-button class="mt-3 mx-4 btn-envio text-center" variant="danger" @click="$bvModal.hide('asignar-cliente-confirmar-modal')">
+          <b-button class="mt-3 mx-4 btn-envio text-center" variant="danger" @click="$bvModal.hide('asignar-vehiculo-confirmar-modal')">
             Cancelar
           </b-button >
         </div>
@@ -288,7 +288,8 @@ export default {
         idClienteElegido:null,
         idViajeElegido:null,
         response:null,
-        dataClientesAsignar:this.getClientes()
+        dataClientesAsignar:this.getClientes(),
+        dataVehiculosAsignar:this.getVehiculos()
     }
   },
   methods:{
@@ -445,6 +446,47 @@ export default {
         console.log(error);
         this.response=error
       })
+    },
+    getVehiculos(){
+      this.axios.get(`${this.$store.state.apiDominio}/vehiculos`, {
+          headers: {
+            Authorization: 'Bearer ' + this.getLoggedUserToken()
+          }
+      }).then(response => {
+        // ESTA EN GLOBAL MIXIN 
+        this.eliminarCamposPrivados(response.data)
+        response.data=response.data.map(vehiculo => 
+          {
+            var obj ={
+              value:vehiculo._id,
+              text:'Patente '+vehiculo.patente+' Marca '+vehiculo.marca
+            }
+            return obj
+          }
+        )
+        this.dataVehiculosAsignar = response.data
+      }).catch(error =>{
+        console.log(error);
+      })
+    },
+    asignarVehiculoAviaje(){
+      let token = this.getLoggedUserToken()
+      this.axios.put(
+        `${this.getDominioApi()}/${this.entidad}/${this.idVehiculoElegido}/${this.idViajeElegido}`, 
+          {
+            header: {Authorization: 'Bearer ' + token}
+          }
+      )
+      .then(response=> {
+        this.response=response
+        setTimeout(() => {
+          location.reload()
+        }, 3000);
+      })
+      .catch(error =>{
+        console.log(error);
+        this.response=error
+      })
     }
   },
   computed:{
@@ -464,7 +506,7 @@ export default {
         // ACA PARA CAMBIAR COMO SE VEN LOS CAMPOS DE LAS TABLAS QUE ESTAN RELACIONADOS A OTROS
         if (this.entidad == 'viajes') {          
           this.datos.forEach(element => {
-            element.vehiculo = element.vehiculo.patente ?  element.vehiculo : {}
+            element.vehiculo = element.vehiculo ?  element.vehiculo : {}
             element.cliente = element.cliente?  element.cliente : {}
             console.log(this.datos);
           })
@@ -489,6 +531,9 @@ export default {
     },
     getDataClientesAsignar(){
       return this.dataClientesAsignar
+    },
+    getDataVehiculosAsignar(){
+      return this.dataVehiculosAsignar
     }
   }
 }
