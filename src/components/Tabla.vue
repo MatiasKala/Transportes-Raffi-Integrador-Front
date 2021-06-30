@@ -61,7 +61,7 @@
     </div>
 
     <!-- Si no hay datos en la tabla -->
-    <div v-else>TABLA SIN DATOS</div>
+    <div v-if="datos.length == 0">TABLA SIN DATOS</div>
 
     <b-row>
       <!-- CREAR REGISTRO -->
@@ -488,8 +488,8 @@ export default {
   },
   computed:{
     getFields(){
-      // if(this.datos.length != 0){
-      if(this.datos){
+      if(this.datos.length != 0){
+      // if(this.datos){
         /* Obtiene los campos estaticos que comparten todas las tablas */
         const staticFields = this.getCRUDStaticFields()
 
