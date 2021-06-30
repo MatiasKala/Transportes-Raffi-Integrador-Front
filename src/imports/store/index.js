@@ -15,6 +15,7 @@ export default new Vuex.Store({
     camposValidarLongitud:'',
     camposValidarLongitudNoCaracteresEspeciales:'nombre,apellido,patente,marca,modelo,seguro,tipo,direccion,tipoCobro,domicilioEntrega,descripcionPaquete',
     camposValidarSoloNumeros:'CUIT,comision,anio',
+  
     labelsLengthMins:{
       'CUIT':11,
       'nombre':3,
