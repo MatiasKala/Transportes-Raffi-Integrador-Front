@@ -13,7 +13,7 @@
         </template>
 
         <!-- Campos personalizados EDITAR Y ELIMINAR -->
-        <template #cell(editar)="data">
+        <template v-if="isCRUD" #cell(editar)="data">
           <button class="btn btn-outline-warning" id="toggle-btn" @click="cambiarVisibilidadEditar(data)">Editar</button>
           <b-modal 
             ref="editar-modal" 
@@ -28,7 +28,7 @@
           </b-modal>
         </template>
 
-        <template #cell(eliminar)="data">
+        <template v-if="isCRUD" #cell(eliminar)="data">
           <button class="btn btn-outline-danger" id="toggle-btn" @click="cambiarVisibilidadEliminar(data)">Eliminar</button>
           <b-modal 
             id="eliminar-modal"
@@ -254,9 +254,6 @@
         </div>
         
       </b-modal>
-
-
-
 
 
 

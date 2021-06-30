@@ -39,8 +39,8 @@ Vue.mixin({
             return localStorage.user ? true : false 
         },
         getFechaActual(){
-            return this.$moment().format().slice(0,10)
-        }
+            return String(this.$moment().format().slice(0,10))
+        },
     },
     computed : {
         getCaracteresInvalidos() {

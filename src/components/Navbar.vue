@@ -30,7 +30,7 @@
               </router-link>
           </b-nav-item>
           <b-nav-item>
-              <router-link to="/manejoMaestros/viajes">
+              <router-link to="/viajes">
                 <a class="nav-link"><b-button variant="dark"> Viajes </b-button></a> 
               </router-link>
           </b-nav-item>

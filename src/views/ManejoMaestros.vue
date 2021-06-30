@@ -1,6 +1,6 @@
 <template>
   <div class="Test">
-    <Tabla :datos="registros" :entidad="entidad" :isCRUD="true"/>
+    <Tabla :datos="viajesProgramados" :entidad="'Viajes'" :isCRUD="true"/>
   </div>
 </template>
 
@@ -16,11 +16,11 @@ export default {
   props:['entidad'],
   data(){
     return{
-      registros:this.getRegistros(this.getLoggedUserToken())
+      viajesProgramados:this.getViajesProgramados(this.getLoggedUserToken())
     }
   },
   methods:{
-    getRegistros(token){
+    getViajesProgramados(token){
       this.registros=this.axios.get(`${this.$store.state.apiDominio}/${this.entidad}`, {
           headers: {
             Authorization: 'Bearer ' + token 

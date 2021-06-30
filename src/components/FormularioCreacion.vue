@@ -110,7 +110,7 @@
           Cancelar
         </b-button >
       </div>
-      <div class="d-block text-center" v-else>
+      <div class="d-block text-center mt-2" v-else>
         <b-card bg-variant="success" v-if="response.status >= 200" >Creacion realizada correctamente</b-card>
         <b-card bg-variant="danger" v-else>Error en la creacion</b-card>
       </div>
@@ -153,7 +153,7 @@
       enviar(){
         /* HACER LLAMADA A POST */
         console.log('ENVIAR');
-
+        // GET FECHA ACTUAL EN GLOBAL MIXIN
         this.formData.fechaCreacion = this.getFechaActual()
         this.formData.fechaBaja = null
 
