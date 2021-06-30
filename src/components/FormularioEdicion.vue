@@ -73,7 +73,7 @@
     <b-button disabled v-if="formState.$invalid || !formState.$dirty" class="mt-3 btn-disabled">
       Enviar
     </b-button>
-    <b-button v-else class="mt-3 btn-envio" variant="warning" v-b-modal.confirmar-modal>
+    <b-button v-else class="mt-3 botonEnvio" variant="warning" v-b-modal.confirmar-modal>
       Enviar
     </b-button>
 
@@ -97,10 +97,10 @@
       </div>
       
       <div class="d-block text-center" v-if="!response"> 
-        <b-button class="mt-3 mx-4 btn-envio text-center" variant="info" @click="enviar(datosActualesTabla.item)">
+        <b-button class="mt-3 mx-4 botonEnvio text-center" variant="info" @click="enviar(datosActualesTabla.item)">
           Confirmar
         </b-button >
-        <b-button class="mt-3 mx-4 btn-envio text-center" variant="danger" @click="$bvModal.hide('confirmar-modal')">
+        <b-button class="mt-3 mx-4 botonEnvio text-center" variant="danger" @click="$bvModal.hide('confirmar-modal')">
           Cancelar
         </b-button >
       </div>
@@ -196,7 +196,8 @@
 	border: none;
 	transition: all 0.7s ease 0s;
   }
-  .btn-envio{
+.botonEnvio {
+	color: #fff !important;
 	text-transform: uppercase;
 	text-decoration: none;
 	padding: 15px;
@@ -206,5 +207,12 @@
 	display: inline-block;
 	border: none;
 	transition: all 0.7s ease 0s;
-  }
+}
+.botonEnvio:hover {
+	letter-spacing: 5px;
+	-webkit-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+	-moz-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+	box-shadow: 5px 40px -10px rgba(0,0,0,0.57);
+	transition: all 0.7s ease 0s;
+}
 </style>

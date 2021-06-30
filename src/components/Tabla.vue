@@ -1,16 +1,22 @@
 <template>
   <b-container class="tabla">
-    <h1>Tabla de {{entidad | primeraMayuscula}}</h1>
-    <div  v-if="!estaVacia && !estaCargando" class="table-container ">
-      <b-table table-variant='light' head-variant="dark" :busy="estaCargando" outlined hover responsive  :items="datos" :fields="getFields">
-        
-        <!-- Para cuando la tabla todavia no cargó  -->
-        <template #table-busy>
-          <div class="text-center text-primary my-2">
-            <b-spinner class="align-middle"></b-spinner>
-            <p ><b> Loading... </b></p>
-          </div>
-        </template>
+    <h1 class="mb-3">Tabla de {{entidad | primeraMayuscula}}</h1>
+
+    <!-- Si la tabla todavia no cargó -->
+    <div class="text-center my-5" v-if="!datos">
+      <div >
+        <div class="text-center mb-3 ">
+          <h3><b class="mr-3"> Cargando tabla... </b></h3>
+          <b-spinner
+          variant="dark"
+          ></b-spinner>
+        </div>
+      </div>
+    </div>
+
+
+    <div  v-if="datos && datos.length != 0" class="table-container ">
+      <b-table table-variant='light' head-variant="dark" outlined hover responsive  :items="datos" :fields="getFields">
 
         <!-- Campos personalizados EDITAR Y ELIMINAR -->
         <template v-if="isCRUD" #cell(editar)="data">
@@ -43,10 +49,10 @@
               Seguro que desea eliminar el {{entidad | aSingular}} de id <b>{{getData() ? getData().item._id:''}}</b> 
             </div>
             <div class="d-block text-center" v-if="!responseEliminado">
-              <b-button class="mt-3 mx-4 btn-envio text-center" variant="info" @click="eliminar(getData() ? getData().item._id:'')">
+              <b-button class="mt-3 mx-4 botonEnvio text-center" variant="info" @click="eliminar(getData() ? getData().item._id:'')">
                 Confirmar
               </b-button >
-              <b-button class="mt-3 mx-4 btn-envio text-center" variant="danger" @click="$bvModal.hide('eliminar-modal')">
+              <b-button class="mt-3 mx-4 botonEnvio text-center" variant="danger" @click="$bvModal.hide('eliminar-modal')">
                 Cancelar
               </b-button >
             </div>
@@ -61,7 +67,7 @@
     </div>
 
     <!-- Si no hay datos en la tabla -->
-    <div v-if="datos.length == 0">TABLA SIN DATOS</div>
+    <div class="my-5" v-if="datos && datos.length == 0">TABLA SIN DATOS</div>
 
     <b-row>
       <!-- CREAR REGISTRO -->
@@ -81,7 +87,7 @@
 
 
       <!-- ASIGNAR CHOFER A VEHICULO -->
-      <button v-if="(!estaVacia && !estaCargando) && this.entidad == 'vehiculos'" class="btn btn-outline-info ml-3" id="toggle-btn" @click="cambiarVisibilidadAsignarChofer()">Asignar Chofer</button>
+      <button v-if="datos && datos.length != 0  && this.entidad == 'vehiculos'" class="btn btn-outline-info ml-3" id="toggle-btn" @click="cambiarVisibilidadAsignarChofer()">Asignar Chofer</button>
       <b-modal 
         ref="asignar-chofer-modal"
         centered
@@ -140,7 +146,7 @@
 
 
       <!-- ASIGNAR CLIENTE A VIAJE -->
-      <button v-if="(!estaVacia && !estaCargando) && this.entidad == 'viajes'" class="btn btn-outline-info ml-3" id="toggle-btn" @click="cambiarVisibilidadAsignarCliente()">Asignar Cliente</button>
+      <button v-if="datos && datos.length != 0 && this.entidad == 'viajes'" class="btn btn-outline-info ml-3" id="toggle-btn" @click="cambiarVisibilidadAsignarCliente()">Asignar Cliente</button>
       <b-modal 
         ref="asignar-cliente-modal"
         centered
@@ -198,7 +204,7 @@
       </b-modal>
 
       <!-- ASIGNAR VEHICULO A VIAJE -->
-      <button v-if="(!estaVacia && !estaCargando) && this.entidad == 'viajes'" class="btn btn-outline-info ml-3" id="toggle-btn" @click="cambiarVisibilidadAsignarVehiculo()">Asignar Vehiculo</button>
+      <button v-if="datos && datos.length != 0 && this.entidad == 'viajes'" class="btn btn-outline-info ml-3" id="toggle-btn" @click="cambiarVisibilidadAsignarVehiculo()">Asignar Vehiculo</button>
       <b-modal 
         ref="asignar-vehiculo-modal"
         centered
@@ -516,12 +522,6 @@ export default {
         return fields.concat(staticFields)
       }
       return []
-    },
-    estaCargando(){
-      return this.datos == undefined
-    },
-    estaVacia(){
-      return this.datos == {}
     },
     getDataChoferesAsignar(){
       return this.dataChoferesAsignar
