@@ -29,7 +29,7 @@ export const mixinLocal = {
         },
           estadoInicialClientes(){
             return {
-              cuit:'',
+              CUIT:'',
               nombre:'',
               direccion:'',
               tipoCobro:'',
@@ -66,7 +66,6 @@ export const mixinLocal = {
             // Va a haber que agregar mas harcodeados o cambiar el metodo
             const labels = {
               'comision':'number',
-              'cuit':'number',
               'CUIT':'number',
               'anio':'number',
               'viajes':this.estadoInicialViajes(),

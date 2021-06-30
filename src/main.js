@@ -15,6 +15,8 @@ Vue.use(IconsPlugin)
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import '@popperjs/core'
+import VueMoment from 'vue-moment'
+Vue.use(VueMoment)
 
 Vue.config.productionTip = false
 

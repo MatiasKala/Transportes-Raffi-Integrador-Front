@@ -39,13 +39,7 @@ Vue.mixin({
             return localStorage.user ? true : false 
         },
         getFechaActual(){
-            let date = new Date()
-
-            let day = date.getDate()
-            let month = date.getMonth() + 1
-            let year = date.getFullYear()
-
-            return month < 10 ? `${day}-0${month}-${year}` : `${day}-${month}-${year}`
+            return this.$moment().format().slice(0,10)
         }
     },
     computed : {

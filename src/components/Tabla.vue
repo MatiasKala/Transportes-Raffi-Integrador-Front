@@ -418,7 +418,7 @@ export default {
           {
             var obj ={
               value:cliente._id,
-              text:'Nombre '+cliente.nombre+' CUIT '+cliente.cuit
+              text:'Nombre '+cliente.nombre+' CUIT '+cliente.CUIT
             }
             return obj
           }
