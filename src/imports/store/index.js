@@ -6,8 +6,9 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     caracteresNoPermitidosContrasenia:'(),$\'%#"=-+*~[]`^{};:<>|°¬?¡!',
-    // apiDominio:'https://stormy-mountain-51560.herokuapp.com',
-    apiDominio:'http://localhost:3000',
+ 
+    apiDominio:'https://stormy-mountain-51560.herokuapp.com',
+    // apiDominio:'http://localhost:3000',
     
     camposOrdenables:'email,username,apellido,patente,tipo,tipoCobro,',
     // ACA EMPIEZAN INPUTS
@@ -48,7 +49,8 @@ export default new Vuex.Store({
       'tipo':20,
       'tipoCobro':20,
     },
-    codigoIcono: ''
+    codigoIconoClima: '',
+    dataClima: '',
   },
   actions: {
     receiveLoggedUser({commit},data){
@@ -57,6 +59,9 @@ export default new Vuex.Store({
     receiveIconoClima({commit},responseCodigo){
       commit('setIconoClima',responseCodigo.data)
     },
+    receiveDataClima({commit},responseCodigo){
+      commit('setDataClima',responseCodigo.data)
+    },
   },  
     mutations: {
     setLoggedUser(state,{user,token}) {
@@ -64,7 +69,10 @@ export default new Vuex.Store({
       localStorage.setItem('token', JSON.stringify(token))
     },
     setIconoClima(state,codigo) {
-      state.codigoIcono = codigo
+      state.codigoIconoClima = codigo
+    },
+    setDataClima(state,data) {
+      state.dataClima = data
     },
   },
   modules: {

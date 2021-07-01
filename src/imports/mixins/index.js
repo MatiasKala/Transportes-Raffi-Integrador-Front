@@ -45,6 +45,11 @@ Vue.mixin({
             this.$store.dispatch('receiveIconoClima',await this.axios.get(
                 `${this.getDominioApi()}/hojaDeRuta/clima/icono` 
             ))
+        },
+        async getDatosClima(){
+            this.$store.dispatch('receiveDataClima',await this.axios.get(
+                `${this.getDominioApi()}/hojaDeRuta/clima` 
+            ))
         }
     },
     computed : {

@@ -1,6 +1,6 @@
 <template>
   <b-container class="tabla">
-    <h1 class="mb-3">Tabla de {{entidad | primeraMayuscula}}</h1>
+    <h1>Tabla de {{entidad | primeraMayuscula}}</h1>
 
     <!-- Si la tabla todavia no cargó -->
     <div class="text-center my-5" v-if="!datos">
@@ -15,7 +15,7 @@
     </div>
 
 
-    <div  v-if="datos && datos.length != 0" class="table-container ">
+    <div  v-if="datos && datos.length != 0" class="table-container my-5">
       <b-table table-variant='light' head-variant="dark" outlined hover responsive  :items="datos" :fields="getFields">
 
         <!-- CHOFER Campo personalizado -->
