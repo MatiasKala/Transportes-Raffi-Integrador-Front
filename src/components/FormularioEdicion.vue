@@ -159,11 +159,18 @@
           console.log(response);
           this.response=response
           setTimeout(() => {
-            location.reload()
-          }, 3000);
+            if (response.status <400) {
+              location.reload()              
+            }else{
+              this.response=''
+            }
+          }, 6000);
         })
         .catch(error =>{
           this.response=error
+          setTimeout(() => {
+            this.response=''   
+          }, 6000);
         })
       },
       eliminarCamposVacios(){

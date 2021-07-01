@@ -152,7 +152,6 @@
       },
       enviar(){
         /* HACER LLAMADA A POST */
-        console.log('ENVIAR');
         // GET FECHA ACTUAL EN GLOBAL MIXIN
         this.formData.fechaCreacion = this.getFechaActual()
         this.formData.fechaBaja = null
@@ -167,21 +166,27 @@
             }
         )
         .then(response=> {
-          console.log(response);
+          console.log(response.status)
           this.response=response
           setTimeout(() => {
-            location.reload()
-          }, 3000);
+            if (response.status <400) {
+              location.reload()              
+            }else{
+              this.response=''
+            }
+          }, 6000);
         })
         .catch(error =>{
           this.response=error
+          setTimeout(() => {
+              this.response=''
+          }, 6000);
         })
 
 
       },
       agregarCampoSegunEntidad(entidad){
         // COMPLETAR CAMPOS TIPO ARRAY PARA CADA ENTIDAD
-        console.log('LLegue a metodo');
         switch (entidad) {
           case 'vehiculos':
             this.formData.chofer=''
@@ -189,6 +194,7 @@
           case 'viajes':
             this.formData.cliente=''
             this.formData.vehiculo=''
+            this.formData.estado='PENDIENTE'
             break;
         }
       },

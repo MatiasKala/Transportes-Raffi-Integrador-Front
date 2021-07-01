@@ -67,7 +67,8 @@ export default {
 </script>
 <style scoped>
 .btn-viajes{
-  background-color: rgb(55, 0, 107);
+  
+  background-color: 	#330040;
   transition: all 0.7s ease 0s;
 }
 .btn-viajes:hover{

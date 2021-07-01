@@ -6,8 +6,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     caracteresNoPermitidosContrasenia:'(),$\'%#"=-+*~[]`^{};:<>|°¬?¡!',
-    apiDominio:'https://stormy-mountain-51560.herokuapp.com',
-    // apiDominio:'http://localhost:3000',
+    // apiDominio:'https://stormy-mountain-51560.herokuapp.com',
+    apiDominio:'http://localhost:3000',
     
     camposOrdenables:'email,username,apellido,patente,tipo,tipoCobro,',
     // ACA EMPIEZAN INPUTS

@@ -28,11 +28,11 @@
               </b-row>
               <b-row v-else>
                 <b-col>
-                  <p style="margin-top:6px; color:white;">Bienvenido, {{getLocalStoreUserUsername()}}</p>
+                  <p style="padding-top:2px; color:white;"><b>Bienvenido {{getLocalStoreUserUsername()}}</b></p>
                 </b-col>
                 <b-col >
-                  <b-button size="sm" variant="light" @click="cerrarSesion()">
-                    Cerrar sesion
+                  <b-button size="sm" class="mb-5" variant="light" @click="cerrarSesion()">
+                    Salir
                   </b-button>
                 </b-col>
               </b-row>

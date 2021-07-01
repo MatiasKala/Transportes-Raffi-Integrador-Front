@@ -18,7 +18,25 @@
     <div  v-if="datos && datos.length != 0" class="table-container ">
       <b-table table-variant='light' head-variant="dark" outlined hover responsive  :items="datos" :fields="getFields">
 
-        <!-- Campos personalizados EDITAR Y ELIMINAR -->
+        <!-- CHOFER Campo personalizado -->
+        <template v-if="this.entidad == 'vehiculos'" #cell(chofer)="data">
+          <b v-if="data.item.chofer._id">{{ '_id: '+data.item.chofer._id }}</b>
+          <b v-else>{{'---------'}}</b>
+        </template>
+
+        <!-- CLIENTE Campo personalizado -->
+        <template v-if="this.entidad == 'viajes'" #cell(cliente)="data">
+          <b v-if="data.item.cliente._id">{{ '_id: '+data.item.cliente._id }}</b>
+          <b v-else>{{'---------'}}</b>
+        </template>
+
+        <!-- VEHICULO Campo personalizado -->
+        <template v-if="this.entidad == 'viajes'" #cell(vehiculo)="data">
+          <b v-if="data.item.vehiculo._id">{{ '_id: '+data.item.vehiculo._id }}</b>
+          <b v-else>{{'---------'}}</b>
+        </template>
+        
+        <!-- EDITAR Y ELIMINAR Campos personalizados -->
         <template v-if="isCRUD" #cell(editar)="data">
           <button class="btn btn-outline-warning" id="toggle-btn" @click="cambiarVisibilidadEditar(data)">Editar</button>
           <b-modal 
@@ -71,7 +89,7 @@
 
     <b-row>
       <!-- CREAR REGISTRO -->
-      <button class="btn btn-outline-primary ml-3" id="toggle-btn" @click="cambiarVisibilidadAgregar()">Agregar {{this.entidad | aSingular }}</button>
+      <button class="btn btn-outline-primary ml-3 mt-2" id="toggle-btn" @click="cambiarVisibilidadAgregar()">Agregar {{this.entidad | aSingular }}</button>
       <b-modal 
         ref="agregar-modal"
         centered
@@ -87,7 +105,7 @@
 
 
       <!-- ASIGNAR CHOFER A VEHICULO -->
-      <button v-if="datos && datos.length != 0  && this.entidad == 'vehiculos'" class="btn btn-outline-info ml-3" id="toggle-btn" @click="cambiarVisibilidadAsignarChofer()">Asignar Chofer</button>
+      <button v-if="datos && datos.length != 0  && this.entidad == 'vehiculos'" class="btn btn-outline-info ml-3 mt-2" id="toggle-btn" @click="cambiarVisibilidadAsignarChofer()">Asignar Chofer</button>
       <b-modal 
         ref="asignar-chofer-modal"
         centered
@@ -146,7 +164,7 @@
 
 
       <!-- ASIGNAR CLIENTE A VIAJE -->
-      <button v-if="datos && datos.length != 0 && this.entidad == 'viajes'" class="btn btn-outline-info ml-3" id="toggle-btn" @click="cambiarVisibilidadAsignarCliente()">Asignar Cliente</button>
+      <button v-if="datos && datos.length != 0 && this.entidad == 'viajes'" class="btn btn-outline-info ml-3 mt-2" id="toggle-btn" @click="cambiarVisibilidadAsignarCliente()">Asignar Cliente</button>
       <b-modal 
         ref="asignar-cliente-modal"
         centered
@@ -204,7 +222,7 @@
       </b-modal>
 
       <!-- ASIGNAR VEHICULO A VIAJE -->
-      <button v-if="datos && datos.length != 0 && this.entidad == 'viajes'" class="btn btn-outline-info ml-3" id="toggle-btn" @click="cambiarVisibilidadAsignarVehiculo()">Asignar Vehiculo</button>
+      <button v-if="datos && datos.length != 0 && this.entidad == 'viajes'" class="btn btn-outline-info ml-3 mt-2" id="toggle-btn" @click="cambiarVisibilidadAsignarVehiculo()">Asignar Vehiculo</button>
       <b-modal 
         ref="asignar-vehiculo-modal"
         centered
@@ -509,13 +527,13 @@ export default {
         // ACA PARA CAMBIAR COMO SE VEN LOS CAMPOS DE LAS TABLAS QUE ESTAN RELACIONADOS A OTROS
         if (this.entidad == 'viajes') {          
           this.datos.forEach(element => {
-            element.vehiculo = element.vehiculo ?  element.vehiculo : {}
-            element.cliente = element.cliente?  element.cliente : {}
+            element.vehiculo = element.vehiculo ?  element.vehiculo : '-'
+            element.cliente = element.cliente?  element.cliente : '-'
             console.log(this.datos);
           })
         } else if (this.entidad == 'vehiculos') {
           this.datos.forEach(element => {
-            element.chofer = element.chofer ?  element.chofer : {}
+            element.chofer = element.chofer ?  element.chofer : '-'
           })
         }
         // Devuelve los campos propios de cada entidad + los campos estaticos
