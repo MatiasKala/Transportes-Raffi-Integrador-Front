@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <Header/>
+    <Clima/>
     <Navbar/>
     <router-view/>
     <Footer/>
@@ -12,6 +13,7 @@
 import Header from './components/HeaderComponent.vue'
 import Navbar from './components/Navbar.vue'
 import Footer from './components/FooterComponent.vue'
+import Clima from './components/Clima.vue'
 
 export default {
   name: 'App',
@@ -19,6 +21,7 @@ export default {
     Navbar,
     Header,
     Footer,
+    Clima
   },
   data() {
     return {

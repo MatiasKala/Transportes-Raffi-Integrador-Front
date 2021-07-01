@@ -47,18 +47,25 @@ export default new Vuex.Store({
       // ENUMS
       'tipo':20,
       'tipoCobro':20,
-    }
+    },
+    codigoIcono: ''
   },
   actions: {
     receiveLoggedUser({commit},data){
       commit('setLoggedUser',data)
+    },
+    receiveIconoClima({commit},responseCodigo){
+      commit('setIconoClima',responseCodigo.data)
     },
   },  
     mutations: {
     setLoggedUser(state,{user,token}) {
       localStorage.setItem('user', JSON.stringify(user))
       localStorage.setItem('token', JSON.stringify(token))
-    }
+    },
+    setIconoClima(state,codigo) {
+      state.codigoIcono = codigo
+    },
   },
   modules: {
   }

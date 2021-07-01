@@ -41,6 +41,11 @@ Vue.mixin({
         getFechaActual(){
             return String(this.$moment().format().slice(0,10))
         },
+        async setCodigoIconoClima(){
+            this.$store.dispatch('receiveIconoClima',await this.axios.get(
+                `${this.getDominioApi()}/hojaDeRuta/clima/icono` 
+            ))
+        }
     },
     computed : {
         getCaracteresInvalidos() {
