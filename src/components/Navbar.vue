@@ -1,7 +1,7 @@
 <template>
-  <div v-if="hayUsuario" class="container py-5">
+  <div v-if="hayUsuario" class="container py-3">
     <b-row>
-      <b-col lg="2" md="12" cols="12">
+      <b-col lg="3" md="12" cols="12">
         <Clima/>
       </b-col>
       <b-col lg="9" md="12" cols="12">
