@@ -76,37 +76,6 @@ export const mixinLocal = {
             return labels[label] ? labels[label] : 'text'
 
         },
-        enviarPut(datosActualesEntidad,body){
-          /* HACER LLAMADA A PUT */
-
-          this.eliminarCamposVaciosParaEnvio()
-  
-          this.axios.put(
-            `${this.getDominioApi()}/${this.entidad}/${datosActualesEntidad._id}`, 
-              body
-              ,
-              {
-                headers: {Authorization: 'Bearer ' + this.getLoggedUserToken()}
-              }
-          )
-          .then(response=> {
-            console.log(response);
-            this.response=response
-            setTimeout(() => {
-              if (response.status <400) {
-                location.reload()              
-              }else{
-                this.response=''
-              }
-            }, 4000);
-          })
-          .catch(error =>{
-            this.response=error
-            setTimeout(() => {
-              this.response=''   
-            }, 6000);
-          })
-        },
     },
     computed : {
     }

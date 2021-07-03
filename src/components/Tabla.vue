@@ -509,8 +509,9 @@ export default {
     cambioEstado(data,body){
       // HACER VALIDACIONES PARA VER SI 
       // SE PUEDE HACER EL CAMBIO DE ESTADO
-      console.log(data,body);
-      // this.enviarPut(data,body)
+
+      // enviarPut ESTA EN GLOBAL MIXIN 
+      this.enviarPut(data,body,'viajes')
     }
   },
   computed:{

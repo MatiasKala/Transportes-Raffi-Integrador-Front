@@ -57,7 +57,46 @@ Vue.mixin({
             this.$store.dispatch('receiveDataClima',await this.axios.get(
                 `${this.getDominioApi()}/hojaDeRuta/clima` 
             ))
-        }
+        },
+        enviarPut(datosActualesEntidad,body,entidadCambiada = null){
+            /* HACER LLAMADA A PUT */
+
+            if (!entidadCambiada) {
+              this.eliminarCamposVaciosParaEnvio()
+            }
+            this.axios.put(
+              `${this.getDominioApi()}/${entidadCambiada ? entidadCambiada : this.entidad}/${datosActualesEntidad.item._id}`, 
+                body,
+                {
+                  headers: {Authorization: 'Bearer ' + this.getLoggedUserToken()}
+                }
+            )
+            .then(response=> {
+              console.log(response);
+              this.response=response
+              setTimeout(() => {
+                if (response.status <400) {
+                  location.reload()              
+                }else{
+                  this.response=''
+                }
+              }, 4000);
+            })
+            .catch(error =>{
+              this.response=error
+              setTimeout(() => {
+                this.response=''   
+              }, 6000);
+            })
+          },
+          eliminarCamposVaciosParaEnvio(){
+            let keys=Object.keys(this.formData)
+            keys.forEach(element => {
+              if (!this.formData[element]) {
+                delete this.formData[element]
+              }
+            })
+          }
     },
     computed : {
         getCaracteresInvalidos() {

@@ -113,7 +113,7 @@
       </div>
       <div class="d-block text-center mt-2" v-else>
         <b-card bg-variant="success" v-if="response.status >= 200" >Creacion realizada correctamente</b-card>
-        <b-card bg-variant="danger" v-else>Error en la creacion</b-card>
+        <b-card bg-variant="danger" v-else>Error en la creacion <br> {{response.response.data.error}}</b-card>
       </div>
     </b-modal>
   </vue-form>
