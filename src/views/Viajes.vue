@@ -5,9 +5,22 @@
       <b-button @click="verHistoricos()" class="btn btn-viajes">Viajes Historicos</b-button>
       <b-button @click="verHojaDeRuta()" class="btn btn-viajes">Hoja de Ruta</b-button>
     </b-button-group>
+
+
+    <!-- VIAJES PROGRAMADOS -->
+
     <Tabla v-if="mostrarProgramados" :datos="viajesProgramados" :entidad="'viajes'" :isCRUD="true"/>
+    
+    <!-- VIAJES HISTORICOS -->
+    
     <div v-if="mostrarHistoricos">HISTORICOS</div>
-    <div v-if="mostrarHojaDeRuta">HOJA DE RUTA</div>
+    
+    <!-- HOJA DE RUTA -->
+    
+    <div v-if="mostrarHojaDeRuta">
+        <Tabla v-if="mostrarHojaDeRuta" :datos="viajesHojaDeRuta" :entidad="'hojaDeRuta'" :isCRUD="true"/>
+    </div>
+  
   </div>
 </template>
 
@@ -21,13 +34,14 @@ export default {
   data(){
     return{
       viajesProgramados:this.getViajesProgramados(this.getLoggedUserToken()),
+      viajesHojaDeRuta:this.getViajesHojaDeRuta(this.getLoggedUserToken()),
       mostrarProgramados:false,
       mostrarHistoricos:false,
       mostrarHojaDeRuta:false,
     }
   },
   methods:{
-      getViajesProgramados(token){
+    getViajesProgramados(token){
       this.viajesProgramados=this.axios.get(`${this.$store.state.apiDominio}/viajes`, {
           headers: {
             Authorization: 'Bearer ' + token 
@@ -35,6 +49,18 @@ export default {
       }).then(response => {
         console.log('Obtenidos ',response.data);        
         this.viajesProgramados= response.data
+      }).catch(error =>{
+        console.log(error);
+      })
+    },
+    getViajesHojaDeRuta(token){
+      this.viajesHojaDeRuta=this.axios.get(`${this.$store.state.apiDominio}/viajes`, {
+          headers: {
+            Authorization: 'Bearer ' + token 
+          }
+      }).then(response => {
+        console.log('Obtenidos ',response.data);        
+        this.viajesHojaDeRuta= response.data
       }).catch(error =>{
         console.log(error);
       })

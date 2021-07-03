@@ -1,7 +1,7 @@
 <template>
   <b-container class="pantallaEntrada p-5">
     <b-row>
-      <b-col cols="8">
+      <b-col cols="12" lg="8" md="6" class="pt-4">
       <!-- Imagenes de la derecha -->
         <b-card border-variant="info" header="Transportes Raffi" header-bg-variant="info" header-text-variant="white" title="Ingresá y obtené toda la información sobre tu pedido">      
           <hr style="background-color:silver;">
@@ -74,7 +74,7 @@
 
       <!-- COMIENZO DEL FORMULARIO -->
       
-      <b-col cols="4">
+      <b-col cols="12" lg="4" md="6" class="pt-4">
         <b-card :title="obtenerTituloFormulario()">
           <hr>
               <vue-form :state="formState" @submit.prevent="enviar()">

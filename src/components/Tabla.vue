@@ -1,6 +1,6 @@
 <template>
   <b-container class="tabla">
-    <h1>Tabla de {{entidad | primeraMayuscula}}</h1>
+    <h1>Tabla de {{entidad | primeraMayuscula | separarLabelConEspacios}}</h1>
 
     <!-- Si la tabla todavia no cargó -->
     <div class="text-center my-5" v-if="!datos">
@@ -25,13 +25,13 @@
         </template>
 
         <!-- CLIENTE Campo personalizado -->
-        <template v-if="this.entidad == 'viajes'" #cell(cliente)="data">
+        <template v-if="this.entidad == 'viajes' || this.entidad == 'hojaDeRuta'" #cell(cliente)="data">
           <b v-if="data.item.cliente._id">{{ '_id: '+data.item.cliente._id }}</b>
           <b v-else>{{'---------'}}</b>
         </template>
 
         <!-- VEHICULO Campo personalizado -->
-        <template v-if="this.entidad == 'viajes'" #cell(vehiculo)="data">
+        <template v-if="this.entidad == 'viajes' || this.entidad == 'hojaDeRuta'" #cell(vehiculo)="data">
           <b v-if="data.item.vehiculo._id">{{ '_id: '+data.item.vehiculo._id }}</b>
           <b v-else>{{'---------'}}</b>
         </template>
@@ -524,18 +524,6 @@ export default {
             return {key:field, sortable:this.isSortable(field)? true: false}
           }
         })
-        // ACA PARA CAMBIAR COMO SE VEN LOS CAMPOS DE LAS TABLAS QUE ESTAN RELACIONADOS A OTROS
-        if (this.entidad == 'viajes') {          
-          this.datos.forEach(element => {
-            element.vehiculo = element.vehiculo ?  element.vehiculo : '-'
-            element.cliente = element.cliente?  element.cliente : '-'
-            console.log(this.datos);
-          })
-        } else if (this.entidad == 'vehiculos') {
-          this.datos.forEach(element => {
-            element.chofer = element.chofer ?  element.chofer : '-'
-          })
-        }
         // Devuelve los campos propios de cada entidad + los campos estaticos
         return fields.concat(staticFields)
       }
