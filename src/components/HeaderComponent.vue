@@ -15,14 +15,14 @@
             </b-col>
             <b-col cols="3" sm="5" md="3" lg="2">
               <b-row v-if="!hayUsuarioLogeado" style="margin-top:25px;"> 
-                <b-col sm="6" lg="5" class="p-1 ">
+                <b-col sm="6" lg="5" class="px-1 pb-2">
                   <router-link to="/login">
                     <b-button size="sm" variant="light">
                       Login
                     </b-button>
                   </router-link>
                 </b-col>    
-                <b-col sm="6" lg="7" class="p-1 px-2">
+                <b-col sm="6" lg="7" class="px-1">
                   <router-link to="/register">
                     <b-button size="sm" variant="light">
                         Register
