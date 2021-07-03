@@ -37,6 +37,9 @@
         </template>     
 
         <!-- EDITAR Y ELIMINAR Campos personalizados -->
+          
+          <!-- EDITAR -->
+  
         <template v-if="isCRUD" #cell(editar)="data">
           <button class="btn btn-outline-warning" id="toggle-btn" @click="cambiarVisibilidadEditar(data)">Editar</button>
           <b-modal 
@@ -46,11 +49,12 @@
             hide-footer
           >
             <div class="d-block text-center">
-              <!-- EDITAR -->
               <FormularioEdicion :datosActualesTabla="getData()" :entidad="entidad"/>
             </div>
           </b-modal>
         </template>
+          
+          <!-- ELIMINAR -->
 
         <template v-if="isCRUD" #cell(eliminar)="data">
           <button class="btn btn-outline-danger" id="toggle-btn" @click="cambiarVisibilidadEliminar(data)">Eliminar</button>
@@ -85,12 +89,13 @@
           
         </template>
 
+        <!-- CAMPOS HOJA DE RUTA -->
         <template v-if="isHojaDeRuta" #cell(pasarAenCurso)="data">
-          <button class="btn btn-outline-info" id="toggle-btn" @click="cambioEstado(enCurso,finalizado,data)">A En Curso</button>
+          <button class="btn btn-outline-info" id="toggle-btn" @click="cambioEstado(data,{estado:'EN CURSO'})">A En Curso</button>
         </template>
 
         <template v-if="isHojaDeRuta" #cell(pasarAfinalizado)="data">
-          <button class="btn btn-outline-secondary" id="toggle-btn" @click="cambioEstado(enCurso,finalizado,data)">A Finalizado</button>
+          <button class="btn btn-outline-secondary" id="toggle-btn" @click="cambioEstado(data,{estado:'FINALIZADO'})">A Finalizado</button>
         </template>
       </b-table>
     </div>
@@ -113,7 +118,6 @@
           <FormularioCreacion :entidad="entidad" />
         </div>
       </b-modal>
-
 
       <!-- ASIGNAR CHOFER A VEHICULO -->
       <button v-if="datos && datos.length != 0  && this.entidad == 'vehiculos'" class="btn btn-outline-info ml-3 mt-2" id="toggle-btn" @click="cambiarVisibilidadAsignarChofer()">Asignar Chofer</button>
@@ -173,7 +177,6 @@
         </div>
         
       </b-modal>
-
 
       <!-- ASIGNAR CLIENTE A VIAJE -->
       <button v-if="datos && datos.length != 0 && this.entidad == 'viajes'" class="btn btn-outline-info ml-3 mt-2" id="toggle-btn" @click="cambiarVisibilidadAsignarCliente()">Asignar Cliente</button>
@@ -294,8 +297,6 @@
         
       </b-modal>
 
-
-
     </b-row>
 
   <!-- Si no hay datos en la tabla -->
@@ -308,6 +309,7 @@
 <script>
 import FormularioCreacion from "../components/FormularioCreacion.vue";
 import FormularioEdicion from "../components/FormularioEdicion.vue";
+import { mixinLocal } from "../imports/mixins/localTabla";
 
 export default {
   name: 'tabla',
@@ -317,6 +319,7 @@ export default {
     FormularioEdicion,
     
   },
+  mixins:[mixinLocal],
   data(){
     return{
         responseEliminado:null,
@@ -332,26 +335,6 @@ export default {
     }
   },
   methods:{
-    cambiarVisibilidadAgregar(){
-      this.$refs['agregar-modal'].toggle('#toggle-btn')
-    },
-    cambiarVisibilidadEditar(data){
-      this.setData(data)
-      this.$refs['editar-modal'].toggle('#toggle-btn')
-    },
-    cambiarVisibilidadEliminar(data){
-      this.setData(data)
-      this.$refs['eliminar-modal'].toggle('#toggle-btn')
-    },
-    cambiarVisibilidadAsignarChofer(){
-      this.$refs['asignar-chofer-modal'].toggle('#toggle-btn')
-    },
-    cambiarVisibilidadAsignarCliente(){
-      this.$refs['asignar-cliente-modal'].toggle('#toggle-btn')
-    },
-    cambiarVisibilidadAsignarVehiculo(){
-      this.$refs['asignar-vehiculo-modal'].toggle('#toggle-btn')
-    },
     getChoferes(){
       this.axios.get(`${this.$store.state.apiDominio}/choferes`, {
           headers: {
@@ -421,10 +404,6 @@ export default {
     },
     getData(){
       return this.data 
-    },
-    isSortable(campo){
-      let campos = this.getCamposOrdenables()
-      return campos.includes(campo)
     },
     asignarChoferAvehiculo(){
       let token = this.getLoggedUserToken()
@@ -526,6 +505,12 @@ export default {
         console.log(error);
         this.response=error
       })
+    },
+    cambioEstado(data,body){
+      // HACER VALIDACIONES PARA VER SI 
+      // SE PUEDE HACER EL CAMBIO DE ESTADO
+      console.log(data,body);
+      // this.enviarPut(data,body)
     }
   },
   computed:{

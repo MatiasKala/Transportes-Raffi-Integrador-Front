@@ -98,7 +98,8 @@
       </div>
       <hr style="background-color: #17a2b8;">
       <div class="d-block text-center" v-if="!response"> 
-        <b-button class="mt-3 mx-4 botonEnvio text-center" variant="info" @click="enviar(datosActualesTabla.item)">
+        <!-- ENVIAR PUT ESTA DENTRO DEL MIXIN LOCAL FORMULARIO -->
+        <b-button class="mt-3 mx-4 botonEnvio text-center" variant="info" @click="enviarPut(datosActualesTabla.item,formData)">
           Confirmar
         </b-button >
         <b-button class="mt-3 mx-4 botonEnvio text-center" variant="danger" @click="$bvModal.hide('confirmar-modal')">
@@ -143,38 +144,7 @@
                                                  && dato != 'estado'
                                     )
         return datosModificables
-      },
-      enviar(datosActualesEntidad){
-        /* HACER LLAMADA A PUT */
-
-        this.eliminarCamposVaciosParaEnvio()
-
-        this.axios.put(
-          `${this.getDominioApi()}/${this.entidad}/${datosActualesEntidad._id}`, 
-            this.formData
-            ,
-            {
-              headers: {Authorization: 'Bearer ' + this.getLoggedUserToken()}
-            }
-        )
-        .then(response=> {
-          console.log(response);
-          this.response=response
-          setTimeout(() => {
-            if (response.status <400) {
-              location.reload()              
-            }else{
-              this.response=''
-            }
-          }, 6000);
-        })
-        .catch(error =>{
-          this.response=error
-          setTimeout(() => {
-            this.response=''   
-          }, 6000);
-        })
-      },
+      },      
       eliminarCamposVaciosParaEnvio(){
         let keys=Object.keys(this.formData)
         keys.forEach(element => {

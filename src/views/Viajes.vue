@@ -47,7 +47,7 @@ export default {
             Authorization: 'Bearer ' + token 
           }
       }).then(response => {
-        console.log('Obtenidos ',response.data);        
+        console.log('Obtenidos Viajes Programados',response.data);        
         this.viajesProgramados= response.data
       }).catch(error =>{
         console.log(error);
@@ -59,7 +59,7 @@ export default {
             Authorization: 'Bearer ' + token 
           }
       }).then(response => {
-        console.log('Obtenidos ',response.data);        
+        console.log('Obtenidos Hoja De Ruta',response.data);        
         this.viajesHojaDeRuta= response.data
       }).catch(error =>{
         console.log(error);
@@ -85,9 +85,6 @@ export default {
     Tabla
   },
   computed:{
-    programadosSeleccionados(){
-      return this.mostrarProgramados
-    },
   }
 }
 </script>
