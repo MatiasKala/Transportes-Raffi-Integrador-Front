@@ -65,7 +65,7 @@ Vue.mixin({
               this.eliminarCamposVaciosParaEnvio()
             }
             this.axios.put(
-              `${this.getDominioApi()}/${entidadCambiada ? entidadCambiada : this.entidad}/${datosActualesEntidad.item._id}`, 
+              `${this.getDominioApi()}/${entidadCambiada ? entidadCambiada : this.entidad}/${entidadCambiada ? datosActualesEntidad.item._id : datosActualesEntidad._id}`, 
                 body,
                 {
                   headers: {Authorization: 'Bearer ' + this.getLoggedUserToken()}
