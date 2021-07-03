@@ -76,6 +76,7 @@
 
     </validate>
     <br>    
+    <hr>
     <b-button disabled v-if="formState.$invalid" class="mt-3 btn-disabled">
       Enviar
     </b-button>
@@ -101,7 +102,7 @@
           </p>
         </b-card>
       </div>
-      
+      <hr style="background-color: #17a2b8;">
       <div class="d-block text-center" v-if="!response">
         <b-button class="mt-3 mx-4 botonEnvio text-center" variant="info" @click="enviar()">
           Confirmar
@@ -238,5 +239,8 @@
 	-moz-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
 	box-shadow: 5px 40px -10px rgba(0,0,0,0.57);
 	transition: all 0.7s ease 0s;
+}
+hr{
+  background-color: #007BFF;
 }
 </style>

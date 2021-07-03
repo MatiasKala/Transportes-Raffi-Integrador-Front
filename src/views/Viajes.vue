@@ -54,7 +54,7 @@ export default {
       })
     },
     getViajesHojaDeRuta(token){
-      this.viajesHojaDeRuta=this.axios.get(`${this.$store.state.apiDominio}/viajes`, {
+      this.viajesHojaDeRuta=this.axios.get(`${this.$store.state.apiDominio}/hojaDeRuta/viajes`, {
           headers: {
             Authorization: 'Bearer ' + token 
           }

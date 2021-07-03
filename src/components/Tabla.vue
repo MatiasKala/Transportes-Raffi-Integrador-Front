@@ -66,6 +66,7 @@
             <div class="d-block text-center" >
               Seguro que desea eliminar el {{entidad | aSingular}} de id <b>{{getData() ? getData().item._id:''}}</b> 
             </div>
+            <hr style="background-color:#dc3545">
             <div class="d-block text-center" v-if="!responseEliminado">
               <b-button class="mt-3 mx-4 botonEnvio text-center" variant="info" @click="eliminar(getData() ? getData().item._id:'')">
                 Confirmar
@@ -87,7 +88,9 @@
     <!-- Si no hay datos en la tabla -->
     <div class="my-5" v-if="datos && datos.length == 0">TABLA SIN DATOS</div>
 
+    <!-- CAMPOS CREAR Y ASIGNAR -->
     <b-row>
+      
       <!-- CREAR REGISTRO -->
       <button class="btn btn-outline-primary ml-3 mt-2" id="toggle-btn" @click="cambiarVisibilidadAgregar()">Agregar {{this.entidad | aSingular }}</button>
       <b-modal 
@@ -127,7 +130,7 @@
               <b-form-select-option :value="null" disabled>A qué vehículo se le asignará</b-form-select-option>
             </template>
           </b-form-select>
-
+          <hr class="hr-verdeAgua">
           <b-button v-if="idChoferElegido!=null && idVehiculoElegido!=null"  class="mt-2" variant="info" v-b-modal.asignar-chofer-confirmar-modal>Aceptar</b-button>
           <b-button v-else class="mt-2" disabled variant="secondary">Aceptar</b-button>
         </div>
@@ -147,6 +150,7 @@
         <div class="d-block text-center" v-if="idChoferElegido!=null && idVehiculoElegido!=null">
           El chofer de id <strong> {{idChoferElegido}}</strong> sera asignado al vehiculo de id <strong>{{idVehiculoElegido}}</strong>
         </div>
+        <hr class="hr-verdeAgua">
         <div class="d-block text-center" v-if="!response">
           <b-button class="mt-3 mx-4 btn-envio text-center" variant="info" @click="asignarChoferAvehiculo()">
             Confirmar
@@ -186,7 +190,7 @@
               <b-form-select-option :value="null" disabled>A qué viaje se le asignará</b-form-select-option>
             </template>
           </b-form-select>
-
+          <hr class="hr-verdeAgua">
           <b-button v-if="idClienteElegido!=null && idViajeElegido!=null"  class="mt-2" variant="info" v-b-modal.asignar-cliente-confirmar-modal>Aceptar</b-button>
           <b-button v-else class="mt-2" disabled variant="secondary">Aceptar</b-button>
         </div>
@@ -206,6 +210,7 @@
         <div class="d-block text-center" v-if="idClienteElegido!=null && idViajeElegido!=null">
           El cliente de id <strong> {{idClienteElegido}}</strong> sera asignado al viaje de id <strong>{{idViajeElegido}}</strong>
         </div>
+        <hr class="hr-verdeAgua">
         <div class="d-block text-center" v-if="!response">
           <b-button class="mt-3 mx-4 btn-envio text-center" variant="info" @click="asignarClienteAviaje()">
             Confirmar
@@ -245,6 +250,7 @@
             </template>
           </b-form-select>
 
+          <hr class="hr-verdeAgua">
           <b-button v-if="idVehiculoElegido!=null && idViajeElegido!=null"  class="mt-2" variant="info" v-b-modal.asignar-vehiculo-confirmar-modal>Aceptar</b-button>
           <b-button v-else class="mt-2" disabled variant="secondary">Aceptar</b-button>
         </div>
@@ -264,6 +270,7 @@
         <div class="d-block text-center" v-if="idVehiculoElegido!=null && idViajeElegido!=null">
           El vehiculo de id <strong> {{idVehiculoElegido}}</strong> sera asignado al viaje de id <strong>{{idViajeElegido}}</strong>
         </div>
+        <hr class="hr-verdeAgua">
         <div class="d-block text-center" v-if="!response">
           <b-button class="mt-3 mx-4 btn-envio text-center" variant="info" @click="asignarVehiculoAviaje()">
             Confirmar
@@ -542,6 +549,8 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style>
+.hr-verdeAgua{
+  background-color: #17a2b8;
+}
 </style>

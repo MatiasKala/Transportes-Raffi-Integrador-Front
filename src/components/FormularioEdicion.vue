@@ -70,6 +70,7 @@
 
     </validate>
     <br>    
+    <hr>
     <b-button disabled v-if="formState.$invalid || !formState.$dirty" class="mt-3 btn-disabled">
       Enviar
     </b-button>
@@ -95,7 +96,7 @@
           </p>
         </b-card>
       </div>
-      
+      <hr style="background-color: #17a2b8;">
       <div class="d-block text-center" v-if="!response"> 
         <b-button class="mt-3 mx-4 botonEnvio text-center" variant="info" @click="enviar(datosActualesTabla.item)">
           Confirmar
@@ -139,13 +140,14 @@
                                     .filter(dato => dato !='_id' && dato !='vehiculosAsignados' 
                                                  && dato !='cliente' && dato != 'chofer' && dato != 'vehiculo' 
                                                  && dato !='fechaCreacion' && dato != 'fechaBaja'  
+                                                 && dato != 'estado'
                                     )
         return datosModificables
       },
       enviar(datosActualesEntidad){
         /* HACER LLAMADA A PUT */
 
-        this.eliminarCamposVacios()
+        this.eliminarCamposVaciosParaEnvio()
 
         this.axios.put(
           `${this.getDominioApi()}/${this.entidad}/${datosActualesEntidad._id}`, 
@@ -173,7 +175,7 @@
           }, 6000);
         })
       },
-      eliminarCamposVacios(){
+      eliminarCamposVaciosParaEnvio(){
         let keys=Object.keys(this.formData)
         keys.forEach(element => {
           if (!this.formData[element]) {
@@ -221,5 +223,8 @@
 	-moz-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
 	box-shadow: 5px 40px -10px rgba(0,0,0,0.57);
 	transition: all 0.7s ease 0s;
+}
+hr{
+  background-color: #ffc107;
 }
 </style>
