@@ -29,11 +29,18 @@ Vue.mixin({
               delete d.password
             });
         },
-        getCRUDStaticFields(){
-            return [
-                { key: 'editar', label: 'Editar' },
-                { key: 'eliminar', label: 'Eliminar' },
-            ]
+        getCRUDStaticFields(isCRUD,isHojaDeRuta){
+            if (isCRUD) {
+                return [
+                    { key: 'editar', label: 'Editar' },
+                    { key: 'eliminar', label: 'Eliminar' },
+                ]
+            }else if (isHojaDeRuta) {
+                return [
+                    { key: 'pasarAenCurso', label: 'Pasar a En Curso' },
+                    { key: 'pasarAfinalizado', label: 'Pasar a Finalizado' },
+                ]
+            }
         },   
         hayUsuarioLogeadoEnStorage(){
             return localStorage.user ? true : false 

@@ -34,8 +34,8 @@
         <template v-if="this.entidad == 'viajes' || this.entidad == 'hojaDeRuta'" #cell(vehiculo)="data">
           <b v-if="data.item.vehiculo._id">{{ '_id: '+data.item.vehiculo._id }}</b>
           <b v-else>{{'---------'}}</b>
-        </template>
-        
+        </template>     
+
         <!-- EDITAR Y ELIMINAR Campos personalizados -->
         <template v-if="isCRUD" #cell(editar)="data">
           <button class="btn btn-outline-warning" id="toggle-btn" @click="cambiarVisibilidadEditar(data)">Editar</button>
@@ -80,19 +80,27 @@
               <b-card bg-variant="danger" v-else>Error en la Eliminacion</b-card>
             </div>
           </b-modal>
+          
+          
+          
         </template>
 
+        <template v-if="isHojaDeRuta" #cell(pasarAenCurso)="data">
+          <button class="btn btn-outline-info" id="toggle-btn" @click="cambioEstado(enCurso,finalizado,data)">A En Curso</button>
+        </template>
+
+        <template v-if="isHojaDeRuta" #cell(pasarAfinalizado)="data">
+          <button class="btn btn-outline-secondary" id="toggle-btn" @click="cambioEstado(enCurso,finalizado,data)">A Finalizado</button>
+        </template>
       </b-table>
     </div>
 
-    <!-- Si no hay datos en la tabla -->
-    <div class="my-5" v-if="datos && datos.length == 0">TABLA SIN DATOS</div>
 
     <!-- CAMPOS CREAR Y ASIGNAR -->
     <b-row>
       
       <!-- CREAR REGISTRO -->
-      <button class="btn btn-outline-primary ml-3 mt-2" id="toggle-btn" @click="cambiarVisibilidadAgregar()">Agregar {{this.entidad | aSingular }}</button>
+      <button v-if="this.entidad != 'hojaDeRuta'" class="btn btn-outline-primary ml-3 mt-2" id="toggle-btn" @click="cambiarVisibilidadAgregar()">Agregar {{this.entidad | aSingular }}</button>
       <b-modal 
         ref="agregar-modal"
         centered
@@ -289,6 +297,9 @@
 
 
     </b-row>
+
+  <!-- Si no hay datos en la tabla -->
+  <div class="my-5" v-if="datos && datos.length == 0">TABLA SIN DATOS</div>
     
     
   </b-container>
@@ -300,7 +311,7 @@ import FormularioEdicion from "../components/FormularioEdicion.vue";
 
 export default {
   name: 'tabla',
-  props: ['datos','entidad','isCRUD'],
+  props: ['datos','entidad','isCRUD','isHojaDeRuta'],
   components:{
     FormularioCreacion,
     FormularioEdicion,
@@ -522,7 +533,8 @@ export default {
       if(this.datos.length != 0){
       // if(this.datos){
         /* Obtiene los campos estaticos que comparten todas las tablas */
-        const staticFields = this.getCRUDStaticFields()
+        // ESTAN EN MIXIN GLOBAL
+        const staticFields = this.getCRUDStaticFields(this.isCRUD,this.isHojaDeRuta)
 
         // Filtra los campos que vamos a renderizar
         const fields= Object.keys(this.datos[0]).map((field)=>{

@@ -1,6 +1,6 @@
 <template>
   <div class="Test">
-    <Tabla :datos="registros" :entidad="entidad" :isCRUD="true"/>
+    <Tabla :datos="registros" :entidad="entidad" :isCRUD="true" :isHojaDeRuta="false"/>
   </div>
 </template>
 

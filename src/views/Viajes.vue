@@ -9,7 +9,7 @@
 
     <!-- VIAJES PROGRAMADOS -->
 
-    <Tabla v-if="mostrarProgramados" :datos="viajesProgramados" :entidad="'viajes'" :isCRUD="true"/>
+    <Tabla v-if="mostrarProgramados" :datos="viajesProgramados" :entidad="'viajes'" :isCRUD="true" :isHojaDeRuta="false"/>
     
     <!-- VIAJES HISTORICOS -->
     
@@ -18,7 +18,7 @@
     <!-- HOJA DE RUTA -->
     
     <div v-if="mostrarHojaDeRuta">
-        <Tabla v-if="mostrarHojaDeRuta" :datos="viajesHojaDeRuta" :entidad="'hojaDeRuta'" :isCRUD="true"/>
+        <Tabla v-if="mostrarHojaDeRuta" :datos="viajesHojaDeRuta" :entidad="'hojaDeRuta'" :isCRUD="false" :isHojaDeRuta="true" />
     </div>
   
   </div>
