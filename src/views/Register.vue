@@ -23,13 +23,11 @@ export default {
   methods:{
     postRegister(data){
       this.recursoCargado=false
+      
       this.axios.post(
         `${this.getDominioApi()}/${this.entidadApi}/`, 
-      {        
-        username: data.username,
-        email: data.email,
-        password: data.password,
-      })
+        data,
+      )
       .then(response => {
         response.isRegister = true
         this.response=response

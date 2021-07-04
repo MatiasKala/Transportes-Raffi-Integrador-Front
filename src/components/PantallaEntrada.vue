@@ -79,8 +79,10 @@
           <hr>
               <vue-form :state="formState" @submit.prevent="enviar()">
                 <br>
+                
                 <!-- USERNAME -->
                 <!-- Se muestra solo si la pantalla es de Register -->
+                
                 <validate v-if="!isLogin && !loadingProgress" tag="div">
                   <label for="username"
                     v-if="formState.username" :style="labelColor(formState.username.$valid,formState.$dirty,formData.username)">Nombre de Usuario
@@ -105,7 +107,9 @@
                 </validate>
                 <b-skeleton width="85%" v-else-if="!isLogin && loadingProgress "></b-skeleton>
                 <br>
+                
                 <!-- EMAIL -->
+                
                 <validate v-if="!loadingProgress" tag="div">
                   <label for="email"
                     v-if="formState.email" :style="labelColor(formState.email.$valid,formState.$dirty,formData.email)">Mail
@@ -127,11 +131,52 @@
                     <div slot="minlength" class="alert alert-danger mt-2">Ingrese como minimo {{minimoPermitido}} caracteres</div>            
                   </field-messages>
                 </validate>
-                <b-skeleton width="70%" v-else></b-skeleton>
+                <b-skeleton width="87%" v-else></b-skeleton>
                 <br>
+                
+                <!-- CLAVE USUARIO -->
+
                 <b-row>
-                  <b-col cols="10"> 
-                    <!-- CONTRASEÑA -->
+                  <b-col cols="12"> 
+                    <validate v-if="!isLogin && !loadingProgress" tag="div">
+                      <label for="claveAdministrador"
+                        v-if="formState.claveAdministrador" :style="labelColor(formState.claveAdministrador.$valid,formState.$dirty,formData.claveAdministrador)">Clave Administrador
+                      </label>
+                      <input 
+                        size="1"
+                        :type="getType" 
+                        name="claveAdministrador" 
+                        id="claveAdministrador"
+                        class="form-control"
+                        autocomplete="off"
+                        v-model.trim="formData.claveAdministrador"
+                        :minlength="minimoPermitido"
+                        :maxlength="maximoPermitido"
+                        no-caracteres
+                        no-espacios
+                      >
+                    <field-messages name="claveAdministrador" show="$dirty">
+                        <div slot="required" class="alert alert-danger mt-2">Campo requerido</div>            
+                        <div slot="no-espacios" class="alert alert-danger mt-2">No se permiten espacios en este campo</div>            
+                        <div slot="no-caracteres" class="alert alert-danger mt-2" v-if="formData.claveAdministrador.length >= minimoPermitido">Los caracteres {{getCaracteresInvalidos}} no se permiten en este campo</div>            
+                        <div slot="minlength" class="alert alert-danger mt-2">Ingrese como minimo {{minimoPermitido}} caracteres</div>            
+                        <div v-if="formData.claveAdministrador.length == maximoPermitido" class="alert alert-danger mt-2">El maximo permitido es de {{maximoPermitido}} caracteres</div>            
+                      </field-messages>
+                    </validate>
+                    <b-skeleton width="75%" v-else-if="!isLogin && loadingProgress "></b-skeleton>
+                  </b-col>
+                </b-row>
+                <br v-if="loadingProgress">
+                <b-col cols="12" class="text-align-cnet" v-if="!loadingProgress">
+                  <b-button class="botonVisibilidad my-2" :variant="obtenerClaseBotonVisibilidad" @click="cambiarVisibilidad()">
+                    <b-icon-eye-slash v-if="!esVisibleContrasenia"></b-icon-eye-slash>
+                    <b-icon-eye v-if="esVisibleContrasenia"></b-icon-eye>
+                  </b-button>
+                </b-col>
+                
+                <!-- CONTRASEÑA -->
+                <b-row>
+                  <b-col cols="12"> 
                     <validate v-if="!loadingProgress" tag="div">
                       <label for="password"
                         v-if="formState.password" :style="labelColor(formState.password.$valid,formState.$dirty,formData.password)">Password
@@ -158,18 +203,15 @@
                         <div v-if="formData.password.length == maximoPermitido" class="alert alert-danger mt-2">El maximo permitido es de {{maximoPermitido}} caracteres</div>            
                       </field-messages>
                     </validate>
-                    <b-skeleton width="95%" v-else></b-skeleton>
+                    <b-skeleton width="85%" v-else></b-skeleton>
                   </b-col>
-                  <b-col cols="2" style="padding-left:2px" v-if="!loadingProgress">
-                    <b-button class="botonVisibilidad" :variant="obtenerClaseBotonVisibilidad" @click="cambiarVisibilidad()">
-                      <b-icon-eye-slash v-if="!esVisibleContrasenia"></b-icon-eye-slash>
-                      <b-icon-eye v-if="esVisibleContrasenia"></b-icon-eye>
-                    </b-button></b-col>
+
                 </b-row>
-                <br>
+
                 <hr>
 
                 <!-- ENVIO FORMULARIO -->
+                
                 <b-container>
                   <b-row align-h="center">                 
                     <b-col cols="12"> 
@@ -181,6 +223,7 @@
                     </b-col>
                   </b-row>
                 </b-container>
+                
               </vue-form>
         </b-card>
         <br>
@@ -279,6 +322,7 @@ export default {
       }
       if (!this.isLogin) {
         estado.username=''
+        estado.claveAdministrador=''
       }
 
       return estado
