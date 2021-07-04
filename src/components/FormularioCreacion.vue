@@ -64,6 +64,21 @@
         v-model.trim="formData[label]"
       >
 
+      <!-- INPUT DROPDOWN ENUMS -->
+      <select 
+        v-if="esEnum(label)"
+        :name="label" 
+        :id="label"
+        class="custom-select form-control" 
+        autocomplete="off"
+        required
+        v-model.trim="formData[label]"
+      >
+        <option selected disabled>Elija {{label | primeraMayuscula | separarLabelConEspacios}}...</option>
+        <option v-for="(option,index) in getEnumOptions(label)" :key="index">{{option}}</option>
+      </select>
+
+
       <field-messages :name="label" show="$dirty">
         <div slot="required" class="alert alert-danger mt-2">Campo requerido</div>            
         <div slot="minlength" class="alert alert-danger mt-2">Ingrese como minimo {{getMin(label)}} caracteres</div>            
@@ -77,6 +92,7 @@
     </validate>
     <br>    
     <hr>
+    {{formData}}
     <b-button disabled v-if="formState.$invalid" class="mt-3 btn-disabled">
       Enviar
     </b-button>
@@ -113,7 +129,7 @@
       </div>
       <div class="d-block text-center mt-2" v-else>
         <b-card bg-variant="success" v-if="response.status >= 200" >Creacion realizada correctamente</b-card>
-        <b-card bg-variant="danger" v-else>Error en la creacion <br> {{response.response.data.error}}</b-card>
+        <b-card bg-variant="danger" v-else>Error en la creacion <br> {{response.response.data.error ? response.response.data.error : response.response.data}}</b-card>
       </div>
     </b-modal>
   </vue-form>

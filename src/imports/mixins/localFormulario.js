@@ -55,27 +55,33 @@ export const mixinLocal = {
         inputNoValidar(label){
             return this.$store.state.camposNoValidar.split(',').includes(label)
         },
+        esEnum(label){
+          return this.$store.state.camposEnum.split(',').includes(label)
+        },
         // VALIDACIONES FORMULARIOS
         getMin(label){
             return this.$store.state.labelsLengthMins[label]
         },
         getMax(label){    
-            return this.$store.state.labelsLengthMaxs[label]
+           return this.$store.state.labelsLengthMaxs[label]
         },
         getType(label){
-            // Va a haber que agregar mas harcodeados o cambiar el metodo
-            const labels = {
-              'comision':'number',
-              'CUIT':'number',
-              'anio':'number',
-              'viajes':this.estadoInicialViajes(),
-              'fechaNacimiento':'date',
-              'fechaEntrega':'date',
-            }
-
-            return labels[label] ? labels[label] : 'text'
-
+          // Va a haber que agregar mas harcodeados o cambiar el metodo
+          const labels = {
+            'comision':'number',
+            'CUIT':'number',
+            'anio':'number',
+            'viajes':this.estadoInicialViajes(),
+            'fechaNacimiento':'date',
+            'fechaEntrega':'date',
+          }
+          
+          return labels[label] ? labels[label] : 'text'
+          
         },
+        getEnumOptions(label){
+          return this.$store.state.enumOptions[label]
+        }
     },
     computed : {
     }

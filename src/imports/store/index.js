@@ -14,9 +14,10 @@ export default new Vuex.Store({
     // ACA EMPIEZAN INPUTS
     camposNoValidar:'fechaNacimiento,fechaEntrega',
     camposValidarLongitud:'',
-    camposValidarLongitudNoCaracteresEspeciales:'nombre,apellido,patente,marca,modelo,seguro,tipo,direccion,tipoCobro,domicilioEntrega,descripcionPaquete',
+    camposValidarLongitudNoCaracteresEspeciales:'nombre,apellido,patente,marca,modelo,seguro,direccion,domicilioEntrega,descripcionPaquete',
     camposValidarSoloNumeros:'CUIT,comision,anio',
-  
+    camposEnum:'tipo,tipoCobro',
+
     labelsLengthMins:{
       'CUIT':11,
       'nombre':3,
@@ -29,9 +30,6 @@ export default new Vuex.Store({
       'direccion':3,
       'domicilioEntrega':3,
       'descripcionPaquete':3,
-      // ENUMS
-      'tipo':3,
-      'tipoCobro':3,
     },
     labelsLengthMaxs:{
       'CUIT':11,
@@ -45,9 +43,10 @@ export default new Vuex.Store({
       'direccion':40,
       'domicilioEntrega':40,
       'descripcionPaquete':40,
-      // ENUMS
-      'tipo':20,
-      'tipoCobro':20,
+    },
+    enumOptions:{
+      'tipo':['UTILITARIO','CAMIONETA','AUTO','MOTO','CAMION','BICICLETA'],
+      'tipoCobro':['EFECTIVO','TARJETA CREDITO','TARJETA DEBITO','CRIPTO']
     },
     codigoIconoClima: '',
     dataClima: '',

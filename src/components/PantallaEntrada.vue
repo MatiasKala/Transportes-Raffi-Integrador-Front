@@ -379,4 +379,7 @@ export default {
 .botonVisibilidad:hover{
   background-color: rgb(41, 119, 119);
 }
+hr{
+  background-color: rgb(248, 248, 248) !important
+}
 </style>

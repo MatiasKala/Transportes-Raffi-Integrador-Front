@@ -60,6 +60,20 @@
         v-model.trim="formData[label]"
       >
 
+      <!-- INPUT DROPDOWN ENUMS -->
+      <select 
+        v-if="esEnum(label)"
+        :name="label" 
+        :id="label"
+        class="custom-select form-control" 
+        autocomplete="off"
+        required
+        v-model.trim="formData[label]"
+      >
+        <option selected disabled>Elija {{label | primeraMayuscula | separarLabelConEspacios}}...</option>
+        <option v-for="(option,index) in getEnumOptions(label)" :key="index">{{option}}</option>
+      </select>
+      
       <field-messages :name="label" show="$dirty">
         <div slot="minlength" class="alert alert-danger mt-2">Ingrese como minimo {{getMin(label)}} caracteres</div>            
         <div v-if="formData[label] && formData[label].length == getMax(label) &&  label != 'CUIT'"  class="alert alert-warning mt-2">El maximo permitido es de {{getMax(label)}} caracteres</div>            
