@@ -324,24 +324,29 @@ export default {
     return{
         responseEliminado:null,
         data:null,
-        dataChoferesAsignar:this.getChoferes(),
         idChoferElegido:null,
         idVehiculoElegido:null,
         idClienteElegido:null,
         idViajeElegido:null,
         response:null,
+        responseChoferes:null,
+        responseClientes:null,
+        responseVehiculos:null,
+        dataChoferesAsignar:this.getChoferes(),
         dataClientesAsignar:this.getClientes(),
         dataVehiculosAsignar:this.getVehiculos()
     }
   },
   methods:{
     getChoferes(){
+      console.log('GET CHOFERES');
       this.axios.get(`${this.$store.state.apiDominio}/choferes`, {
           headers: {
             Authorization: 'Bearer ' + this.getLoggedUserToken()
           }
       }).then(response => {
         // ESTA EN GLOBAL MIXIN 
+        this.responseChoferes = response 
         this.eliminarCamposPrivados(response.data)
         response.data=response.data.map(chofer => 
           {
@@ -354,56 +359,9 @@ export default {
         )
         this.dataChoferesAsignar = response.data
       }).catch(error =>{
+        this.responseChoferes = error
         console.log(error);
       })
-    },
-    getVehiculosBindeados(){
-      let vehiculos=this.datos.map(vehiculo => 
-        {
-          var obj ={
-            value:vehiculo._id,
-            text:vehiculo.marca+' '+vehiculo.patente
-          }
-          return obj
-        }
-      )
-      return vehiculos
-    },
-    getViajesBindeados(){
-      let viajes=this.datos.map(viaje => 
-        {
-          var obj ={
-            value:viaje._id,
-            text:'Viaje del '+viaje.fechaEntrega+' hacia '+viaje.domicilioEntrega
-          }
-          return obj
-        }
-      )
-      return viajes
-    },
-    eliminar(id){
-      this.axios.delete(
-        `${this.getDominioApi()}/${this.entidad}/${id}`, 
-          {
-            headers: {Authorization: 'Bearer ' + this.getLoggedUserToken()}
-          }
-      )
-      .then(response=> {
-        console.log(response);
-        this.responseEliminado=response
-        setTimeout(() => {
-          location.reload()
-        }, 3000);
-      })
-      .catch(error =>{
-        this.response=error
-      })
-    },
-    setData(data){
-      this.data = data 
-    },
-    getData(){
-      return this.data 
     },
     asignarChoferAvehiculo(){
       let token = this.getLoggedUserToken()
@@ -424,13 +382,18 @@ export default {
         this.response=error
       })
     },
+
+
+    
     getClientes(){
+      console.log('GET CLIENTES');
       this.axios.get(`${this.$store.state.apiDominio}/clientes`, {
-          headers: {
-            Authorization: 'Bearer ' + this.getLoggedUserToken()
+        headers: {
+          Authorization: 'Bearer ' + this.getLoggedUserToken()
           }
       }).then(response => {
         // ESTA EN GLOBAL MIXIN 
+        this.responseClientes = response 
         this.eliminarCamposPrivados(response.data)
         response.data=response.data.map(cliente => 
           {
@@ -443,6 +406,7 @@ export default {
         )
         this.dataClientesAsignar = response.data
       }).catch(error =>{
+        this.responseClientes = error
         console.log(error);
       })
     },
@@ -465,13 +429,17 @@ export default {
         this.response=error
       })
     },
+
+
     getVehiculos(){
+      console.log('GET VEHICULOS');
       this.axios.get(`${this.$store.state.apiDominio}/vehiculos`, {
-          headers: {
-            Authorization: 'Bearer ' + this.getLoggedUserToken()
+        headers: {
+          Authorization: 'Bearer ' + this.getLoggedUserToken()
           }
       }).then(response => {
         // ESTA EN GLOBAL MIXIN 
+        this.responseVehiculos = response 
         this.eliminarCamposPrivados(response.data)
         response.data=response.data.map(vehiculo => 
           {
@@ -484,8 +452,22 @@ export default {
         )
         this.dataVehiculosAsignar = response.data
       }).catch(error =>{
+        this.responseVehiculos = error 
         console.log(error);
       })
+    },
+    getVehiculosBindeados(){
+      console.log('GET VEHICULOS BINDEADOS');
+      let vehiculos=this.datos.map(vehiculo => 
+        {
+          var obj ={
+            value:vehiculo._id,
+            text:vehiculo.marca+' '+vehiculo.patente
+          }
+          return obj
+        }
+      )
+      return vehiculos
     },
     asignarVehiculoAviaje(){
       let token = this.getLoggedUserToken()
@@ -506,13 +488,54 @@ export default {
         this.response=error
       })
     },
+   
+    getViajesBindeados(){
+      console.log('GET VIAJES BINDEADOS');
+      let viajes=this.datos.map(viaje => 
+        {
+          var obj ={
+            value:viaje._id,
+            text:'Viaje del '+viaje.fechaEntrega+' hacia '+viaje.domicilioEntrega
+          }
+          return obj
+        }
+      )
+      return viajes
+    },
+
+    setData(data){
+      this.data = data 
+    },
+    getData(){
+      return this.data 
+    },
+
     cambioEstado(data,body){
       // HACER VALIDACIONES PARA VER SI 
       // SE PUEDE HACER EL CAMBIO DE ESTADO
 
       // enviarPut ESTA EN GLOBAL MIXIN 
       this.enviarPut(data,body,'viajes')
-    }
+    },
+
+    eliminar(id){
+      this.axios.delete(
+        `${this.getDominioApi()}/${this.entidad}/${id}`, 
+          {
+            headers: {Authorization: 'Bearer ' + this.getLoggedUserToken()}
+          }
+      )
+      .then(response=> {
+        console.log(response);
+        this.responseEliminado=response
+        setTimeout(() => {
+          location.reload()
+        }, 3000);
+      })
+      .catch(error =>{
+        this.response=error
+      })
+    },
   },
   computed:{
     getFields(){

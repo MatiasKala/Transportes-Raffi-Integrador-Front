@@ -1,6 +1,11 @@
 <template>
-  <div class="Test">
-    <Tabla :datos="registros" :entidad="entidad" :isCRUD="true" :isHojaDeRuta="false"/>
+  <div class="Maestros">
+    <Tabla v-if="!error" :datos="registros" :entidad="entidad" :isCRUD="true" :isHojaDeRuta="false"/>
+    <b-row v-else>
+      <b-container>
+        <b-card class="mt-2" text-variant="light" bg-variant="danger">Usted no tiene autorizacion para acceder a este recurso: {{entidad | primeraMayuscula}}</b-card>
+      </b-container>
+    </b-row>
   </div>
 </template>
 
@@ -9,14 +14,15 @@
 import Tabla from "@/components/Tabla.vue"
 
 export default {
-  name: 'TestView',
+  name: 'MaestrosView',
   components: {
     Tabla
   },
   props:['entidad'],
   data(){
     return{
-      registros:this.getRegistros(this.getLoggedUserToken())
+      registros:this.getRegistros(this.getLoggedUserToken()),
+      error:null
     }
   },
   methods:{
@@ -27,10 +33,11 @@ export default {
           }
       }).then(response => {
         // ESTA EN GLOBAL MIXIN 
+        console.log('LLEGUE A RESPONSE');
         this.eliminarCamposPrivados(response.data)
         this.registros= response.data
       }).catch(error =>{
-        console.log(error);
+        this.error = error
       })
     },
   },

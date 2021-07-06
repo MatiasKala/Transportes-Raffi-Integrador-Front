@@ -59,7 +59,6 @@ Vue.mixin({
             ))
         },
         async getDatosClima(){
-          console.log('ee');
             this.$store.dispatch('receiveDataClima',await this.axios.get(
                 `${this.getDominioApi()}/hojaDeRuta/clima`,{
                   headers: {

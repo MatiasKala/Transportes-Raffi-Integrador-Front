@@ -14,8 +14,7 @@
 <script>
 export default {
   name: 'home',
-  props: {
-  }
+  props: ['']
 }
 </script>
 
