@@ -134,7 +134,7 @@
                 <b-skeleton width="87%" v-else></b-skeleton>
                 <br>
                 
-                <!-- CLAVE USUARIO -->
+                <!-- CLAVE ADMINISTRADOR -->
 
                 <b-row>
                   <b-col cols="12"> 
@@ -166,14 +166,6 @@
                     <b-skeleton width="75%" v-else-if="!isLogin && loadingProgress "></b-skeleton>
                   </b-col>
                 </b-row>
-                <br v-if="loadingProgress">
-                <b-col cols="12" class="text-align-cnet" v-if="!loadingProgress">
-                  <b-button class="botonVisibilidad my-2" :variant="obtenerClaseBotonVisibilidad" @click="cambiarVisibilidad()">
-                    <b-icon-eye-slash v-if="!esVisibleContrasenia"></b-icon-eye-slash>
-                    <b-icon-eye v-if="esVisibleContrasenia"></b-icon-eye>
-                  </b-button>
-                </b-col>
-                
                 <!-- CONTRASEÑA -->
                 <b-row>
                   <b-col cols="12"> 
@@ -208,9 +200,19 @@
 
                 </b-row>
 
-                <hr>
+                
+                <!-- BOTON VISIBILIDAD -->
 
+                <br v-if="loadingProgress">
+                <b-col cols="12" class="text-align-cnet" v-if="!loadingProgress">
+                  <b-button class="botonVisibilidad my-2" :variant="obtenerClaseBotonVisibilidad" @click="cambiarVisibilidad()">
+                    <b-icon-eye-slash v-if="!esVisibleContrasenia"></b-icon-eye-slash>
+                    <b-icon-eye v-if="esVisibleContrasenia"></b-icon-eye>
+                  </b-button>
+                </b-col>
+                
                 <!-- ENVIO FORMULARIO -->
+                <hr>
                 
                 <b-container>
                   <b-row align-h="center">                 
@@ -223,6 +225,8 @@
                     </b-col>
                   </b-row>
                 </b-container>
+
+                
                 
               </vue-form>
         </b-card>

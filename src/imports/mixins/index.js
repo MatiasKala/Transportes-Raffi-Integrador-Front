@@ -49,13 +49,23 @@ Vue.mixin({
             return String(this.$moment().format().slice(0,10))
         },
         async setCodigoIconoClima(){
-            this.$store.dispatch('receiveIconoClima',await this.axios.get(
-                `${this.getDominioApi()}/hojaDeRuta/clima/icono` 
+            this.$store.dispatch('receiveIconoClima',await
+            this.axios.get(
+                `${this.getDominioApi()}/hojaDeRuta/clima/icono` ,{
+                  headers: {
+                    Authorization: 'Bearer ' + this.getLoggedUserToken()
+                  }
+              } 
             ))
         },
         async getDatosClima(){
+          console.log('ee');
             this.$store.dispatch('receiveDataClima',await this.axios.get(
-                `${this.getDominioApi()}/hojaDeRuta/clima` 
+                `${this.getDominioApi()}/hojaDeRuta/clima`,{
+                  headers: {
+                    Authorization: 'Bearer ' + this.getLoggedUserToken()
+                  }
+              } 
             ))
         },
         enviarPut(datosActualesEntidad,body,entidadCambiada = null){
