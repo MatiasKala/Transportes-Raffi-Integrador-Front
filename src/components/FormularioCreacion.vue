@@ -93,6 +93,7 @@
     <br>    
     <hr>
     {{formData}}
+    <br>
     <b-button disabled v-if="formState.$invalid" class="mt-3 btn-disabled">
       Enviar
     </b-button>
