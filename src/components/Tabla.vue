@@ -91,11 +91,11 @@
 
         <!-- CAMPOS HOJA DE RUTA -->
         <template v-if="isHojaDeRuta" #cell(pasarAenCurso)="data">
-          <button class="btn btn-outline-info" id="toggle-btn" @click="cambioEstado(data,{estado:'EN CURSO'})">A En Curso</button>
+          <button :disabled="data.item.estado !== 'PENDIENTE'" :style="getEstiloEnCurso(data.item.estado)" class="btn btn-outline-info" id="toggle-btn" @click="cambioEstado(data,{estado:'EN CURSO'})">A En Curso</button>
         </template>
 
         <template v-if="isHojaDeRuta" #cell(pasarAfinalizado)="data">
-          <button class="btn btn-outline-secondary" id="toggle-btn" @click="cambioEstado(data,{estado:'FINALIZADO'})">A Finalizado</button>
+          <button :disabled="data.item.estado !== 'EN CURSO'" :style="getEstiloFinalizado(data.item.estado)" class="btn btn-outline-success" id="toggle-btn" @click="cambioEstado(data,{estado:'FINALIZADO'})">A Finalizado</button>
         </template>
       </b-table>
     </div>
@@ -530,6 +530,23 @@ export default {
       .catch(error =>{
         this.response=error
       })
+    },
+
+    getEstiloEnCurso(estado){
+      if (estado !== 'PENDIENTE') {
+        return{
+          'color': '#17a2b8',
+          'background-color':'#2c2c2c'
+        }
+      }
+    },
+    getEstiloFinalizado(estado){
+      if (estado !== 'EN CURSO') {
+        return{
+          'color': '#28a745',
+          'background-color':'#2c2c2c'
+        }
+      }
     },
   },
   computed:{
