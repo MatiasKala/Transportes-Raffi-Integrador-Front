@@ -188,24 +188,29 @@
         header-text-variant="light"
         hide-footer
       >
-        <div class="d-block text-center" v-if="getDataClientesAsignar">
-
-          <b-form-select v-model="idClienteElegido" :options="dataClientesAsignar">
-            <template #first>
-              <b-form-select-option :value="null" disabled>Elija un Cliente</b-form-select-option>
-            </template>
-          </b-form-select>
-
-          <b-form-select class="mt-4" v-model="idViajeElegido" :options="getViajesBindeados()">
-            <template #first>
-              <b-form-select-option :value="null" disabled>A qué viaje se le asignará</b-form-select-option>
-            </template>
-          </b-form-select>
-          <hr class="hr-verdeAgua">
-          <b-button v-if="idClienteElegido!=null && idViajeElegido!=null"  class="mt-2" variant="info" v-b-modal.asignar-cliente-confirmar-modal>Aceptar</b-button>
-          <b-button v-else class="mt-2" disabled variant="secondary">Aceptar</b-button>
+        <div v-if="responseErrorClientes">
+          <b-card class="mt-2" text-variant="light" bg-variant="danger" >Usted no esta autorizado para hacer asignar un Cliente</b-card>
         </div>
-        <b-card class="mt-2" text-variant="light" bg-variant="danger" v-else >No hay cliente para asignar</b-card>
+        <div v-else>
+          <div class="d-block text-center" v-if="getDataClientesAsignar">
+
+            <b-form-select v-model="idClienteElegido" :options="dataClientesAsignar">
+              <template #first>
+                <b-form-select-option :value="null" disabled>Elija un Cliente</b-form-select-option>
+              </template>
+            </b-form-select>
+
+            <b-form-select class="mt-4" v-model="idViajeElegido" :options="getViajesBindeados()">
+              <template #first>
+                <b-form-select-option :value="null" disabled>A qué viaje se le asignará</b-form-select-option>
+              </template>
+            </b-form-select>
+            <hr class="hr-verdeAgua">
+            <b-button v-if="idClienteElegido!=null && idViajeElegido!=null"  class="mt-2" variant="info" v-b-modal.asignar-cliente-confirmar-modal>Aceptar</b-button>
+            <b-button v-else class="mt-2" disabled variant="secondary">Aceptar</b-button>
+          </div>
+          <b-card class="mt-2" text-variant="light" bg-variant="danger" v-else >No hay cliente para asignar</b-card>
+        </div>
       </b-modal>
       
       <!-- CONFIRMACION ASIGNACION CLIENTE VIAJE -->
@@ -238,7 +243,7 @@
       </b-modal>
 
       <!-- ASIGNAR VEHICULO A VIAJE -->
-      <button v-if="(datos && datos.length != 0 && this.entidad == 'viajes') && responseVehiculos " class="btn btn-outline-info ml-3 mt-2" id="toggle-btn" @click="cambiarVisibilidadAsignarVehiculo()">Asignar Vehiculo</button>
+      <button v-if="datos && datos.length != 0 && this.entidad == 'viajes'" class="btn btn-outline-info ml-3 mt-2" id="toggle-btn" @click="cambiarVisibilidadAsignarVehiculo()">Asignar Vehiculo</button>
       <b-modal 
         ref="asignar-vehiculo-modal"
         centered
@@ -247,8 +252,8 @@
         header-text-variant="light"
         hide-footer
       >
-        <div v-if="responseVehiculos.error">
-          <b-card class="mt-2" text-variant="light" bg-variant="danger" >Usted no esta autorizado para hacer asignaciones</b-card>
+        <div v-if="responseErrorVehiculos">
+          <b-card class="mt-2" text-variant="light" bg-variant="danger" >Usted no esta autorizado para hacer asignar un Vehiculo</b-card>
         </div>
 
         <div v-else>        
@@ -336,9 +341,8 @@ export default {
         idClienteElegido:null,
         idViajeElegido:null,
         response:null,
-        responseChoferes:null,
-        responseClientes:null,
-        responseVehiculos:null,
+        responseErrorClientes:null,
+        responseErrorVehiculos:null,
         dataChoferesAsignar:this.getChoferes(),
         dataClientesAsignar:this.getClientes(),
         dataVehiculosAsignar:this.getVehiculos()
@@ -353,7 +357,6 @@ export default {
           }
       }).then(response => {
         // ESTA EN GLOBAL MIXIN 
-        this.responseChoferes = response 
         this.eliminarCamposPrivados(response.data)
         response.data=response.data.map(chofer => 
           {
@@ -366,7 +369,7 @@ export default {
         )
         this.dataChoferesAsignar = response.data
       }).catch(error =>{
-        this.responseChoferes = error
+        this.responseErrorChoferes = error
         console.log(error);
       })
     },
@@ -400,7 +403,6 @@ export default {
           }
       }).then(response => {
         // ESTA EN GLOBAL MIXIN 
-        this.responseClientes = response 
         this.eliminarCamposPrivados(response.data)
         response.data=response.data.map(cliente => 
           {
@@ -413,7 +415,7 @@ export default {
         )
         this.dataClientesAsignar = response.data
       }).catch(error =>{
-        this.responseClientes = error
+        this.responseErrorClientes = error
         console.log(error);
       })
     },
@@ -446,7 +448,6 @@ export default {
           }
       }).then(response => {
         // ESTA EN GLOBAL MIXIN 
-        this.responseVehiculos = response 
         this.eliminarCamposPrivados(response.data)
         response.data=response.data.map(vehiculo => 
           {
@@ -459,7 +460,7 @@ export default {
         )
         this.dataVehiculosAsignar = response.data
       }).catch(error =>{
-        this.responseVehiculos = error 
+        this.responseErrorVehiculos = error 
         console.log(error);
       })
     },
