@@ -137,7 +137,7 @@
             </template>
           </b-form-select>
 
-          <b-form-select class="mt-4" v-model="idVehiculoElegido" :options="getVehiculosBindeados()">
+          <b-form-select class="mt-4" v-model="idVehiculoElegido" :options="dataVehiculosAsignar">
             <template #first>
               <b-form-select-option :value="null" disabled>A qué vehículo se le asignará</b-form-select-option>
             </template>
@@ -238,7 +238,7 @@
       </b-modal>
 
       <!-- ASIGNAR VEHICULO A VIAJE -->
-      <button v-if="datos && datos.length != 0 && this.entidad == 'viajes'" class="btn btn-outline-info ml-3 mt-2" id="toggle-btn" @click="cambiarVisibilidadAsignarVehiculo()">Asignar Vehiculo</button>
+      <button v-if="(datos && datos.length != 0 && this.entidad == 'viajes') && responseVehiculos " class="btn btn-outline-info ml-3 mt-2" id="toggle-btn" @click="cambiarVisibilidadAsignarVehiculo()">Asignar Vehiculo</button>
       <b-modal 
         ref="asignar-vehiculo-modal"
         centered
@@ -247,25 +247,32 @@
         header-text-variant="light"
         hide-footer
       >
-        <div class="d-block text-center" v-if="getDataVehiculosAsignar">
-
-          <b-form-select v-model="idVehiculoElegido" :options="getDataVehiculosAsignar">
-            <template #first>
-              <b-form-select-option :value="null" disabled>Elija un Vehiculo</b-form-select-option>
-            </template>
-          </b-form-select>
-
-          <b-form-select class="mt-4" v-model="idViajeElegido" :options="getViajesBindeados()">
-            <template #first>
-              <b-form-select-option :value="null" disabled>A qué viaje se le asignará</b-form-select-option>
-            </template>
-          </b-form-select>
-
-          <hr class="hr-verdeAgua">
-          <b-button v-if="idVehiculoElegido!=null && idViajeElegido!=null"  class="mt-2" variant="info" v-b-modal.asignar-vehiculo-confirmar-modal>Aceptar</b-button>
-          <b-button v-else class="mt-2" disabled variant="secondary">Aceptar</b-button>
+        <div v-if="responseVehiculos.error">
+          <b-card class="mt-2" text-variant="light" bg-variant="danger" >Usted no esta autorizado para hacer asignaciones</b-card>
         </div>
-        <b-card class="mt-2" text-variant="light" bg-variant="danger" v-else >No hay vehiculo para asignar</b-card>
+
+        <div v-else>        
+          <div class="d-block text-center" v-if="getDataVehiculosAsignar">
+
+            <b-form-select v-model="idVehiculoElegido" :options="getDataVehiculosAsignar">
+              <template #first>
+                <b-form-select-option :value="null" disabled>Elija un Vehiculo</b-form-select-option>
+              </template>
+            </b-form-select>
+
+            <b-form-select class="mt-4" v-model="idViajeElegido" :options="getViajesBindeados()">
+              <template #first>
+                <b-form-select-option :value="null" disabled>A qué viaje se le asignará</b-form-select-option>
+              </template>
+            </b-form-select>
+
+            <hr class="hr-verdeAgua">
+            <b-button v-if="idVehiculoElegido!=null && idViajeElegido!=null"  class="mt-2" variant="info" v-b-modal.asignar-vehiculo-confirmar-modal>Aceptar</b-button>
+            <b-button v-else class="mt-2" disabled variant="secondary">Aceptar</b-button>
+          </div>
+          <b-card class="mt-2" text-variant="light" bg-variant="danger" v-else >No hay vehiculo para asignar</b-card>
+        </div>
+
       </b-modal>
       
       <!-- CONFIRMACION ASIGNACION VEHICULO VIAJE -->
@@ -455,19 +462,6 @@ export default {
         this.responseVehiculos = error 
         console.log(error);
       })
-    },
-    getVehiculosBindeados(){
-      console.log('GET VEHICULOS BINDEADOS');
-      let vehiculos=this.datos.map(vehiculo => 
-        {
-          var obj ={
-            value:vehiculo._id,
-            text:vehiculo.marca+' '+vehiculo.patente
-          }
-          return obj
-        }
-      )
-      return vehiculos
     },
     asignarVehiculoAviaje(){
       let token = this.getLoggedUserToken()
