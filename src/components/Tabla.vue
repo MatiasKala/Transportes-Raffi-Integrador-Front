@@ -105,7 +105,7 @@
     <b-row>
       
       <!-- CREAR REGISTRO -->
-      <button v-if="this.entidad != 'hojaDeRuta'" class="btn btn-outline-primary ml-3 mt-2" id="toggle-btn" @click="cambiarVisibilidadAgregar()">Agregar {{this.entidad | aSingular }}</button>
+      <button v-if="this.entidad != 'hojaDeRuta' && this.entidad != 'historicos' " class="btn btn-outline-primary ml-3 mt-2" id="toggle-btn" @click="cambiarVisibilidadAgregar()">Agregar {{this.entidad | aSingular }}</button>
       <b-modal 
         ref="agregar-modal"
         centered

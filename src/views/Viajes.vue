@@ -61,8 +61,9 @@ export default {
             Authorization: 'Bearer ' + token 
           }
       }).then(response => {
-        console.log('Obtenidos Viajes Programados',response.data);        
-        this.viajesHistoricos= response.data
+        const historicos = response.data.filter(v => v.estado == 'FINALIZADO')
+        console.log('Obtenidos Viajes Historicos',historicos);        
+        this.viajesHistoricos= historicos
       }).catch(error =>{
         console.log(error);
       })
