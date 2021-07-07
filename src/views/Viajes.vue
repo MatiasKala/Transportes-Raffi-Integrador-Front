@@ -13,8 +13,9 @@
     
     <!-- VIAJES HISTORICOS -->
     
-    <div v-if="mostrarHistoricos">HISTORICOS</div>
-    
+    <div v-if="mostrarHistoricos">
+      <Tabla v-if="mostrarHistoricos" :datos="viajesHistoricos" :entidad="'historicos'" />
+    </div>
     <!-- HOJA DE RUTA -->
     
     <div v-if="mostrarHojaDeRuta">
@@ -35,6 +36,7 @@ export default {
     return{
       viajesProgramados:this.getViajesProgramados(this.getLoggedUserToken()),
       viajesHojaDeRuta:this.getViajesHojaDeRuta(this.getLoggedUserToken()),
+      viajesHistoricos:this.getViajesHistoricos(this.getLoggedUserToken()),
       mostrarProgramados:false,
       mostrarHistoricos:false,
       mostrarHojaDeRuta:false,
@@ -53,13 +55,26 @@ export default {
         console.log(error);
       })
     },
+    getViajesHistoricos(token){
+      this.viajesHistoricos=this.axios.get(`${this.$store.state.apiDominio}/viajes`, {
+          headers: {
+            Authorization: 'Bearer ' + token 
+          }
+      }).then(response => {
+        console.log('Obtenidos Viajes Programados',response.data);        
+        this.viajesHistoricos= response.data
+      }).catch(error =>{
+        console.log(error);
+      })
+    },
     getViajesHojaDeRuta(token){
       this.viajesHojaDeRuta=this.axios.get(`${this.$store.state.apiDominio}/hojaDeRuta/viajes`, {
           headers: {
             Authorization: 'Bearer ' + token 
           }
       }).then(response => {
-        console.log('Obtenidos Hoja De Ruta',response.data);        
+        console.log('Obtenidos Hoja De Ruta',response.data);
+        console.log(response.data);  
         this.viajesHojaDeRuta= response.data
       }).catch(error =>{
         console.log(error);

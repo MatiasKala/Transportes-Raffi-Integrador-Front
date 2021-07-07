@@ -66,10 +66,10 @@ export default {
            else if(temperatura>298) {
              return '#ff9090'
            }
-           else if(temperatura>288) {
+           else if(temperatura>286) {
              return '#928787'
            } 
-           else if(temperatura>283){
+           else if(temperatura>281){
              return '#64bcff'
            }
            else{

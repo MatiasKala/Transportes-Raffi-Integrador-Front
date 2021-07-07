@@ -25,13 +25,13 @@
         </template>
 
         <!-- CLIENTE Campo personalizado -->
-        <template v-if="this.entidad == 'viajes' || this.entidad == 'hojaDeRuta'" #cell(cliente)="data">
+        <template v-if="this.entidad == 'viajes' || this.entidad == 'hojaDeRuta' || this.entidad == 'historicos'" #cell(cliente)="data">
           <b v-if="data.item.cliente._id">{{ '_id: '+data.item.cliente._id }}</b>
           <b v-else>{{'---------'}}</b>
         </template>
 
         <!-- VEHICULO Campo personalizado -->
-        <template v-if="this.entidad == 'viajes' || this.entidad == 'hojaDeRuta'" #cell(vehiculo)="data">
+        <template v-if="this.entidad == 'viajes' || this.entidad == 'hojaDeRuta' || this.entidad == 'historicos'" #cell(vehiculo)="data">
           <b v-if="data.item.vehiculo._id">{{ '_id: '+data.item.vehiculo._id }}</b>
           <b v-else>{{'---------'}}</b>
         </template>     
@@ -349,154 +349,6 @@ export default {
     }
   },
   methods:{
-    getChoferes(){
-      console.log('GET CHOFERES');
-      this.axios.get(`${this.$store.state.apiDominio}/choferes`, {
-          headers: {
-            Authorization: 'Bearer ' + this.getLoggedUserToken()
-          }
-      }).then(response => {
-        // ESTA EN GLOBAL MIXIN 
-        this.eliminarCamposPrivados(response.data)
-        response.data=response.data.map(chofer => 
-          {
-            var obj ={
-              value:chofer._id,
-              text:chofer.nombre+' '+chofer.apellido
-            }
-            return obj
-          }
-        )
-        this.dataChoferesAsignar = response.data
-      }).catch(error =>{
-        this.responseErrorChoferes = error
-        console.log(error);
-      })
-    },
-    asignarChoferAvehiculo(){
-      let token = this.getLoggedUserToken()
-      this.axios.put(
-        `${this.getDominioApi()}/${this.entidad}/${this.idVehiculoElegido}/${this.idChoferElegido}`, 
-          {
-            header: {Authorization: 'Bearer ' + token}
-          }
-      )
-      .then(response=> {
-        this.response=response
-        setTimeout(() => {
-          location.reload()
-        }, 3000);
-      })
-      .catch(error =>{
-        console.log(error);
-        this.response=error
-      })
-    },
-
-
-    
-    getClientes(){
-      console.log('GET CLIENTES');
-      this.axios.get(`${this.$store.state.apiDominio}/clientes`, {
-        headers: {
-          Authorization: 'Bearer ' + this.getLoggedUserToken()
-          }
-      }).then(response => {
-        // ESTA EN GLOBAL MIXIN 
-        this.eliminarCamposPrivados(response.data)
-        response.data=response.data.map(cliente => 
-          {
-            var obj ={
-              value:cliente._id,
-              text:'Nombre '+cliente.nombre+' CUIT '+cliente.CUIT
-            }
-            return obj
-          }
-        )
-        this.dataClientesAsignar = response.data
-      }).catch(error =>{
-        this.responseErrorClientes = error
-        console.log(error);
-      })
-    },
-    asignarClienteAviaje(){
-      let token = this.getLoggedUserToken()
-      this.axios.put(
-        `${this.getDominioApi()}/${this.entidad}/${this.idClienteElegido}/${this.idViajeElegido}`, 
-          {
-            header: {Authorization: 'Bearer ' + token}
-          }
-      )
-      .then(response=> {
-        this.response=response
-        setTimeout(() => {
-          location.reload()
-        }, 3000);
-      })
-      .catch(error =>{
-        console.log(error);
-        this.response=error
-      })
-    },
-
-
-    getVehiculos(){
-      console.log('GET VEHICULOS');
-      this.axios.get(`${this.$store.state.apiDominio}/vehiculos`, {
-        headers: {
-          Authorization: 'Bearer ' + this.getLoggedUserToken()
-          }
-      }).then(response => {
-        // ESTA EN GLOBAL MIXIN 
-        this.eliminarCamposPrivados(response.data)
-        response.data=response.data.map(vehiculo => 
-          {
-            var obj ={
-              value:vehiculo._id,
-              text:'Patente '+vehiculo.patente+' Marca '+vehiculo.marca
-            }
-            return obj
-          }
-        )
-        this.dataVehiculosAsignar = response.data
-      }).catch(error =>{
-        this.responseErrorVehiculos = error 
-        console.log(error);
-      })
-    },
-    asignarVehiculoAviaje(){
-      let token = this.getLoggedUserToken()
-      this.axios.put(
-        `${this.getDominioApi()}/${this.entidad}/${this.idVehiculoElegido}/${this.idViajeElegido}`, 
-          {
-            header: {Authorization: 'Bearer ' + token}
-          }
-      )
-      .then(response=> {
-        this.response=response
-        setTimeout(() => {
-          location.reload()
-        }, 3000);
-      })
-      .catch(error =>{
-        console.log(error);
-        this.response=error
-      })
-    },
-   
-    getViajesBindeados(){
-      console.log('GET VIAJES BINDEADOS');
-      let viajes=this.datos.map(viaje => 
-        {
-          var obj ={
-            value:viaje._id,
-            text:'Viaje del '+viaje.fechaEntrega+' hacia '+viaje.domicilioEntrega
-          }
-          return obj
-        }
-      )
-      return viajes
-    },
 
     setData(data){
       this.data = data 
@@ -559,9 +411,15 @@ export default {
 
         // Filtra los campos que vamos a renderizar
         const fields= Object.keys(this.datos[0]).map((field)=>{
-          if(field != '_id' && field != 'fechaCreacion' && field != 'fechaBaja'){
-            // Si son campos que puedan ordenar la tabla les agrega la propiedad sortable
-            return {key:field, sortable:this.isSortable(field)? true: false}
+          if(field != '_id' && field != 'fechaCreacion' && field != 'fechaBaja' ){
+            
+            // Filtra estado en la tabla de historicos
+            if (this.entidad!='historicos' || field != 'estado') {
+              // Si son campos que puedan ordenar la tabla les agrega la propiedad sortable
+              console.log('ahre ',field);
+              return {key:field, sortable:this.isSortable(field)? true: false}
+            }
+          
           }
         })
         // Devuelve los campos propios de cada entidad + los campos estaticos
