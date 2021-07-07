@@ -10,7 +10,7 @@ export default new Vuex.Store({
     apiDominio:'https://stormy-mountain-51560.herokuapp.com',
     // apiDominio:'http://localhost:3000',
     
-    camposOrdenables:'email,username,apellido,patente,tipo,tipoCobro,CUIT',
+    camposOrdenables:'email,username,apellido,patente,tipo,tipoCobro,CUIT,fechaNacimiento,fechaEntrega',
     // ACA EMPIEZAN INPUTS
     camposNoValidar:'',
     camposFecha:'fechaNacimiento,fechaEntrega',
