@@ -55,6 +55,10 @@ export const mixinLocal = {
         inputNoValidar(label){
             return this.$store.state.camposNoValidar.split(',').includes(label)
         },
+        inputFecha(label){
+          console.log(this.$store.state.camposFecha);
+          return this.$store.state.camposFecha.split(',').includes(label)
+        },
         esEnum(label){
           return this.$store.state.camposEnum.split(',').includes(label)
         },
@@ -72,8 +76,8 @@ export const mixinLocal = {
             'CUIT':'number',
             'anio':'number',
             'viajes':this.estadoInicialViajes(),
-            'fechaNacimiento':'date',
-            'fechaEntrega':'date',
+            // 'fechaNacimiento':'date',
+            // 'fechaEntrega':'date',
           }
           
           return labels[label] ? labels[label] : 'text'

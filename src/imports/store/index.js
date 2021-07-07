@@ -12,7 +12,8 @@ export default new Vuex.Store({
     
     camposOrdenables:'email,username,apellido,patente,tipo,tipoCobro,CUIT',
     // ACA EMPIEZAN INPUTS
-    camposNoValidar:'fechaNacimiento,fechaEntrega',
+    camposNoValidar:'',
+    camposFecha:'fechaNacimiento,fechaEntrega',
     camposValidarLongitud:'',
     camposValidarLongitudNoCaracteresEspeciales:'nombre,apellido,patente,marca,modelo,seguro,direccion,domicilioEntrega,descripcionPaquete',
     camposValidarSoloNumeros:'CUIT,comision,anio',

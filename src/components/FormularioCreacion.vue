@@ -51,6 +51,22 @@
         solo-numeros
       >
 
+      <b-col cols="12">
+        <b-calendar 
+          :type="getType(label)" 
+          :name="label" 
+          :id="label"
+          v-if="inputFecha(label)" 
+          locale="es" 
+          v-model.trim="formData[label]"
+          required
+          today-variant="info"
+          nav-button-variant="info"
+          selected-variant="success"
+          class="m-2 text-center"
+        />
+      </b-col>
+
       <!-- INPUT NO VALIDAR -->
      
       <input 
@@ -150,7 +166,8 @@
       return {
         formState:{},
         formData:this.estadoInicial(),
-        response:''
+        response:'',
+        valueCalendar:null
       }
     },
     methods: {
