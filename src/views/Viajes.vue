@@ -49,8 +49,9 @@ export default {
             Authorization: 'Bearer ' + token 
           }
       }).then(response => {
-        console.log('Obtenidos Viajes Programados',response.data);        
-        this.viajesProgramados= response.data
+        const programados = response.data.filter(v => v.estado != 'FINALIZADO')
+        console.log('Obtenidos Viajes Programados',programados);        
+        this.viajesProgramados= programados
       }).catch(error =>{
         console.log(error);
       })

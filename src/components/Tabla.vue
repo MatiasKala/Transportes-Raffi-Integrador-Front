@@ -387,7 +387,7 @@ export default {
     getEstiloEnCurso(estado){
       if (estado !== 'PENDIENTE') {
         return{
-          'color': '#17a2b8',
+          'color': 'white',
           'background-color':'#2c2c2c'
         }
       }
@@ -395,7 +395,7 @@ export default {
     getEstiloFinalizado(estado){
       if (estado !== 'EN CURSO') {
         return{
-          'color': '#28a745',
+          'color': 'white',
           'background-color':'#2c2c2c'
         }
       }
