@@ -56,7 +56,6 @@ export const mixinLocal = {
             return this.$store.state.camposNoValidar.split(',').includes(label)
         },
         inputFecha(label){
-          console.log(this.$store.state.camposFecha);
           return this.$store.state.camposFecha.split(',').includes(label)
         },
         esEnum(label){
@@ -85,6 +84,26 @@ export const mixinLocal = {
         },
         getEnumOptions(label){
           return this.$store.state.enumOptions[label]
+        },
+        getFechaMin(label){
+          if(label == 'fechaEntrega'){
+            return this.getFechaHoy()
+          } else {
+            return undefined
+          }
+        },
+        getFechaHoy(){
+          var d = new Date(),
+              month = '' + (d.getMonth() + 1),
+              day = '' + d.getDate(),
+              year = d.getFullYear();
+  
+          if (month.length < 2) 
+              month = '0' + month;
+          if (day.length < 2) 
+              day = '0' + day;
+  
+          return ( [year, month, day].join('-'))
         }
     },
     computed : {

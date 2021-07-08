@@ -416,7 +416,6 @@ export default {
             // Filtra estado en la tabla de historicos
             if (this.entidad!='historicos' || field != 'estado') {
               // Si son campos que puedan ordenar la tabla les agrega la propiedad sortable
-              console.log('ahre ',field);
               return {key:field, sortable:this.isSortable(field)? true: false}
             }
           

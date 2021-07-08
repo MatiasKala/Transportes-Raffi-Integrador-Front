@@ -48,6 +48,27 @@
         solo-numeros
       >
 
+      <!-- FECHA CAMPO -->
+      
+      <b-col v-if="inputFecha(label)" cols="12">
+        <b-card>
+          <b-calendar 
+            :type="getType(label)" 
+            :name="label" 
+            :id="label"
+            :min="getFechaMin(label)"
+            v-model.trim="formData[label]"
+            today-variant="info"
+            nav-button-variant="info"
+            selected-variant="success"
+            hide-header
+            class="m-2 text-center"
+            locale="es" 
+          />
+          <b-button variant="danger" @click="borrarFecha()">Limpiar Seleccion</b-button>
+        </b-card>
+      </b-col>
+
       <!-- INPUT NO VALIDAR -->
      
       <input 
@@ -85,7 +106,9 @@
     </validate>
     <br>    
     <hr>
-    <b-button disabled v-if="formState.$invalid || !formState.$dirty" class="mt-3 btn-disabled">
+    {{formData}}
+    <br>
+    <b-button disabled v-if="(formState.$invalid || !formState.$dirty) && (formData['fechaNacimiento'] == '' || formData['fechaEntrega'] == '')" class="mt-3 btn-disabled">
       Enviar
     </b-button>
     <b-button v-else class="mt-3 botonEnvio" variant="warning" v-b-modal.confirmar-modal>
@@ -159,6 +182,13 @@
                                     )
         return datosModificables
       },
+      borrarFecha(){
+        if (Object.prototype.hasOwnProperty.call(this.formData, 'fechaNacimiento')) {
+          this.formData['fechaNacimiento'] = ''
+        } else {
+          this.formData['fechaEntrega'] = ''
+        }
+      },      
     },
     computed: {
 

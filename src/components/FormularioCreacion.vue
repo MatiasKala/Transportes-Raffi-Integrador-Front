@@ -51,13 +51,15 @@
         solo-numeros
       >
 
+      <!-- FECHA CAMPO -->
+
       <b-col v-if="inputFecha(label)" cols="12">
         <b-card>
         <b-calendar 
           :type="getType(label)" 
           :name="label" 
           :id="label"
- 
+          :min="getFechaMin(label)"
           v-model.trim="formData[label]"
           required
           today-variant="info"
