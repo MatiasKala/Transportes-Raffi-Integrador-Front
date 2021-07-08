@@ -57,6 +57,7 @@
             :name="label" 
             :id="label"
             :min="getFechaMin(label)"
+            :max="getFechaMax(label)"
             v-model.trim="formData[label]"
             today-variant="info"
             nav-button-variant="info"

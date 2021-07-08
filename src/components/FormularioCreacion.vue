@@ -56,20 +56,23 @@
 
       <b-col v-if="inputFecha(label)" cols="12">
         <b-card>
-        <b-calendar 
-          :type="getType(label)" 
-          :name="label" 
-          :id="label"
-          :min="getFechaMin(label)"
-          v-model.trim="formData[label]"
-          required
-          today-variant="info"
-          nav-button-variant="info"
-          selected-variant="success"
-          hide-header
-          class="m-2 text-center"
-          locale="es" 
-        />
+          <b-calendar 
+            :type="getType(label)" 
+            :name="label" 
+            :id="label"
+            :min="getFechaMin(label)"
+            :max="getFechaMax(label)"
+            :date-disabled-fn="dateDisabled" 
+            v-model.trim="formData[label]"
+            show-decade-nav
+            required
+            today-variant="info"
+            nav-button-variant="info"
+            selected-variant="success"
+            hide-header
+            class="m-2 text-center"
+            locale="es"
+          />
         </b-card>
       </b-col>
 
@@ -152,7 +155,9 @@
       </div>
       <div class="d-block text-center mt-2" v-else>
         <b-card bg-variant="success" v-if="response.status >= 200" >Creacion realizada correctamente</b-card>
-        <b-card bg-variant="danger" v-else>Error en la creacion <br> {{response.response.data.error ? response.response.data.error : response.response.data}}</b-card>
+        <b-card bg-variant="danger" v-else>Error en la creacion <br>
+          {{response.response.data.error ? response.response.data.error : response.response.data}}
+        </b-card>
       </div>
     </b-modal>
   </vue-form>
@@ -164,16 +169,13 @@
   export default  {
     name: 'formulario-edicion',
     props: ['entidad'],
-    mounted () {
-    
-    },
     mixins:[mixinLocal],
     data () {
       return {
         formState:{},
         formData:this.estadoInicial(),
         response:'',
-        valueCalendar:null
+        valueCalendar:null,
       }
     },
     methods: {
@@ -237,6 +239,14 @@
             this.formData.vehiculo=''
             this.formData.estado='PENDIENTE'
             break;
+        }
+      },
+      dateDisabled(ymd, date) {
+        if(this.entidad == 'choferes'){
+          return null
+        } else {
+          const weekday = date.getDay()
+          return weekday === 0 || weekday === 6  
         }
       },
       

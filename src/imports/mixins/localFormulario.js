@@ -92,6 +92,13 @@ export const mixinLocal = {
             return undefined
           }
         },
+        getFechaMax(label){
+          if(label == 'fechaEntrega'){
+            return undefined
+          } else {
+            return this.getFechaHaceDieciochoAnios()
+          }
+        },
         getFechaHoy(){
           var d = new Date(),
               month = '' + (d.getMonth() + 1),
@@ -104,7 +111,35 @@ export const mixinLocal = {
               day = '0' + day;
   
           return ( [year, month, day].join('-'))
-        }
+        },
+        getFechaHaceDieciochoAnios(){
+          var d = new Date(),
+              month = '' + (d.getMonth() + 1),
+              day = '' + d.getDate(),
+              year = d.getFullYear()- 18;
+              
+          if (month.length < 2) 
+              month = '0' + month;
+          if (day.length < 2) 
+              day = '0' + day;
+              
+          return ( [year, month, day].join('-'))
+          
+        },
+        getViajes(){
+          console.log('GET VIAJES');
+          this.axios.get(`${this.$store.state.apiDominio}/viajes`, {
+            headers: {
+              Authorization: 'Bearer ' + this.getLoggedUserToken()
+              }
+          }).then(response => {
+            console.log(response,' PARA FECHAS');
+            return response.data
+          }).catch(error =>{
+            console.error(error);
+            return null
+          })
+        },
     },
     computed : {
     }
