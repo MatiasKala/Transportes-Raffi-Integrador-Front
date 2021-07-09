@@ -60,10 +60,10 @@ export default {
     },
     getColorSegunTemperatura(temperatura){
          if (temperatura) {
-           if(temperatura>303) {
+           if(temperatura>305) {
              return '#ff0000'
            }
-           else if(temperatura>298) {
+           else if(temperatura>297) {
              return '#ff9090'
            }
            else if(temperatura>286) {

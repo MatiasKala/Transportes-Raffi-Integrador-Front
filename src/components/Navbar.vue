@@ -7,7 +7,7 @@
       <b-col lg="9" md="12" cols="12">
         <b-navbar class="mt-4 nav" toggleable="lg" type="dark" variant="light">
           <router-link to="/">
-              <b-navbar-brand style="color:black">Home</b-navbar-brand>
+              <b-navbar-brand style="color:black" class="botonNav"><b-button variant="dark"><b>Home</b></b-button></b-navbar-brand>
           </router-link>
 
           <b-navbar-toggle target="navbar-toggle-collapse">
@@ -21,22 +21,22 @@
             <b-navbar-nav class="mr-auto ml-auto">
               <b-nav-item>
                   <router-link to="/manejoMaestros/choferes">
-                    <a class="nav-link"><b-button variant="light"><b>Choferes</b></b-button></a> 
+                    <a class="nav-link botonNav"><b-button  variant="secondary"><b>Choferes</b></b-button></a> 
                   </router-link>
               </b-nav-item>
               <b-nav-item>
                   <router-link to="/manejoMaestros/vehiculos">
-                    <a class="nav-link"><b-button variant="light"><b>Vehiculos</b></b-button></a> 
+                    <a class="nav-link botonNav"><b-button  variant="secondary"><b>Vehiculos</b></b-button></a> 
                   </router-link>
               </b-nav-item>
               <b-nav-item>
                   <router-link to="/manejoMaestros/clientes">
-                    <a class="nav-link"><b-button variant="light"><b>Clientes</b></b-button></a> 
+                    <a class="nav-link botonNav"><b-button  variant="secondary"><b>Clientes</b></b-button></a> 
                   </router-link>
               </b-nav-item>
               <b-nav-item>
                   <router-link to="/viajes">
-                    <a class="nav-link"><b-button variant="light"><b>Viajes</b></b-button></a> 
+                    <a class="nav-link botonNav"><b-button  variant="secondary"><b>Viajes</b></b-button></a> 
                   </router-link>
               </b-nav-item>
             </b-navbar-nav>
@@ -71,6 +71,11 @@ export default {
 
 <style scoped>
 .nav{
-  background-color: rgb(216, 216, 216) !important;
+  background-color: rgb(20, 20, 20) !important;
+}
+.botonNav :hover{
+  background-color: rgb(255, 255, 255);
+  color: rgb(58, 58, 58);
+	transition: all 0.5s ease 0s;
 }
 </style>

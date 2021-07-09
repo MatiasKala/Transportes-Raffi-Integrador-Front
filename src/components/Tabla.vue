@@ -312,7 +312,7 @@
    
     </b-row>
 
-    <b-row align-h="end" v-if="this.entidad == 'hojaDeRuta'">
+    <b-row align-h="center" v-if="this.entidad == 'hojaDeRuta'">
       <b-button variant="primary" class="text-end" @click="print">Imprimir Hoja de Ruta</b-button>
     </b-row>
 
