@@ -29,7 +29,7 @@ Vue.mixin({
               delete d.password
             });
         },
-        getCRUDStaticFields(isCRUD,isHojaDeRuta){
+        getStaticFields(isCRUD,isHojaDeRuta){
             if (isCRUD) {
                 return [
                     { key: 'editar', label: 'Editar' },
@@ -39,6 +39,7 @@ Vue.mixin({
                 return [
                     { key: 'pasarAenCurso', label: 'Pasar a En Curso' },
                     { key: 'pasarAfinalizado', label: 'Pasar a Finalizado' },
+                    { key: 'VerRuta', label: 'Ver Ruta' },
                 ]
             }
         },   

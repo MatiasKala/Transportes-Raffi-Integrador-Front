@@ -9,7 +9,8 @@ export default new Vuex.Store({
  
     apiDominio:'https://stormy-mountain-51560.herokuapp.com',
     // apiDominio:'http://localhost:3000',
-    
+    viajeElegidoRuta:{},
+
     camposOrdenables:'email,username,apellido,patente,tipo,tipoCobro,CUIT,fechaNacimiento,fechaEntrega,estado',
     // ACA EMPIEZAN INPUTS
     camposNoValidar:'',

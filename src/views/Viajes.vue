@@ -1,27 +1,39 @@
 <template>
   <div class="home">
-    <b-button-group  size="lg" class="mb-3">
-      <b-button @click="verProgramados()" class="btn btn-viajes">Viajes Programados</b-button>
-      <b-button @click="verHistoricos()" class="btn btn-viajes">Viajes Historicos</b-button>
-      <b-button @click="verHojaDeRuta()" class="btn btn-viajes">Hoja de Ruta</b-button>
-    </b-button-group>
+    <b-container>
+      <b-button-group  size="lg" class="mb-3">
+        <b-button @click="verProgramados()" class="btn btn-viajes">Viajes Programados</b-button>
+        <b-button @click="verHistoricos()" class="btn btn-viajes">Viajes Historicos</b-button>
+        <b-button @click="verHojaDeRuta()" class="btn btn-viajes">Hoja de Ruta</b-button>
+      </b-button-group>
 
 
-    <!-- VIAJES PROGRAMADOS -->
+      <!-- VIAJES PROGRAMADOS -->
 
-    <Tabla v-if="mostrarProgramados" :datos="viajesProgramados" :entidad="'viajes'" :isCRUD="true" :isHojaDeRuta="false"/>
-    
-    <!-- VIAJES HISTORICOS -->
-    
-    <div v-if="mostrarHistoricos">
-      <Tabla v-if="mostrarHistoricos" :datos="viajesHistoricos" :entidad="'historicos'" />
-    </div>
-    <!-- HOJA DE RUTA -->
-    
-    <div v-if="mostrarHojaDeRuta">
-        <Tabla v-if="mostrarHojaDeRuta" :datos="viajesHojaDeRuta" :entidad="'hojaDeRuta'" :isCRUD="false" :isHojaDeRuta="true" />
-    </div>
-  
+      <Tabla v-if="mostrarProgramados" :datos="viajesProgramados" :entidad="'viajes'" :isCRUD="true" :isHojaDeRuta="false"/>
+      
+      <!-- VIAJES HISTORICOS -->
+      
+      <div v-if="mostrarHistoricos">
+        <Tabla v-if="mostrarHistoricos" :datos="viajesHistoricos" :entidad="'historicos'" />
+      </div>
+      <!-- HOJA DE RUTA -->
+      
+      <div v-if="mostrarHojaDeRuta">
+          <Tabla v-if="mostrarHojaDeRuta" :datos="viajesHojaDeRuta" :entidad="'hojaDeRuta'" :isCRUD="false" :isHojaDeRuta="true" />
+      </div>
+      
+      <b-row align-h="center" class="mt-5">
+        <b-col cols="9">
+          <b-card title="Ruta de Viaje">
+            <b-card-header header-bg-variant="dark" header-text-variant="light">Card subtitle </b-card-header>
+            <br>
+            <b-card-text>{{this.viajeElegidoRuta}}</b-card-text>
+          </b-card>
+        </b-col>
+      </b-row>
+        
+    </b-container>
   </div>
 </template>
 
@@ -37,7 +49,7 @@ export default {
       viajesProgramados:this.getViajesProgramados(this.getLoggedUserToken()),
       viajesHojaDeRuta:this.getViajesHojaDeRuta(this.getLoggedUserToken()),
       viajesHistoricos:this.getViajesHistoricos(this.getLoggedUserToken()),
-      mostrarProgramados:false,
+      viajeElegidoRuta:this.$store.state.viajeElegidoRuta,
       mostrarHistoricos:false,
       mostrarHojaDeRuta:false,
     }

@@ -1,5 +1,5 @@
 <template>
-  <b-container class="tabla" >
+  <b-container class="tabla" id="tabla" >
     <h1>Tabla de {{entidad | primeraMayuscula | separarLabelConEspacios}}</h1>
 
     <!-- Si la tabla todavia no cargó -->
@@ -15,7 +15,7 @@
     </div>
 
 
-    <div  v-if="datos && datos.length != 0" id="tabla" class="table-container my-5">
+    <div  v-if="datos && datos.length != 0" class="table-container my-5">
       <b-table table-variant='light' head-variant="light" outlined hover responsive  :items="datos" :fields="getFields">
 
         <!-- CHOFER Campo personalizado -->
@@ -39,7 +39,6 @@
         <!-- EDITAR Y ELIMINAR Campos personalizados -->
           
           <!-- EDITAR -->
-  
         <template v-if="isCRUD" #cell(editar)="data">
           <button class="btn btn-outline-warning" id="toggle-btn" @click="cambiarVisibilidadEditar(data)">Editar</button>
           <b-modal 
@@ -55,7 +54,6 @@
         </template>
           
           <!-- ELIMINAR -->
-
         <template v-if="isCRUD" #cell(eliminar)="data">
           <button class="btn btn-outline-danger" id="toggle-btn" @click="cambiarVisibilidadEliminar(data)">Eliminar</button>
           <b-modal 
@@ -96,6 +94,11 @@
 
         <template v-if="isHojaDeRuta" #cell(pasarAfinalizado)="data">
           <button :disabled="data.item.estado !== 'EN CURSO'" :style="getEstiloFinalizado(data.item.estado)" class="btn btn-outline-success" id="toggle-btn" @click="cambioEstado(data,{estado:'FINALIZADO'})">A Finalizado</button>
+        </template>
+
+        <!-- ELEGIR VIAJE HOJA DE RUTA -->
+        <template v-if="isHojaDeRuta" #cell(VerRuta)="data">
+          <button class="btn btn-outline-dark" id="toggle-btn" @click="elegirViaje(data)">Elegir Viaje</button>
         </template>
       </b-table>
     </div>
@@ -425,8 +428,12 @@ export default {
         }
       }
     },
+
     async print(){
       await this.$htmlToPaper('tabla');
+    },
+    elegirViaje(data){
+      console.log( data);
     }
   },
   computed:{
@@ -435,7 +442,7 @@ export default {
       // if(this.datos){
         /* Obtiene los campos estaticos que comparten todas las tablas */
         // ESTAN EN MIXIN GLOBAL
-        const staticFields = this.getCRUDStaticFields(this.isCRUD,this.isHojaDeRuta)
+        const staticFields = this.getStaticFields(this.isCRUD,this.isHojaDeRuta)
 
         // Filtra los campos que vamos a renderizar
         const fields= Object.keys(this.datos[0]).map((field)=>{
