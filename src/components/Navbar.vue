@@ -5,7 +5,7 @@
         <Clima/>
       </b-col>
       <b-col lg="9" md="12" cols="12">
-        <b-navbar class="mt-4" toggleable="lg" type="dark" variant="light">
+        <b-navbar class="mt-4 nav" toggleable="lg" type="dark" variant="light">
           <router-link to="/">
               <b-navbar-brand style="color:black">Home</b-navbar-brand>
           </router-link>
@@ -70,5 +70,7 @@ export default {
 </script>
 
 <style scoped>
-
+.nav{
+  background-color: rgb(216, 216, 216) !important;
+}
 </style>

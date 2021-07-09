@@ -3,7 +3,7 @@
     <b-row>
       <b-col>
         <b-card style="margin-top:1px;" footer-border-variant="info">
-          <b-card-header header-bg-variant="dark" style="color:white">
+          <b-card-header header-bg-variant="light" style="color:black">
             <b>
               {{this.$store.state.dataClima.name}}
             </b>

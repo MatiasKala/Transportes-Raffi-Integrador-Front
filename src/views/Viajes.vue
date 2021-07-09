@@ -108,16 +108,16 @@ export default {
 <style scoped>
 .btn-viajes{
   
-  background-color: 	#330040;
+  background-color: 	#000000;
   transition: all 0.7s ease 0s;
 }
 .btn-viajes:hover{
-  background-color: rgb(101, 0, 114);
+  background-color: rgb(124, 124, 124);
 	letter-spacing: 2px;
 	transition: all 0.7s ease 0s;
 }
 .btn-viajes:focus{
-  background-color: rgb(101, 0, 114);
+  background-color: rgb(124, 124, 124);
 	letter-spacing: 4px;
 	-webkit-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
 	-moz-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);

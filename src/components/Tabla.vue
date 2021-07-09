@@ -98,7 +98,6 @@
           <button :disabled="data.item.estado !== 'EN CURSO'" :style="getEstiloFinalizado(data.item.estado)" class="btn btn-outline-success" id="toggle-btn" @click="cambioEstado(data,{estado:'FINALIZADO'})">A Finalizado</button>
         </template>
       </b-table>
-      <b-table v-if="isHojaDeRuta" id="tablaEscondida" table-variant='light' head-variant="light" outlined hover  responsive  :items="datos" :fields="getFieldsImprimir"/>
     </div>
 
 
@@ -310,9 +309,12 @@
         
       </b-modal>
 
+   
     </b-row>
 
-    <button @click="print">Imprimir</button>
+    <b-row align-h="end" v-if="this.entidad == 'hojaDeRuta'">
+      <b-button variant="primary" class="text-end" @click="print">Imprimir Hoja de Ruta</b-button>
+    </b-row>
 
   <!-- Si no hay datos en la tabla -->
   <div class="my-5" v-if="datos && datos.length == 0">TABLA SIN DATOS</div>
@@ -331,9 +333,8 @@ import VueHtmlToPaper from 'vue-html-to-paper';
 const options = {
   name: '_blank',
   specs: [
-    "fullscreen=yes",
-    "titlebar=yes",
-    "scrollbars=yes"
+    'titlebar=yes',
+    'scrollbar=yes'
   ],
   styles: [
     "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css",
@@ -425,7 +426,7 @@ export default {
       }
     },
     async print(){
-      await this.$htmlToPaper('tablaEscondida');
+      await this.$htmlToPaper('tabla');
     }
   },
   computed:{
@@ -450,27 +451,6 @@ export default {
         })
         // Devuelve los campos propios de cada entidad + los campos estaticos
         return fields.concat(staticFields)
-      }
-      return []
-    },
-    getFieldsImprimir(){
-      if(this.datos.length != 0){
-      // if(this.datos){
-        /* Obtiene los campos estaticos que comparten todas las tablas */
-        // Filtra los campos que vamos a renderizar
-        const fields= Object.keys(this.datos[0]).map((field)=>{
-          if(field != '_id' && field != 'fechaCreacion' && field != 'fechaBaja' ){
-            
-            // Filtra estado en la tabla de historicos
-            if (this.entidad!='historicos' || field != 'estado') {
-              // Si son campos que puedan ordenar la tabla les agrega la propiedad sortable
-              return {key:field, sortable:this.isSortable(field)? true: false}
-            }
-          
-          }
-        })
-        // Devuelve los campos propios de cada entidad + los campos estaticos
-        return fields
       }
       return []
     },
