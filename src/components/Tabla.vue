@@ -1,5 +1,5 @@
 <template>
-  <b-container class="tabla">
+  <b-container class="tabla" >
     <h1>Tabla de {{entidad | primeraMayuscula | separarLabelConEspacios}}</h1>
 
     <!-- Si la tabla todavia no cargó -->
@@ -15,8 +15,8 @@
     </div>
 
 
-    <div  v-if="datos && datos.length != 0" class="table-container my-5">
-      <b-table table-variant='light' head-variant="dark" outlined hover responsive  :items="datos" :fields="getFields">
+    <div  v-if="datos && datos.length != 0" id="tabla" class="table-container my-5">
+      <b-table table-variant='light' head-variant="light" outlined hover responsive  :items="datos" :fields="getFields">
 
         <!-- CHOFER Campo personalizado -->
         <template v-if="this.entidad == 'vehiculos'" #cell(chofer)="data">
@@ -98,6 +98,7 @@
           <button :disabled="data.item.estado !== 'EN CURSO'" :style="getEstiloFinalizado(data.item.estado)" class="btn btn-outline-success" id="toggle-btn" @click="cambioEstado(data,{estado:'FINALIZADO'})">A Finalizado</button>
         </template>
       </b-table>
+      <b-table v-if="isHojaDeRuta" id="tablaEscondida" table-variant='light' head-variant="light" outlined hover  responsive  :items="datos" :fields="getFieldsImprimir"/>
     </div>
 
 
@@ -311,6 +312,8 @@
 
     </b-row>
 
+    <button @click="print">Imprimir</button>
+
   <!-- Si no hay datos en la tabla -->
   <div class="my-5" v-if="datos && datos.length == 0">TABLA SIN DATOS</div>
     
@@ -319,9 +322,30 @@
 </template>
 
 <script>
+import Vue from 'vue';
 import FormularioCreacion from "../components/FormularioCreacion.vue";
 import FormularioEdicion from "../components/FormularioEdicion.vue";
 import { mixinLocal } from "../imports/mixins/localTabla";
+
+import VueHtmlToPaper from 'vue-html-to-paper';
+const options = {
+  name: '_blank',
+  specs: [
+    "fullscreen=yes",
+    "titlebar=yes",
+    "scrollbars=yes"
+  ],
+  styles: [
+    "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css",
+    "https://unpkg.com/kidlat-css/css/kidlat.css"
+  ],
+  timeout: 1000, // default timeout before the print window appears
+  autoClose: true, // if false, the window will not close after printing
+  windowTitle: "Hoja De Ruta " // override the window title
+}
+
+Vue.use(VueHtmlToPaper, options);
+
 
 export default {
   name: 'tabla',
@@ -400,6 +424,9 @@ export default {
         }
       }
     },
+    async print(){
+      await this.$htmlToPaper('tablaEscondida');
+    }
   },
   computed:{
     getFields(){
@@ -423,6 +450,27 @@ export default {
         })
         // Devuelve los campos propios de cada entidad + los campos estaticos
         return fields.concat(staticFields)
+      }
+      return []
+    },
+    getFieldsImprimir(){
+      if(this.datos.length != 0){
+      // if(this.datos){
+        /* Obtiene los campos estaticos que comparten todas las tablas */
+        // Filtra los campos que vamos a renderizar
+        const fields= Object.keys(this.datos[0]).map((field)=>{
+          if(field != '_id' && field != 'fechaCreacion' && field != 'fechaBaja' ){
+            
+            // Filtra estado en la tabla de historicos
+            if (this.entidad!='historicos' || field != 'estado') {
+              // Si son campos que puedan ordenar la tabla les agrega la propiedad sortable
+              return {key:field, sortable:this.isSortable(field)? true: false}
+            }
+          
+          }
+        })
+        // Devuelve los campos propios de cada entidad + los campos estaticos
+        return fields
       }
       return []
     },

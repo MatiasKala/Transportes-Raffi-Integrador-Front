@@ -5,9 +5,9 @@
         <Clima/>
       </b-col>
       <b-col lg="9" md="12" cols="12">
-        <b-navbar class="mt-4" toggleable="lg" type="dark" variant="dark">
+        <b-navbar class="mt-4" toggleable="lg" type="dark" variant="light">
           <router-link to="/">
-              <b-navbar-brand>Home</b-navbar-brand>
+              <b-navbar-brand style="color:black">Home</b-navbar-brand>
           </router-link>
 
           <b-navbar-toggle target="navbar-toggle-collapse">
@@ -21,22 +21,22 @@
             <b-navbar-nav class="mr-auto ml-auto">
               <b-nav-item>
                   <router-link to="/manejoMaestros/choferes">
-                    <a class="nav-link"><b-button variant="dark"> Choferes </b-button></a> 
+                    <a class="nav-link"><b-button variant="light"><b>Choferes</b></b-button></a> 
                   </router-link>
               </b-nav-item>
               <b-nav-item>
                   <router-link to="/manejoMaestros/vehiculos">
-                    <a class="nav-link"><b-button variant="dark"> Vehiculos </b-button></a> 
+                    <a class="nav-link"><b-button variant="light"><b>Vehiculos</b></b-button></a> 
                   </router-link>
               </b-nav-item>
               <b-nav-item>
                   <router-link to="/manejoMaestros/clientes">
-                    <a class="nav-link"><b-button variant="dark"> Clientes </b-button></a> 
+                    <a class="nav-link"><b-button variant="light"><b>Clientes</b></b-button></a> 
                   </router-link>
               </b-nav-item>
               <b-nav-item>
                   <router-link to="/viajes">
-                    <a class="nav-link"><b-button variant="dark"> Viajes </b-button></a> 
+                    <a class="nav-link"><b-button variant="light"><b>Viajes</b></b-button></a> 
                   </router-link>
               </b-nav-item>
             </b-navbar-nav>

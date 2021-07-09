@@ -97,15 +97,28 @@ Vue.mixin({
                 this.response=''   
               }, 6000);
             })
-          },
-          eliminarCamposVaciosParaEnvio(){
-            let keys=Object.keys(this.formData)
-            keys.forEach(element => {
-              if (!this.formData[element]) {
-                delete this.formData[element]
-              }
-            })
-          }
+        },
+        eliminarCamposVaciosParaEnvio(){
+          let keys=Object.keys(this.formData)
+          keys.forEach(element => {
+            if (!this.formData[element]) {
+              delete this.formData[element]
+            }
+          })
+        },
+        getFechaHoy(){
+          var d = new Date(),
+              month = '' + (d.getMonth() + 1),
+              day = '' + d.getDate(),
+              year = d.getFullYear();
+  
+          if (month.length < 2) 
+              month = '0' + month;
+          if (day.length < 2) 
+              day = '0' + day;
+  
+          return ( [year, month, day].join('-'))
+        },
     },
     computed : {
         getCaracteresInvalidos() {
