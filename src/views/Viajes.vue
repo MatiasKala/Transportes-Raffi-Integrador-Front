@@ -28,7 +28,7 @@
           <b-card title="Ruta de Viaje">
             <b-card-header header-bg-variant="dark" header-text-variant="light">Card subtitle </b-card-header>
             <br>
-            <b-card-text>{{this.viajeElegidoRuta}}</b-card-text>
+            <b-card-text>{{this.$store.state.viajeElegidoRuta}}</b-card-text>
           </b-card>
         </b-col>
       </b-row>
@@ -49,9 +49,9 @@ export default {
       viajesProgramados:this.getViajesProgramados(this.getLoggedUserToken()),
       viajesHojaDeRuta:this.getViajesHojaDeRuta(this.getLoggedUserToken()),
       viajesHistoricos:this.getViajesHistoricos(this.getLoggedUserToken()),
-      viajeElegidoRuta:this.$store.state.viajeElegidoRuta,
       mostrarHistoricos:false,
       mostrarHojaDeRuta:false,
+      mostrarProgramados:false,
     }
   },
   methods:{
@@ -114,6 +114,7 @@ export default {
     Tabla
   },
   computed:{
+    viajeElegidoRuta:() => {return this.$store.state.viajeElegidoRuta}
   }
 }
 </script>

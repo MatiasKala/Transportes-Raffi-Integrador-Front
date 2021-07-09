@@ -100,6 +100,7 @@
         <template v-if="isHojaDeRuta" #cell(VerRuta)="data">
           <button class="btn btn-outline-dark" id="toggle-btn" @click="elegirViaje(data)">Elegir Viaje</button>
         </template>
+
       </b-table>
     </div>
 
@@ -433,7 +434,8 @@ export default {
       await this.$htmlToPaper('tabla');
     },
     elegirViaje(data){
-      console.log( data);
+      this.$store.dispatch('receiveViajeVerRuta', data)
+      console.log('Seteado' , this.$store.state.viajeElegidoRuta );
     }
   },
   computed:{

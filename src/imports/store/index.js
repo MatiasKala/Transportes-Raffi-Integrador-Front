@@ -63,6 +63,9 @@ export default new Vuex.Store({
     receiveDataClima({commit},responseCodigo){
       commit('setDataClima',responseCodigo.data)
     },
+    receiveViajeVerRuta({commit},viaje){
+      commit('setViajeVerRuta',viaje.item)
+    }
   },  
     mutations: {
     setLoggedUser(state,{user,token}) {
@@ -75,6 +78,9 @@ export default new Vuex.Store({
     setDataClima(state,data) {
       state.dataClima = data
     },
+    setViajeVerRuta(state,viaje){
+      state.viajeElegidoRuta=viaje
+    }
   },
   modules: {
   }
