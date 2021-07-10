@@ -436,11 +436,12 @@ export default {
       await this.$htmlToPaper('tabla');
     },
     async elegirViaje(viaje){
+      console.log('Elegir Viaje ',viaje.item);
       this.$store.dispatch('receiveViajeVerRuta', await this.axios.post(
         `${this.getDominioApi()}/hojaDeRuta/coordenadas`,
         {
           "localidad": "Buenos Aires",
-          "direccion" : viaje.item.direccion 
+          "domicilioEntrega" : viaje.item.domicilioEntrega 
         }, 
         {
           headers: {

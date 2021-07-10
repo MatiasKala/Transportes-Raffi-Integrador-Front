@@ -28,7 +28,7 @@
           <b-card title="Ruta de Viaje">
             <b-card-header header-bg-variant="dark" header-text-variant="light">Card subtitle </b-card-header>
             <br>
-            <b-card-text>{{this.$store.state.coordenadasViajeElegido}}</b-card-text>
+            <b-card-text>{{ this.$store.state.coordenadasViajeElegido.data ? this.$store.state.coordenadasViajeElegido.data.features[0].geometry.coordinates : ''}}</b-card-text>
           </b-card>
         </b-col>
       </b-row>

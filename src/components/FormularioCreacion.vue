@@ -242,11 +242,13 @@
         }
       },
       dateDisabled(ymd, date) {
+        console.log(date,' date')
         if(this.entidad == 'choferes'){
           return null
         } else {
-          const weekday = date.getDay()
-          return weekday === 0 || weekday === 6  
+          // const weekday = date.getDay()
+          // return weekday === 0 || weekday === 6  
+          return null
         }
       },
       
