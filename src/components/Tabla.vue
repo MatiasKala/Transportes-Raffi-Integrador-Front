@@ -79,7 +79,9 @@
             </div>
             <div class="d-block text-center mt-2"  v-else>
               <b-card bg-variant="success" v-if="responseEliminado.status >= 200" >Eliminacion realizada correctamente</b-card>
-              <b-card bg-variant="danger" v-else>Error en la Eliminacion</b-card>
+              <b-card bg-variant="danger" v-else>Error en la Eliminacion <br>
+                {{responseEliminado.response.data.error ? responseEliminado.response.data.error: responseEliminado}}
+              </b-card>
             </div>
           </b-modal>
           
@@ -409,7 +411,7 @@ export default {
         }, 3000);
       })
       .catch(error =>{
-        this.response=error
+        this.responseEliminado=error
       })
     },
 
@@ -433,9 +435,20 @@ export default {
     async print(){
       await this.$htmlToPaper('tabla');
     },
-    elegirViaje(data){
-      this.$store.dispatch('receiveViajeVerRuta', data)
-      console.log('Seteado' , this.$store.state.viajeElegidoRuta );
+    async elegirViaje(viaje){
+      this.$store.dispatch('receiveViajeVerRuta', await this.axios.post(
+        `${this.getDominioApi()}/hojaDeRuta/coordenadas`,
+        {
+          "localidad": "Buenos Aires",
+          "direccion" : viaje.item.direccion 
+        }, 
+        {
+          headers: {
+            Authorization: 'Bearer ' + this.getLoggedUserToken()
+          }
+        }
+      ))
+      console.log('Seteado' , this.$store.state.coordenadasViajeElegido);
     }
   },
   computed:{

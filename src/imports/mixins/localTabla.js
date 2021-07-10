@@ -21,18 +21,23 @@ export const mixinLocal = {
             }
           )
           this.dataChoferesAsignar = response.data
+          console.log(this.dataChoferesAsignar);
         }).catch(error =>{
           this.responseErrorChoferes = error
           console.log(error);
         })
       },
       asignarChoferAvehiculo(){
-        let token = this.getLoggedUserToken()
         this.axios.put(
           `${this.getDominioApi()}/${this.entidad}/${this.idVehiculoElegido}/${this.idChoferElegido}`, 
-            {
-              header: {Authorization: 'Bearer ' + token}
+          {
+
+          },
+          {
+            headers: {
+              Authorization: 'Bearer ' + this.getLoggedUserToken()
             }
+          }
         )
         .then(response=> {
           this.response=response
@@ -73,12 +78,16 @@ export const mixinLocal = {
         })
       },
       asignarClienteAviaje(){
-        let token = this.getLoggedUserToken()
         this.axios.put(
           `${this.getDominioApi()}/${this.entidad}/${this.idClienteElegido}/${this.idViajeElegido}`, 
-            {
-              header: {Authorization: 'Bearer ' + token}
+          {
+            
+          },
+          {
+            headers: {
+              Authorization: 'Bearer ' + this.getLoggedUserToken()
             }
+          }
         )
         .then(response=> {
           this.response=response
@@ -118,12 +127,16 @@ export const mixinLocal = {
         })
       },
       asignarVehiculoAviaje(){
-        let token = this.getLoggedUserToken()
         this.axios.put(
           `${this.getDominioApi()}/${this.entidad}/${this.idVehiculoElegido}/${this.idViajeElegido}`, 
-            {
-              header: {Authorization: 'Bearer ' + token}
+          {
+            
+          },
+          {
+            headers: {
+              Authorization: 'Bearer ' + this.getLoggedUserToken()
             }
+          }
         )
         .then(response=> {
           this.response=response
