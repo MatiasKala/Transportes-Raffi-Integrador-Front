@@ -120,6 +120,7 @@ Vue.mixin({
   
           return ( [year, month, day].join('-'))
         },
+        
     },
     computed : {
         getCaracteresInvalidos() {
