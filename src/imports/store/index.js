@@ -7,9 +7,11 @@ export default new Vuex.Store({
   state: {
     caracteresNoPermitidosContrasenia:'(),$\'%#"=-+*~[]`^{};:<>|°¬?¡!',
  
-    // apiDominio:'https://stormy-mountain-51560.herokuapp.com',
-    apiDominio:'http://localhost:3000',
+    apiDominio:'https://stormy-mountain-51560.herokuapp.com',
+    // apiDominio:'http://localhost:3000',
     coordenadasViajeElegido:{},
+    coordenadasOrigen:[-58.426881,-34.610408],
+    viajeJSON:{},
 
     camposOrdenables:'email,username,apellido,patente,tipo,tipoCobro,CUIT,fechaNacimiento,fechaEntrega,estado',
     // ACA EMPIEZAN INPUTS
@@ -63,13 +65,15 @@ export default new Vuex.Store({
     receiveDataClima({commit},responseCodigo){
       commit('setDataClima',responseCodigo.data)
     },
-    async receiveViajeVerRuta({commit},coordenadasViaje){
-      console.log('actions store ',coordenadasViaje);
-
+    receiveViajeVerRuta({commit},coordenadasViaje){
       const coordenadas = coordenadasViaje
 
       commit('setCoordenadasViajeVerRuta',coordenadas)
+    },
+    receiveViajeJSON({commit},viajeJSON){
+      commit('setViajeJSON',viajeJSON)
     }
+    
   },  
     mutations: {
     setLoggedUser(state,{user,token}) {
@@ -83,7 +87,10 @@ export default new Vuex.Store({
       state.dataClima = data
     },
     setCoordenadasViajeVerRuta(state,viaje){
-      state.coordenadasViajeElegido=viaje
+      state.coordenadasViajeElegido = viaje
+    },
+    setViajeJSON(state,json){
+      state.viajeJSON = json
     }
   },
   modules: {

@@ -29,6 +29,8 @@
             <b-card-header header-bg-variant="dark" header-text-variant="light">Card subtitle </b-card-header>
             <br>
             <b-card-text>{{ this.$store.state.coordenadasViajeElegido.data ? this.$store.state.coordenadasViajeElegido.data.features[0].geometry.coordinates : ''}}</b-card-text>
+            <b-card-text>{{ this.$store.state.coordenadasOrigen ? this.$store.state.coordenadasOrigen : ''}}</b-card-text>
+            <b-card-text>{{ this.$store.state.viajeJSON ? this.$store.state.viajeJSON : ''}}</b-card-text>
           </b-card>
         </b-col>
       </b-row>
@@ -108,13 +110,30 @@ export default {
       this.mostrarHistoricos=false,
       this.mostrarProgramados=false,
       this.mostrarHojaDeRuta=true
+    },
+    async postViajesJSON(){
+      if (this.$store.state.coordenadasViajeElegido.data && this.$store.state.coordenadasOrigen) {
+        this.$store.dispatch('receiveViajeJSON', await this.axios.post(
+            `${this.getDominioApi()}/hojaDeRuta/ruta`,
+            {
+              "coordinates":  [this.$store.state.coordenadasOrigen,this.$store.state.coordenadasViajeElegido.data.features[0].geometry.coordinates]
+            }, 
+            {
+              headers: {
+                Authorization: 'Bearer ' + this.getLoggedUserToken()
+              }
+            }
+        ))
+      }
+      
     }
   },
   components: {
     Tabla
   },
   computed:{
-    viajeElegidoRuta:() => {return this.$store.state.viajeElegidoRuta}
+    viajeElegidoRuta:() => {return this.$store.state.viajeElegidoRuta},
+    getViajesJSON:()=>{return this.jsonViajes}
   }
 }
 </script>

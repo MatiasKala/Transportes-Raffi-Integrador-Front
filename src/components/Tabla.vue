@@ -436,7 +436,9 @@ export default {
       await this.$htmlToPaper('tabla');
     },
     async elegirViaje(viaje){
-      console.log('Elegir Viaje ',viaje.item);
+      console.log('Elegir Viaje ',viaje.item)
+
+      // SETEA COORDENADAS DE LA DIRECCION DEL VIAJE
       this.$store.dispatch('receiveViajeVerRuta', await this.axios.post(
         `${this.getDominioApi()}/hojaDeRuta/coordenadas`,
         {
@@ -449,7 +451,22 @@ export default {
           }
         }
       ))
-      console.log('Seteado' , this.$store.state.coordenadasViajeElegido);
+
+      // SETEA JSON DEL VIAJE
+      if (this.$store.state.coordenadasViajeElegido.data && this.$store.state.coordenadasOrigen) {
+        this.$store.dispatch('receiveViajeJSON', await this.axios.post(
+            `${this.getDominioApi()}/hojaDeRuta/ruta`,
+            {
+              "coordinates":  [this.$store.state.coordenadasOrigen,this.$store.state.coordenadasViajeElegido.data.features[0].geometry.coordinates]
+            }, 
+            {
+              headers: {
+                Authorization: 'Bearer ' + this.getLoggedUserToken()
+              }
+            }
+        ))
+      }
+
     }
   },
   computed:{
