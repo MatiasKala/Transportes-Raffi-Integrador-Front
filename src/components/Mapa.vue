@@ -6,14 +6,13 @@
             <link href="https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.css" rel="stylesheet">
         </head>
         <body>
-            <b-container id="view">
-                <b-row>
-                    <b-col  cols="12">
-                        <div v-if="this.data != null" id="mapa"></div>
-                        <div v-else>No hay ningun viaje eleccionado</div>
-                    </b-col>
-                </b-row>
-            </b-container>
+            <b-row>
+                <b-col  cols="12">
+                    <div v-if="this.data != null" id="mapa"></div>
+                    <div v-else>No hay ningun viaje eleccionado</div>
+                    {{data ? data.coordinates : ''}}
+                </b-col>
+            </b-row>
         </body>
     </div>
 
@@ -50,7 +49,10 @@ export default {
                 'data': {
                     'type': 'Feature',
                     'properties': {},
-                    'geometry': this.data
+                    'geometry': {
+                        "type":'LineString',
+                        "coordinates":this.data.coordinates
+                    }
                 }
             });
             console.log('Pase LOAD');
@@ -78,7 +80,7 @@ export default {
 
 <style scoped>
     #mapa{
-        width: 700px;
+        width: 790px;
         height: 600px;
     }
 </style>
