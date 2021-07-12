@@ -30,10 +30,10 @@ export default {
     }
   },
   updated(){
-      this.getMapa()
+      this.getMapa(this.data.coordinates)
   },
   methods:{
-    getMapa(){
+    getMapa(route){
         console.log('1 '+Object.keys(mapboxgl));
         mapboxgl.accessToken = 'pk.eyJ1IjoibWF0aWthbGEiLCJhIjoiY2txemlicTQ4MGU0OTJvcng5am1xODgzOCJ9.OaaWOThhntj9fX7YaUnCbw';
         console.log('2 '+mapboxgl.accessToken);
@@ -51,7 +51,7 @@ export default {
                     'properties': {},
                     'geometry': {
                         "type":'LineString',
-                        "coordinates":this.data.coordinates
+                        "coordinates": route
                     }
                 }
             });
