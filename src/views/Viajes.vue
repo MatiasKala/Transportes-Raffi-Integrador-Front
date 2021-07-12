@@ -36,9 +36,8 @@
             <br>
             <b-card-text>Origen{{ this.$store.state.coordenadasOrigen ? this.$store.state.coordenadasOrigen : ''}}</b-card-text>
             <b-card-text>Destino{{ this.$store.state.coordenadasViajeElegido.data ? this.$store.state.coordenadasViajeElegido.data.features[0].geometry.coordinates : ''}}</b-card-text>
-            <b-card-text>JSON{{ this.$store.state.viajeJSON.data ? this.$store.state.viajeJSON.data.features[0].geometry.coordinates  : ''}}</b-card-text>
             <br>
-            <Mapa :data="this.$store.state.viajeJSON"/>
+            <Mapa :data="this.$store.state.viajeJSON.data ? this.$store.state.viajeJSON.data.features[0].geometry.coordinates  : ''"/>
           </b-card>
         </b-col>
       </b-row>
@@ -146,7 +145,6 @@ export default {
   },
   computed:{
     viajeElegidoRuta:() => {return this.$store.state.viajeElegidoRuta},
-
   }
 }
 </script>
