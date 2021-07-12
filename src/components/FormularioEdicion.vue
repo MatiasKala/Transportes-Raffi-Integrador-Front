@@ -58,15 +58,16 @@
             :id="label"
             :min="getFechaMin(label)"
             :max="getFechaMax(label)"
+            :date-disabled-fn="dateDisabled" 
             v-model.trim="formData[label]"
+            show-decade-nav
             today-variant="info"
             nav-button-variant="info"
             selected-variant="success"
             hide-header
             class="m-2 text-center"
-            locale="es" 
+            locale="es"
           />
-          <b-button variant="danger" @click="borrarFecha()">Limpiar Seleccion</b-button>
         </b-card>
       </b-col>
 
