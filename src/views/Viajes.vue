@@ -34,10 +34,7 @@
           <b-card title="Ruta de Viaje">
             <b-card-header header-bg-variant="dark" header-text-variant="light">Card subtitle </b-card-header>
             <br>
-            <b-card-text>Origen{{ this.$store.state.coordenadasOrigen ? this.$store.state.coordenadasOrigen : ''}}</b-card-text>
-            <b-card-text>Destino{{ this.$store.state.coordenadasViajeElegido.data ? this.$store.state.coordenadasViajeElegido.data.features[0].geometry.coordinates : ''}}</b-card-text>
-            <br>
-            <Mapa :data="this.$store.state.viajeJSON.data ? this.$store.state.viajeJSON.data.features[0].geometry.coordinates  : ''"/>
+            <Mapa :data="this.$store.state.viajeJSON.data ? this.$store.state.viajeJSON.data.features[0].geometry  : null"/>
           </b-card>
         </b-col>
       </b-row>
@@ -56,7 +53,6 @@ export default {
   name: 'TablaView',
   props:[''],
   mounted(){
-    this.getMapa()
   },
   data(){
     return{
