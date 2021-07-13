@@ -149,8 +149,8 @@
             </template>
           </b-form-select>
           <hr class="hr-verdeAgua">
-          <b-button v-if="idChoferElegido!=null && idVehiculoElegido!=null"  class="mt-2" variant="info" v-b-modal.asignar-chofer-confirmar-modal>Aceptar</b-button>
-          <b-button v-else class="mt-2" disabled variant="secondary">Aceptar</b-button>
+          <b-button v-if="idChoferElegido!=null && idVehiculoElegido!=null"  class="mt-2 botonEnvio" variant="info" v-b-modal.asignar-chofer-confirmar-modal>Aceptar</b-button>
+          <b-button v-else class="mt-2 " disabled variant="secondary">Aceptar</b-button>
         </div>
         <b-card class="mt-2" text-variant="light" bg-variant="danger " v-else >No hay choferes para asignar</b-card>
       </b-modal>
@@ -170,10 +170,10 @@
         </div>
         <hr class="hr-verdeAgua">
         <div class="d-block text-center" v-if="!response">
-          <b-button class="mt-3 mx-4 btn-envio text-center" variant="info" @click="asignarChoferAvehiculo()">
+          <b-button class="mt-3 mx-4 botonEnvio text-center" variant="info" @click="asignarChoferAvehiculo()">
             Confirmar
           </b-button >
-          <b-button class="mt-3 mx-4 btn-envio text-center" variant="danger" @click="$bvModal.hide('asignar-chofer-confirmar-modal')">
+          <b-button class="mt-3 mx-4 botonEnvio text-center" variant="danger" @click="$bvModal.hide('asignar-chofer-confirmar-modal')">
             Cancelar
           </b-button >
         </div>
@@ -212,10 +212,10 @@
               </template>
             </b-form-select>
             <hr class="hr-verdeAgua">
-            <b-button v-if="idClienteElegido!=null && idViajeElegido!=null"  class="mt-2" variant="info" v-b-modal.asignar-cliente-confirmar-modal>Aceptar</b-button>
-            <b-button v-else class="mt-2" disabled variant="secondary">Aceptar</b-button>
+            <b-button v-if="idClienteElegido!=null && idViajeElegido!=null"  class="mt-2 botonEnvio" variant="info" v-b-modal.asignar-cliente-confirmar-modal>Aceptar</b-button>
+            <b-button v-else class="mt-2 " disabled variant="secondary">Aceptar</b-button>
           </div>
-          <b-card class="mt-2" text-variant="light" bg-variant="danger" v-else >No hay cliente para asignar</b-card>
+          <b-card class="mt-2 " text-variant="light" bg-variant="danger" v-else >No hay cliente para asignar</b-card>
         </div>
       </b-modal>
       
@@ -234,10 +234,10 @@
         </div>
         <hr class="hr-verdeAgua">
         <div class="d-block text-center" v-if="!response">
-          <b-button class="mt-3 mx-4 btn-envio text-center" variant="info" @click="asignarClienteAviaje()">
+          <b-button class="mt-3 mx-4 botonEnvio text-center" variant="info" @click="asignarClienteAviaje()">
             Confirmar
           </b-button >
-          <b-button class="mt-3 mx-4 btn-envio text-center" variant="danger" @click="$bvModal.hide('asignar-cliente-confirmar-modal')">
+          <b-button class="mt-3 mx-4 botonEnvio text-center" variant="danger" @click="$bvModal.hide('asignar-cliente-confirmar-modal')">
             Cancelar
           </b-button >
         </div>
@@ -278,10 +278,10 @@
             </b-form-select>
 
             <hr class="hr-verdeAgua">
-            <b-button v-if="idVehiculoElegido!=null && idViajeElegido!=null"  class="mt-2" variant="info" v-b-modal.asignar-vehiculo-confirmar-modal>Aceptar</b-button>
+            <b-button v-if="idVehiculoElegido!=null && idViajeElegido!=null"  class="mt-2 botonEnvio" variant="info" v-b-modal.asignar-vehiculo-confirmar-modal>Aceptar</b-button>
             <b-button v-else class="mt-2" disabled variant="secondary">Aceptar</b-button>
           </div>
-          <b-card class="mt-2" text-variant="light" bg-variant="danger" v-else >No hay vehiculo para asignar</b-card>
+          <b-card class="mt-2 " text-variant="light" bg-variant="danger" v-else >No hay vehiculo para asignar</b-card>
         </div>
 
       </b-modal>
@@ -301,10 +301,10 @@
         </div>
         <hr class="hr-verdeAgua">
         <div class="d-block text-center" v-if="!response">
-          <b-button class="mt-3 mx-4 btn-envio text-center" variant="info" @click="asignarVehiculoAviaje()">
+          <b-button class="mt-3 mx-4 botonEnvio text-center" variant="info" @click="asignarVehiculoAviaje()">
             Confirmar
           </b-button >
-          <b-button class="mt-3 mx-4 btn-envio text-center" variant="danger" @click="$bvModal.hide('asignar-vehiculo-confirmar-modal')">
+          <b-button class="mt-3 mx-4 botonEnvio text-center" variant="danger" @click="$bvModal.hide('asignar-vehiculo-confirmar-modal')">
             Cancelar
           </b-button >
         </div>
@@ -317,18 +317,24 @@
 
       <!-- CONFIRMACION CAMBIO DE ESTADO -->
       <b-modal 
-      id="cambio-estado-confirmar-modal" 
+      ref="cambio-estado-confirmar-modal" 
       title="Cambio Estado"
       header-bg-variant="info"
       header-text-variant="light"
       centered
       hide-footer
       size="sm"
-      >
-        <h3><b class="mr-3"> Cambiando Estado... </b></h3>
-        <b-spinner
-        variant="dark"
-        ></b-spinner>
+      > 
+        <b-row align-h="center">
+          <b-spinner small type="grow" label="Loading..."></b-spinner>
+          <b-spinner small type="grow" label="Loading..."></b-spinner>
+          <b-spinner small type="grow" label="Loading..."></b-spinner>
+          <b-spinner small type="grow" label="Loading..."></b-spinner>
+          <b-spinner small type="grow" label="Loading..."></b-spinner>
+          <b-spinner small type="grow" label="Loading..."></b-spinner>
+          <b-spinner small type="grow" label="Loading..."></b-spinner>
+          <h5><b > Cambiando Estado... </b></h5>
+        </b-row>
       </b-modal>
 
    
@@ -528,5 +534,24 @@ export default {
 <style>
 .hr-verdeAgua{
   background-color: #17a2b8;
+}
+.botonEnvio {
+	color: #fff !important;
+	text-transform: uppercase;
+	text-decoration: none;
+	padding: 15px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+	border-radius: 5px;
+	display: inline-block;
+	border: none;
+	transition: all 0.7s ease 0s;
+}
+.botonEnvio:hover {
+	letter-spacing: 5px;
+	-webkit-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+	-moz-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+	box-shadow: 5px 40px -10px rgba(0,0,0,0.57);
+	transition: all 0.7s ease 0s;
 }
 </style>
