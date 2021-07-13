@@ -6,17 +6,17 @@ Vue.mixin({
             return this.$store.state.apiDominio
         },
         getLoggedUserToken(){
-            return JSON.parse(localStorage.getItem('token'))
+            return JSON.parse(sessionStorage.getItem('token'))
         },
         setLoggedUser(response){
             this.$store.dispatch('receiveLoggedUser', response.data)
         },
         getLocalStoreUserUsername(){
-            const username = JSON.parse(localStorage.getItem('user'))
+            const username = JSON.parse(sessionStorage.getItem('user'))
             return username ? username.username : null
         },
         cerrarSesion(){
-            localStorage.clear()
+            sessionStorage.clear()
             this.$router.push({ path: `/` })
             location.reload()
         },
@@ -44,7 +44,7 @@ Vue.mixin({
             }
         },   
         hayUsuarioLogeadoEnStorage(){
-            return localStorage.user ? true : false 
+            return sessionStorage.user ? true : false 
         },
         getFechaActual(){
             return String(this.$moment().format().slice(0,10))

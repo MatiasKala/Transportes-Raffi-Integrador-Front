@@ -1,5 +1,5 @@
 <template>
-  <b-container class="tabla" id="tabla" >
+  <b-container class="tabla my-5" id="tabla" >
     <h1>Tabla de {{entidad | primeraMayuscula | separarLabelConEspacios}}</h1>
 
     <!-- Si la tabla todavia no cargó -->
@@ -13,6 +13,11 @@
         </div>
       </div>
     </div>
+    
+    <!-- IMPRIMIR HOJA DE RUTA -->
+    <b-row align-h="center"  class="mt-5" v-if="this.entidad == 'hojaDeRuta'">
+      <b-button variant="primary" class="text-end" @click="print">Imprimir Hoja de Ruta</b-button>
+    </b-row>
 
 
     <div  v-if="datos && datos.length != 0" class="table-container my-5">
@@ -20,19 +25,19 @@
 
         <!-- CHOFER Campo personalizado -->
         <template v-if="this.entidad == 'vehiculos'" #cell(chofer)="data">
-          <b v-if="data.item.chofer._id">{{ '_id: '+data.item.chofer._id }}</b>
+          <p v-if="data.item.chofer._id"> {{data.item.chofer.apellido}},<b> CUIT </b> {{ data.item.chofer.CUIT }}</p>
           <b v-else>{{'---------'}}</b>
         </template>
 
         <!-- CLIENTE Campo personalizado -->
         <template v-if="this.entidad == 'viajes' || this.entidad == 'hojaDeRuta' || this.entidad == 'historicos'" #cell(cliente)="data">
-          <b v-if="data.item.cliente._id">{{ '_id: '+data.item.cliente._id }}</b>
+          <p v-if="data.item.cliente._id"> {{ data.item.cliente.nombre }} <br> <b> CUIT </b> {{ data.item.cliente.CUIT }}</p>
           <b v-else>{{'---------'}}</b>
         </template>
 
         <!-- VEHICULO Campo personalizado -->
         <template v-if="this.entidad == 'viajes' || this.entidad == 'hojaDeRuta' || this.entidad == 'historicos'" #cell(vehiculo)="data">
-          <b v-if="data.item.vehiculo._id">{{ '_id: '+data.item.vehiculo._id }}</b>
+          <p v-if="data.item.vehiculo._id">{{ data.item.vehiculo.tipo }} <br> <b> Patente </b> {{ data.item.vehiculo.patente }} </p>
           <b v-else>{{'---------'}}</b>
         </template>     
 
@@ -338,10 +343,6 @@
       </b-modal>
 
    
-    </b-row>
-
-    <b-row align-h="center" v-if="this.entidad == 'hojaDeRuta'">
-      <b-button variant="primary" class="text-end" @click="print">Imprimir Hoja de Ruta</b-button>
     </b-row>
 
   <!-- Si no hay datos en la tabla -->

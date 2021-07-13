@@ -45,10 +45,10 @@ export default {
 
   },
   updated() {
-    if (localStorage.getItem('reloaded')) {
-        localStorage.removeItem('reloaded');
+    if (sessionStorage.getItem('reloaded')) {
+        sessionStorage.removeItem('reloaded');
     } else {
-        localStorage.setItem('reloaded', '1');
+        sessionStorage.setItem('reloaded', '1');
         location.reload();
     }
   }

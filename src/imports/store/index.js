@@ -81,8 +81,8 @@ export default new Vuex.Store({
   },  
     mutations: {
     setLoggedUser(state,{user,token}) {
-      localStorage.setItem('user', JSON.stringify(user))
-      localStorage.setItem('token', JSON.stringify(token))
+      sessionStorage.setItem('user', JSON.stringify(user))
+      sessionStorage.setItem('token', JSON.stringify(token))
     },
     setIconoClima(state,codigo) {
       state.codigoIconoClima = codigo

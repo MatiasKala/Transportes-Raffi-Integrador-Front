@@ -108,7 +108,6 @@
     </validate>
     <br>    
     <hr>
-    {{formData}}
     <br>
     <b-button disabled v-if="(formState.$invalid || !formState.$dirty) && (formData['fechaNacimiento'] == '' || formData['fechaEntrega'] == '')" class="mt-3 btn-disabled">
       Enviar

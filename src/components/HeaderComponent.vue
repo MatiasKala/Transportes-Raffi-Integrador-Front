@@ -57,7 +57,7 @@ export default {
   },
   computed:{
     hayUsuarioLogeado(){
-     return localStorage.user ? true : false 
+     return sessionStorage.user ? true : false 
     }
   }
 }
