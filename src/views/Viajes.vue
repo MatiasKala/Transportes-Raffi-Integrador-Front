@@ -32,7 +32,7 @@
       <b-row v-if="mostrarHojaDeRuta" align-h="center" class="mt-5">
         <b-col cols="9">
           <b-card title="Ruta de Viaje">
-            <b-card-header header-bg-variant="dark" header-text-variant="light">Card subtitle </b-card-header>
+            <b-card-header header-bg-variant="dark" header-text-variant="light">{{this.$store.state.viajeElegido  ? 'Viaje a '+this.$store.state.viajeElegido.domicilioEntrega : 'No hay ningun viaje seleccionado'}} </b-card-header>
             <br>
             <Mapa :data="this.$store.state.viajeJSON.data ? this.$store.state.viajeJSON.data.features[0].geometry  : null"/>
           </b-card>

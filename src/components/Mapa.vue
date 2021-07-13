@@ -9,8 +9,7 @@
             <b-row>
                 <b-col  cols="12">
                     <div v-if="this.data != null" id="mapa"></div>
-                    <div v-else>No hay ningun viaje eleccionado</div>
-                    {{data ? data.coordinates : ''}}
+                    <div v-else>Todavia no se selecciono ningun viaje </div>
                 </b-col>
             </b-row>
         </body>

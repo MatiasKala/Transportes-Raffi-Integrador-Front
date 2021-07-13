@@ -9,6 +9,8 @@ export default new Vuex.Store({
  
     apiDominio:'https://stormy-mountain-51560.herokuapp.com',
     // apiDominio:'http://localhost:3000',
+
+    viajeElegido:{},
     coordenadasViajeElegido:{},
     coordenadasOrigen:[-58.426881,-34.610408],
     viajeJSON:{},
@@ -67,8 +69,10 @@ export default new Vuex.Store({
     },
     receiveViajeVerRuta({commit},coordenadasViaje){
       const coordenadas = coordenadasViaje
-
       commit('setCoordenadasViajeVerRuta',coordenadas)
+    },
+    receiveViajeElegido({commit},viaje){
+      commit('setViajeElegido',viaje)
     },
     receiveViajeJSON({commit},viajeJSON){
       commit('setViajeJSON',viajeJSON)
@@ -91,6 +95,9 @@ export default new Vuex.Store({
     },
     setViajeJSON(state,json){
       state.viajeJSON = json
+    },
+    setViajeElegido(state,viaje){
+      state.viajeElegido = viaje
     }
   },
   modules: {

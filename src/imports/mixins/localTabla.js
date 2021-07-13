@@ -183,6 +183,9 @@ export const mixinLocal = {
       cambiarVisibilidadAsignarVehiculo(){
         this.$refs['asignar-vehiculo-modal'].toggle('#toggle-btn')
       },
+      cambiarVisibilidadCambioEstado(){
+        this.$refs['cambio-estado-confirmar-modal'].toggle('#toggle-btn')
+      },
       isSortable(campo){
         let campos = this.getCamposOrdenables()
         return campos.includes(campo)

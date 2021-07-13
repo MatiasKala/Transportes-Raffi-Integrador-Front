@@ -315,6 +315,22 @@
         
       </b-modal>
 
+      <!-- CONFIRMACION CAMBIO DE ESTADO -->
+      <b-modal 
+      id="cambio-estado-confirmar-modal" 
+      title="Cambio Estado"
+      header-bg-variant="info"
+      header-text-variant="light"
+      centered
+      hide-footer
+      size="sm"
+      >
+        <h3><b class="mr-3"> Cambiando Estado... </b></h3>
+        <b-spinner
+        variant="dark"
+        ></b-spinner>
+      </b-modal>
+
    
     </b-row>
 
@@ -371,6 +387,7 @@ export default {
         idVehiculoElegido:null,
         idClienteElegido:null,
         idViajeElegido:null,
+        modalEstado:false,
         response:null,
         responseErrorClientes:null,
         responseErrorVehiculos:null,
@@ -391,7 +408,7 @@ export default {
     cambioEstado(data,body){
       // HACER VALIDACIONES PARA VER SI 
       // SE PUEDE HACER EL CAMBIO DE ESTADO
-
+      this.cambiarVisibilidadCambioEstado()
       // enviarPut ESTA EN GLOBAL MIXIN 
       this.enviarPut(data,body,'viajes')
     },
@@ -438,6 +455,7 @@ export default {
     async elegirViaje(viaje){
       console.log('Elegir Viaje ',viaje.item)
 
+      this.$store.dispatch('receiveViajeElegido',viaje.item)
       // SETEA COORDENADAS DE LA DIRECCION DEL VIAJE
       this.$store.dispatch('receiveViajeVerRuta', await this.axios.post(
         `${this.getDominioApi()}/hojaDeRuta/coordenadas`,
